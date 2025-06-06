@@ -1,0 +1,127 @@
+﻿<Page x:Class="Sae.CreerClient"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sae"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CreerClient" Height="900" Width="1280" Background="#F5F5F5">
+    <DockPanel>
+
+        <!-- Bandeau haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOXAM - Nouveau Client" 
+                           Foreground="White" FontSize="20" FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <Button Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" />
+            </Grid>
+        </Border>
+
+        <!-- Formulaire principal -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="40">
+            <StackPanel Margin="20" Width="700" HorizontalAlignment="Center">
+
+                <TextBlock Text="Créer un nouveau client" FontSize="20" FontWeight="Bold" Foreground="#D50000" Margin="14,0,0,10" />
+
+                <!-- Nom et Prénom -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Nom *" Margin="10,0,0,0" />
+                        <TextBox Height="30" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Margin="10" Grid.Column="1">
+                        <TextBlock Text="Prénom *" />
+                        <TextBox Height="30" Margin="0,0,10,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Email et Téléphone -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Email *" Margin="10,0,0,0" />
+                        <TextBox Height="30" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Margin="10" Grid.Column="1">
+                        <TextBlock Text="Téléphone *" />
+                        <TextBox Height="30" Margin="0,0,10,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Adresse -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Adresse *" Margin="10,0,0,0" />
+                    <TextBox Height="30" Margin="10,0,10,0"/>
+                </StackPanel>
+
+                <!-- Code postal et Ville -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Code postal *" Margin="10,0,0,0" />
+                        <TextBox Height="30" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Margin="10" Grid.Column="1">
+                        <TextBlock Text="Ville *" />
+                        <TextBox Height="30" Margin="0,0,10,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Type de client -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Type de client" Margin="10,0,10,0" />
+                    <ComboBox Height="30">
+                        <ComboBoxItem Content="Particulier" IsSelected="True"/>
+                        <ComboBoxItem Content="Professionnel"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- SIRET -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="SIRET (professionnel uniquement)" Margin="10,0,10,0"/>
+                    <TextBox Height="30" Margin="10,0,10,0"/>
+                </StackPanel>
+
+                <!-- Commentaires -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Commentaires" Margin="10,0,10,0"/>
+                    <TextBox Height="80" AcceptsReturn="True" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Préférences de communication -->
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="Préférences de communication" Margin="10,0,10,0"/>
+                    <WrapPanel Orientation="Horizontal">
+                        <CheckBox Content="Notifications par email" IsChecked="True" Foreground="#D50000"/>
+                        <CheckBox Content="Notifications par SMS" />
+                        <CheckBox Content="Newsletter Loxam" />
+                        <CheckBox Content="Offres promotionnelles" />
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- Boutons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button Content="Annuler" Background="#9E9E9E" Foreground="White" Padding="10,5" Width="100"/>
+                    <Button Content="Créer le client" Background="Green" Foreground="White" Padding="10,5" Width="120"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Page>
