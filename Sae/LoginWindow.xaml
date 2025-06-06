@@ -9,131 +9,8 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="SingleBorderWindow">
 
-    <Window.Resources>
-        <!--  Gradient Background  -->
-        <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0" Color="#E60000" />
-            <GradientStop Offset="1" Color="#CC0000" />
-        </LinearGradientBrush>
-
-        <!--  Button Style  -->
-        <Style x:Key="LoginButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#E60000" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="12" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Medium" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#CC0000" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#B30000" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--  TextBox Style  -->
-        <Style x:Key="LoginTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="12" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="BorderBrush" Value="#DDD" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border
-                            x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5">
-                            <ScrollViewer
-                                x:Name="PART_ContentHost"
-                                Margin="{TemplateBinding Padding}"
-                                Focusable="false"
-                                HorizontalScrollBarVisibility="Hidden"
-                                VerticalScrollBarVisibility="Hidden" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#E60000" />
-                                <Setter TargetName="border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect
-                                            BlurRadius="5"
-                                            Opacity="0.3"
-                                            ShadowDepth="0"
-                                            Color="#E60000" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--  PasswordBox Style  -->
-        <Style x:Key="LoginPasswordBoxStyle" TargetType="PasswordBox">
-            <Setter Property="Padding" Value="12" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="BorderBrush" Value="#DDD" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="PasswordBox">
-                        <Border
-                            x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5">
-                            <ScrollViewer
-                                x:Name="PART_ContentHost"
-                                Margin="{TemplateBinding Padding}"
-                                Focusable="false"
-                                HorizontalScrollBarVisibility="Hidden"
-                                VerticalScrollBarVisibility="Hidden" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#E60000" />
-                                <Setter TargetName="border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect
-                                            BlurRadius="5"
-                                            Opacity="0.3"
-                                            ShadowDepth="0"
-                                            Color="#E60000" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
-    <Grid Background="{StaticResource BackgroundGradient}">
-        <!--  Login Card  -->
+    <Grid Background="Red">
+        <!-- Login Card -->
         <Border
             MaxWidth="400"
             Padding="40"
@@ -150,7 +27,7 @@
             </Border.Effect>
 
             <StackPanel>
-                <!--  Logo Section  -->
+                <!-- Logo Section -->
                 <StackPanel Margin="0,0,0,30" HorizontalAlignment="Center">
                     <TextBlock
                         HorizontalAlignment="Center"
@@ -166,9 +43,9 @@
                         Text="Gestion des Réservations" />
                 </StackPanel>
 
-                <!--  Form Section  -->
+                <!-- Form Section -->
                 <StackPanel>
-                    <!--  Username  -->
+                    <!-- Username -->
                     <StackPanel Margin="0,0,0,20">
                         <Label
                             Margin="0,0,0,8"
@@ -177,29 +54,46 @@
                             Foreground="#333" />
                         <TextBox
                             x:Name="UsernameTextBox"
-                            Style="{StaticResource LoginTextBoxStyle}"
+                            Padding="12"
+                            FontSize="14"
+                            BorderBrush="#DDD"
+                            BorderThickness="1"
+                            Height="40"
                             Tag="Votre identifiant" />
                     </StackPanel>
 
-                    <!--  Password  -->
+                    <!-- Password -->
                     <StackPanel Margin="0,0,0,20">
                         <Label
                             Margin="0,0,0,8"
                             Content="Mot de passe"
                             FontWeight="Medium"
                             Foreground="#333" />
-                        <PasswordBox x:Name="PasswordBox" Style="{StaticResource LoginPasswordBoxStyle}" />
+                        <PasswordBox
+                            x:Name="PasswordBox"
+                            Padding="12"
+                            FontSize="14"
+                            BorderBrush="#DDD"
+                            BorderThickness="1"
+                            Height="40" />
                     </StackPanel>
 
-                    <!--  Login Button  -->
+                    <!-- Login Button -->
                     <Button
                         x:Name="LoginButton"
                         Click="LoginButton_Click"
                         Content="Se connecter"
-                        Style="{StaticResource LoginButtonStyle}" />
+                        Background="#E60000"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Padding="12"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Height="40"
+                        Cursor="Hand" />
                 </StackPanel>
 
-                <!--  Footer  -->
+                <!-- Footer -->
                 <TextBlock
                     Margin="0,20,0,0"
                     HorizontalAlignment="Center"
