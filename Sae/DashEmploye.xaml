@@ -9,7 +9,6 @@
       Title="DashEmploye" Height="720" Width="1280" Background="#F5F5F5">
 
     <DockPanel>
-        <!-- Bandeau rouge en haut -->
         <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
@@ -21,7 +20,7 @@
                            VerticalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="Employé: Jean Dupont" Foreground="White" VerticalAlignment="Center"/>
-                    <Button Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" />
+                    <Button x:Name="ButDeconnexion" Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" Click="ButDeconnexion_Click" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -29,8 +28,8 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20">
 
-                <!-- Statistiques du haut -->
-                <UniformGrid Columns="4" Margin="0,10" HorizontalAlignment="Stretch" >
+                <!-- Statistiques -->
+                <UniformGrid Columns="4" Margin="0,10" HorizontalAlignment="Stretch">
                     <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="12" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
@@ -60,44 +59,49 @@
                     </Border>
                 </UniformGrid>
 
-                <!-- Actions principales -->
+                <!-- Actions principales avec boutons -->
                 <TextBlock Text="Actions principales" FontSize="18" FontWeight="Bold" Margin="0,20,0,10" />
-                <UniformGrid Columns="3" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                <UniformGrid Columns="2" Rows="2" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+
                     <!-- Réserver un matériel -->
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Button x:Name="ReserverButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
+                            Click="ReserverButton_Click">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="🔍" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="📋" FontSize="32" TextAlignment="Center"/>
                             <TextBlock Text="Réserver un matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
                             <TextBlock Text="Rechercher et réserver du matériel pour un client" FontSize="12" TextAlignment="Center"/>
                         </StackPanel>
-                    </Border>
+                    </Button>
 
                     <!-- Rechercher une réservation -->
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Button x:Name="RechercherButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
+                            Click="RechercherButton_Click">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="📋" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="🔍" FontSize="32" TextAlignment="Center"/>
                             <TextBlock Text="Rechercher une réservation" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
                             <TextBlock Text="Valider ou supprimer une réservation existante" FontSize="12" TextAlignment="Center"/>
                         </StackPanel>
-                    </Border>
+                    </Button>
 
                     <!-- Retour de matériel -->
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Button x:Name="RetourButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
+                            Click="RetourButton_Click">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="🔄" FontSize="32" TextAlignment="Center"/>
                             <TextBlock Text="Retour de matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
                             <TextBlock Text="Gérer le retour et contrôler l'état du matériel" FontSize="12" TextAlignment="Center"/>
                         </StackPanel>
-                    </Border>
+                    </Button>
 
                     <!-- Créer un client -->
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1" Grid.ColumnSpan="3">
+                    <Button x:Name="CreerClientButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
+                            Click="CreerClientButton_Click">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="👤" FontSize="32" TextAlignment="Center"/>
                             <TextBlock Text="Créer un client" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
                             <TextBlock Text="Ajouter un nouveau client au système" FontSize="12" TextAlignment="Center"/>
                         </StackPanel>
-                    </Border>
+                    </Button>
                 </UniformGrid>
             </StackPanel>
         </ScrollViewer>

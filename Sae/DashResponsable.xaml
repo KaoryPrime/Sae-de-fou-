@@ -6,9 +6,118 @@
       xmlns:local="clr-namespace:Sae"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DashResponsable">
+      Title="DashResponsable" Height="720" Width="1280" Background="#F5F5F5">
+    <DockPanel>
+        <!-- Bandeau rouge en haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOXAM - Gestion Réservations" 
+                           Foreground="White" FontSize="20" FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="👤 Responsable: Marie Martin" Foreground="White" VerticalAlignment="Center"/>
+                    <Button x:Name="ButDeconnexion" Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" />
+                </StackPanel>
+            </Grid>
+        </Border>
 
-    <Grid>
-        
-    </Grid>
+        <!-- Contenu principal -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40">
+
+                <!-- Titre -->
+                <TextBlock Text="Matériels à réviser/réparer" FontSize="20" FontWeight="Bold" Foreground="#D50000" />
+
+                <!-- Champ de recherche -->
+                <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged"/>
+
+                <!-- Tableau -->
+                <Border Background="White" CornerRadius="10" Padding="10" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- En-tête -->
+                        <Grid Grid.Row="0" Margin="5" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Matériel" FontWeight="Bold" />
+                            <TextBlock Text="Catégorie" FontWeight="Bold" Grid.Column="1" />
+                            <TextBlock Text="État" FontWeight="Bold" Grid.Column="2" />
+                            <TextBlock Text="Date" FontWeight="Bold" Grid.Column="3" />
+                            <TextBlock Text="Actions" FontWeight="Bold" Grid.Column="4" />
+                        </Grid>
+
+                        <!-- Lignes -->
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <!-- Ligne 1 -->
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Nacelle articulée" />
+                                <TextBlock Text="Élévation" Grid.Column="1" />
+                                <Border Background="Gold" Padding="5" CornerRadius="5" Grid.Column="2">
+                                    <TextBlock Text="À réviser" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="15/05/2024" Grid.Column="3" />
+                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
+                            </Grid>
+
+                            <!-- Ligne 2 -->
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Broyeur de ronces" />
+                                <TextBlock Text="Espace vert" Grid.Column="1" />
+                                <Border Background="Crimson" Padding="5" CornerRadius="5" Grid.Column="2">
+                                    <TextBlock Text="À réparer" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="14/05/2024" Grid.Column="3" />
+                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
+                            </Grid>
+
+                            <!-- Ligne 3 -->
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Tondeuse autoportée" />
+                                <TextBlock Text="Espace vert" Grid.Column="1" />
+                                <Border Background="Gold" Padding="5" CornerRadius="5" Grid.Column="2">
+                                    <TextBlock Text="À réviser" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="13/05/2024" Grid.Column="3" />
+                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Page>
