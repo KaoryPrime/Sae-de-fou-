@@ -6,9 +6,102 @@
       xmlns:local="clr-namespace:Sae"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DashEmploye">
+      Title="DashEmploye" Height="720" Width="1280" Background="#F5F5F5">
 
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <!-- Bandeau rouge en haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOXAM - Gestion Réservations" 
+                           Foreground="White" FontSize="20" FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="Employé: Jean Dupont" Foreground="White" VerticalAlignment="Center"/>
+                    <Button Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+
+                <!-- Statistiques du haut -->
+                <UniformGrid Columns="4" Margin="0,10" HorizontalAlignment="Stretch" >
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="12" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Réservations aujourd'hui" FontSize="14" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="8" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Matériels disponibles" FontSize="14" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="3" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Retours attendus" FontSize="14" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="€2,450" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
+                            <TextBlock Text="CA du jour" FontSize="14" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- Actions principales -->
+                <TextBlock Text="Actions principales" FontSize="18" FontWeight="Bold" Margin="0,20,0,10" />
+                <UniformGrid Columns="3" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                    <!-- Réserver un matériel -->
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🔍" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="Réserver un matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
+                            <TextBlock Text="Rechercher et réserver du matériel pour un client" FontSize="12" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Rechercher une réservation -->
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="📋" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="Rechercher une réservation" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
+                            <TextBlock Text="Valider ou supprimer une réservation existante" FontSize="12" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Retour de matériel -->
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🔄" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="Retour de matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
+                            <TextBlock Text="Gérer le retour et contrôler l'état du matériel" FontSize="12" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Créer un client -->
+                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1" Grid.ColumnSpan="3">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="👤" FontSize="32" TextAlignment="Center"/>
+                            <TextBlock Text="Créer un client" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
+                            <TextBlock Text="Ajouter un nouveau client au système" FontSize="12" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Page>
+
+

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class NomRole
+    public class NomRole
     {
         private int numrole;
         private int numemploye;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Type
+    public class Type
     {
         private int numtype;
         private int numcategorie;

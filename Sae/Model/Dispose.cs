@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Dispose
+    public class Dispose
     {
         private int numclient;
         private int numcertification;
