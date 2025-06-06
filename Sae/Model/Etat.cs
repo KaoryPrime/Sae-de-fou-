@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Etat
+    public class Etat
     {
         private int numetat;
         private string libelleetat;

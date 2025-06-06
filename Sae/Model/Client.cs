@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Client
+    public class Client
     {
         private int numclient;
         private string nomclient;

@@ -24,5 +24,30 @@ namespace Sae
         {
             InitializeComponent();
         }
+
+        private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ReserverButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RechercherButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RetourButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreerClientButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

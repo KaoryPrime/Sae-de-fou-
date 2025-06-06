@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Categorie
+    public class Categorie
     {
         private int numcategorie;
         private string libellecategorie;

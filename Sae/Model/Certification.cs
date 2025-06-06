@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Certification
+    public class Certification
     {
         private int numcertification;
         private string libellecertif;

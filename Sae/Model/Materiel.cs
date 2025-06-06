@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Materiel
+    public class Materiel
     {
         private int nummateriel;
         private int numetat;

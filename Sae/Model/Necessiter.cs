@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Necessiter
+    public class Necessiter
     {
         private int numcertification;
         private int nummateriel;
