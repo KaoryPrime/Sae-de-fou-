@@ -2,8 +2,6 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Input;
-using System.Security.Cryptography;
-using System.Text;
 using Npgsql;
 using Sae.Model;
 using System.Windows.Controls;
@@ -17,11 +15,8 @@ namespace Sae
         public LoginWindow()
         {
             InitializeComponent();
-
-            // Initialiser DataAccess
             dataAccess = DataAccess.Instance;
 
-            // Permettre la connexion avec la touche Entrée
             this.KeyDown += LoginWindow_KeyDown;
             UsernameTextBox.KeyDown += LoginWindow_KeyDown;
             PasswordBox.KeyDown += LoginWindow_KeyDown;
@@ -94,46 +89,33 @@ namespace Sae
         {
             try
             {
-                // Requête pour vérifier l'utilisateur
+                // Requête pour vérifier l'utilisateur (colonnes correctes : LOGIN et MDP)
                 string query = @"
                     SELECT COUNT(*) 
-                    FROM users 
-                    WHERE username = @username 
-                    AND password_hash = @passwordHash 
-                    AND is_active = true";
+                    FROM EMPLOYE 
+                    WHERE LOGIN = @LOGIN
+                    AND MDP = @MDP";
 
                 using (NpgsqlCommand command = new NpgsqlCommand(query))
                 {
-                    command.Parameters.AddWithValue("@username", username);
-                    command.Parameters.AddWithValue("@passwordHash", HashPassword(password));
+                    command.Parameters.AddWithValue("@LOGIN", username);
+                    command.Parameters.AddWithValue("@MDP", password);
 
                     object result = dataAccess.ExecuteSelectUneValeur(command);
-                    int userCount = Convert.ToInt32(result);
 
-                    return userCount > 0;
+                    // Vérification si result n'est pas null
+                    if (result != null && result != DBNull.Value)
+                    {
+                        int userCount = Convert.ToInt32(result);
+                        return userCount > 0;
+                    }
+
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception($"Erreur de base de données : {ex.Message}");
-            }
-        }
-
-        private string HashPassword(string password)
-        {
-            // Utilisation de SHA256 pour hasher le mot de passe
-            // En production, utilisez plutôt bcrypt ou Argon2
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-
-                return builder.ToString();
             }
         }
 
