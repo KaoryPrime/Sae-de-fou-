@@ -14,7 +14,7 @@ namespace Sae
     {
         private DataAccess dataAccess;
 
-        public MainWindow(string username) 
+        public MainWindow(Employe username) 
         {
             InitializeComponent();
             dataAccess = DataAccess.Instance;

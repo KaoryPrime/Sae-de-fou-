@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sae.Model
 {
-    class Employe
+    public class Employe
     {
         private int numemploye;
         private int numrole;
@@ -124,6 +126,18 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Employe> FindAll()
+        {
+            List<Employe> lesEmployes = new List<Employe>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from employe ;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                    lesEmployes.Add(new Employe ((Int32)dr["numemploye"], (Int32)dr["numrole"],
+                   (String)dr["nom"], (String)dr["prenom"] , (String)dr["login"], (String)dr["mdp"]));
+            }
+            return lesEmployes;
         }
     }
 }
