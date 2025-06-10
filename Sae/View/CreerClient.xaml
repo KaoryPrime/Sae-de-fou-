@@ -61,64 +61,10 @@
                     </StackPanel>
                 </Grid>
 
-                <!-- Adresse -->
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Adresse *" Margin="10,0,0,0" />
-                    <TextBox x:Name="TextBoxAdresse" Height="30" Margin="10,0,10,0"/>
-                </StackPanel>
-
-                <!-- Code postal et Ville -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Margin="10">
-                        <TextBlock Text="Code postal *" Margin="10,0,0,0" />
-                        <TextBox x:Name="TextBoxCP" Height="30" Margin="10,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel Margin="10" Grid.Column="1">
-                        <TextBlock Text="Ville *" />
-                        <TextBox x:Name="TextBoxVille" Height="30" Margin="0,0,10,0"/>
-                    </StackPanel>
-                </Grid>
-
-                <!-- Type de client -->
-                <StackPanel Margin="10,0">
-                    <TextBlock Text="Type de client" Margin="10,0,10,0" />
-                    <ComboBox x:Name="ComboBoxType" Height="30" Margin="10,0,10,0">
-                        <ComboBoxItem Content="Particulier" IsSelected="True"/>
-                        <ComboBoxItem Content="Professionnel"/>
-                    </ComboBox>
-                </StackPanel>
-
-                <!-- SIRET -->
-                <StackPanel Margin="10,0,10,0">
-                    <TextBlock Text="SIRET (professionnel uniquement)" Margin="10,0,10,0"/>
-                    <TextBox x:Name="TextBoxSiret" Height="30" Margin="10,0,10,0"/>
-                </StackPanel>
-
-                <!-- Commentaires -->
-                <StackPanel Margin="10,0,10,0">
-                    <TextBlock Text="Commentaires" Margin="10,0,10,0"/>
-                    <TextBox Height="80" AcceptsReturn="True" TextWrapping="Wrap" Margin="10,0,10,0"/>
-                </StackPanel>
-
-                <!-- Préférences de communication -->
-                <StackPanel Margin="10,0,10,0">
-                    <TextBlock Text="Préférences de communication" Margin="10,0,10,0"/>
-                    <WrapPanel Orientation="Horizontal">
-                        <CheckBox Content="Notifications par email" IsChecked="True" Foreground="#D50000"/>
-                        <CheckBox Content="Notifications par SMS" />
-                        <CheckBox Content="Newsletter Loxam" />
-                        <CheckBox Content="Offres promotionnelles" />
-                    </WrapPanel>
-                </StackPanel>
-
                 <!-- Boutons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,10,0">
-                    <Button Content="Annuler" Background="#9E9E9E" Foreground="White" Padding="10,5" Width="100"/>
-                    <Button Content="Créer le client" Background="Green" Foreground="White" Padding="10,5" Width="120"/>
+                    <Button Content="Annuler" Background="#9E9E9E" Foreground="White" Padding="10,5" Width="100" Margin="10,0,10,0"/>
+                    <Button x:Name="ButtonCreerClient" Content="Créer le client" Background="Green" Foreground="White" Padding="10,5" Width="120" Margin="10,0,10,0" Click="ButtonCreerClient_Click_1"/>
                 </StackPanel>
 
             </StackPanel>
