@@ -26,7 +26,8 @@ namespace Sae.View
         }
         private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new LoginWindow();
         }
 
         private void ReserverButton_Click(object sender, RoutedEventArgs e)
@@ -46,7 +47,8 @@ namespace Sae.View
 
         private void CreerClientButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new CreerClient();
         }
     }
 }

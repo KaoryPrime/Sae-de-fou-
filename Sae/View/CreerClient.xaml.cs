@@ -65,11 +65,6 @@ namespace Sae.View
             }
         }
 
-        private void RetourDashEmploye()
-        {
-            MessageBox.Show("Erreur : ");
-        }
-
         private void ButtonCreerClient_Click(object sender, RoutedEventArgs e)
         {
             InsererClient();
@@ -77,7 +72,8 @@ namespace Sae.View
 
         private void ButtonRetour_Click(object sender, RoutedEventArgs e)
         {
-            RetourDashEmploye();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new DashEmploye();
         }
     }
 }
