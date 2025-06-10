@@ -25,7 +25,7 @@ namespace Sae.View
 
         private readonly string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
 
-        private void InsererClient()
+        private void ButtonCreerClient_Click(object sender, RoutedEventArgs e)
         {
             // Récupérer les valeurs des champs
             string nom = TextBoxNom.Text;
@@ -63,11 +63,6 @@ namespace Sae.View
             {
                 MessageBox.Show("Erreur : " + ex.Message);
             }
-        }
-
-        private void ButtonCreerClient_Click(object sender, RoutedEventArgs e)
-        {
-            InsererClient();
         }
 
         private void ButtonRetour_Click(object sender, RoutedEventArgs e)

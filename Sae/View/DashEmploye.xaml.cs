@@ -26,13 +26,16 @@ namespace Sae.View
         }
         private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.MainContentContainer.Content = new LoginWindow();
+            LoginWindow loginWindow = new LoginWindow();
+            Window currentWindow = Window.GetWindow(this);
+            loginWindow.Show();
+            currentWindow?.Close();
         }
 
         private void ReserverButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new ReserverMateriel();
         }
 
         private void RechercherButton_Click(object sender, RoutedEventArgs e)
