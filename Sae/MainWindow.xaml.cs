@@ -12,18 +12,23 @@ namespace Sae
 {
     public partial class MainWindow : Window
     {
-        private DataAccess dataAccess;
-
-        public MainWindow(Employe username) 
-        {
-            InitializeComponent();
-            dataAccess = DataAccess.Instance;
-        }
 
         public MainWindow()
         {
             InitializeComponent();
-            dataAccess = DataAccess.Instance; 
+
+            LoginWindow loginWindow = new LoginWindow();
+            if (loginWindow.ShowDialog() == true)
+            {
+                // Récupérer l'employé connecté depuis LoginWindow
+                Employe employe = loginWindow.EmployeConnecte;
+                // Initialiser MainWindow avec cet employé
+            }
+            else
+            {
+                // Login annulé, fermer l'application
+                Application.Current.Shutdown();
+            }
         }
 
     }
