@@ -64,7 +64,7 @@
                 <!-- Boutons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,40,10,0">
                     <Button Content="Annuler" Background="#9E9E9E" Foreground="White" Padding="10,5" Width="100" Margin="10,0,10,0"/>
-                    <Button x:Name="ButtonCreerClient" Content="Créer le client" Background="Green" Foreground="White" Padding="10,5" Width="120" Margin="10,0,10,0" Click="ButtonCreerClient_Click_1"/>
+                    <Button x:Name="ButtonCreerClient" Content="Créer le client" Background="Green" Foreground="White" Padding="10,5" Width="120" Margin="10,0,10,0" Click="ButtonCreerClient_Click"/>
                 </StackPanel>
 
             </StackPanel>
