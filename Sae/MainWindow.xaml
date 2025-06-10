@@ -3,21 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Loxam - Connexion"
-    Width="450"
-    Height="500"
+    Height="720" Width="1280"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="SingleBorderWindow">
 
-    <!--  Contenu ici  -->
     <Grid>
-        <ContentControl x:Name="page" />
-        <!--  Ajoute tes éléments ici  -->
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="20"
-            Text="Bienvenue chez Loxam !" />
+        <ContentControl x:Name="MainContentContainer" />
     </Grid>
-
 </Window>
