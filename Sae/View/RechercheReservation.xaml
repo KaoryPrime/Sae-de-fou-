@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Sae.View.RechercheReservation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sae.View"
+             mc:Ignorable="d" 
+              Height="720" Width="1280"
+             Background="#F5F5F5">
+
+    <Grid Background="#FFF3F3F3">
+
+        <Border
+    Padding="40"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Top"
+    Background="White"
+    CornerRadius="12" Height="346" Width="980" Margin="0,334,0,0">
+            <Border.Effect>
+                <DropShadowEffect
+            BlurRadius="15"
+            Opacity="0.3"
+            ShadowDepth="10"
+            Color="Black" />
+            </Border.Effect>
+
+            <StackPanel>
+                <!-- Logo Section -->
+                <StackPanel  HorizontalAlignment="Center">
+                    <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="32"
+                FontWeight="Bold"
+                Foreground="#E60000"
+                Text="Réservation trouvés" />
+                </StackPanel>
+
+                <!-- Form Section -->
+                <StackPanel>
+                    <!-- Username -->
+                    <DataGrid x:Name="GdRechercheReserv" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged_1"  Background="White" Height="211" Width="918" >
+                    </DataGrid>
+
+                    <!-- Login Button -->
+                </StackPanel>
+
+                <!-- Footer -->
+
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+
+
+</UserControl>

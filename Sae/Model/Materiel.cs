@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,6 +142,28 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Materiel> FindAll()
+        {
+            List<Materiel> lesMateriels = new List<Materiel>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from materiel ;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // Créer un nouvel objet Materiel pour chaque ligne du DataTable et l'ajouter à la liste
+                    lesMateriels.Add(new Materiel(
+                        (int)dr["NUMMATERIEL"],
+                        (int)dr["NUMETAT"],
+                        (int)dr["NUMTYPE"],
+                        (string)dr["REFERENCE"],
+                        (string)dr["NOMMATERIEL"],
+                        (string)dr["DESCRIPTIF"],
+                        (decimal)dr["PRIXJOURNEE"]
+                    ));
+                }
+                return lesMateriels;
+            }
         }
     }
 }

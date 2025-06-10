@@ -35,88 +35,15 @@
                 <!-- Champ de recherche -->
                 <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged"/>
 
+
+                <DataGrid IsReadOnly="True" x:Name="dgsejour" ItemsSource = "{Binding LesMaterieles}" AutoGenerateColumns="False" Height="236">
+                <DataGrid.Columns>
+                        <DataGridTextColumn Header="Référence" Binding="{Binding Reference, ValidatesOnExceptions=true}" Width="*"/>
+                        <DataGridTextColumn Header="NUM MATERIEL " Binding="{Binding Nummateriel , ValidatesOnExceptions=true}" Width="*"/>
+                        <DataGridTextColumn Header="Matériel" Binding="{Binding Nommateriel, ValidatesOnExceptions=true}" Width="*"/>
+                </DataGrid.Columns>
+                </DataGrid>
                 <!-- Tableau -->
-                <Border Background="White" CornerRadius="10" Padding="10" BorderBrush="#DDDDDD" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- En-tête -->
-                        <Grid Grid.Row="0" Margin="5" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Matériel" FontWeight="Bold" />
-                            <TextBlock Text="Catégorie" FontWeight="Bold" Grid.Column="1" />
-                            <TextBlock Text="État" FontWeight="Bold" Grid.Column="2" />
-                            <TextBlock Text="Date" FontWeight="Bold" Grid.Column="3" />
-                            <TextBlock Text="Actions" FontWeight="Bold" Grid.Column="4" />
-                        </Grid>
-
-                        <!-- Lignes -->
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
-                            <!-- Ligne 1 -->
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Nacelle articulée" />
-                                <TextBlock Text="Élévation" Grid.Column="1" />
-                                <Border Background="Gold" Padding="5" CornerRadius="5" Grid.Column="2">
-                                    <TextBlock Text="À réviser" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                </Border>
-                                <TextBlock Text="15/05/2024" Grid.Column="3" />
-                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
-                            </Grid>
-
-                            <!-- Ligne 2 -->
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Broyeur de ronces" />
-                                <TextBlock Text="Espace vert" Grid.Column="1" />
-                                <Border Background="Crimson" Padding="5" CornerRadius="5" Grid.Column="2">
-                                    <TextBlock Text="À réparer" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                </Border>
-                                <TextBlock Text="14/05/2024" Grid.Column="3" />
-                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
-                            </Grid>
-
-                            <!-- Ligne 3 -->
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Tondeuse autoportée" />
-                                <TextBlock Text="Espace vert" Grid.Column="1" />
-                                <Border Background="Gold" Padding="5" CornerRadius="5" Grid.Column="2">
-                                    <TextBlock Text="À réviser" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                </Border>
-                                <TextBlock Text="13/05/2024" Grid.Column="3" />
-                                <Button Content="Traiter" Background="Green" Foreground="White" Padding="5,2" Width="70" Grid.Column="4" />
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                </Border>
             </StackPanel>
         </ScrollViewer>
     </DockPanel>
