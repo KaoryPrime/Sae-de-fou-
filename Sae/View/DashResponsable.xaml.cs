@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sae
+namespace Sae.View
 {
     /// <summary>
-    /// Logique d'interaction pour CreerClient.xaml
+    /// Logique d'interaction pour DashResponsable.xaml
     /// </summary>
-    public partial class CreerClient : Page
+    public partial class DashResponsable : UserControl
     {
-        public CreerClient()
+        public DashResponsable()
         {
             InitializeComponent();
         }

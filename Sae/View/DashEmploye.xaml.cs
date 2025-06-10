@@ -13,18 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sae
+namespace Sae.View
 {
     /// <summary>
     /// Logique d'interaction pour DashEmploye.xaml
     /// </summary>
-    public partial class DashEmploye : Page
+    public partial class DashEmploye : UserControl
     {
         public DashEmploye()
         {
             InitializeComponent();
         }
-
         private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
         {
 

@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sae
+namespace Sae.View
 {
     /// <summary>
-    /// Logique d'interaction pour DashResponsable.xaml
+    /// Logique d'interaction pour CreerClient.xaml
     /// </summary>
-    public partial class DashResponsable : Page
+    public partial class CreerClient : UserControl
     {
-        public DashResponsable()
+        public CreerClient()
         {
             InitializeComponent();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

@@ -14,16 +14,11 @@ namespace Sae
     {
         private DataAccess dataAccess;
 
-        public MainWindow(string username) 
-        {
-            InitializeComponent();
-            dataAccess = DataAccess.Instance;
-        }
-
         public MainWindow()
         {
             InitializeComponent();
-            dataAccess = DataAccess.Instance; 
+            dataAccess = DataAccess.Instance;
+            page.Content = new View.LoginWindow();
         }
 
     }
