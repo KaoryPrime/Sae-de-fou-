@@ -24,5 +24,22 @@ namespace Sae.View
         {
             InitializeComponent();
         }
+
+        private void RechercheTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string recherche = ((TextBox)sender).Text.ToLower();
+
+            // Parcourir tous les Grid dans le StackPanel et les masquer/afficher selon la recherche
+            foreach (Grid ligne in ((StackPanel)FindName("LignesStackPanel")).Children.OfType<Grid>())
+            {
+                TextBlock materiel = ligne.Children.OfType<TextBlock>().FirstOrDefault();
+                if (materiel != null)
+                {
+                    ligne.Visibility = string.IsNullOrEmpty(recherche) ||
+                                      materiel.Text.ToLower().Contains(recherche)
+                                      ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
     }
 }
