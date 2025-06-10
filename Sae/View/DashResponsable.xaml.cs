@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Sae.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,11 @@ namespace Sae.View
     /// </summary>
     public partial class DashResponsable : UserControl
     {
+        public ObservableCollection<Materiel> LesMaterieles { get; set; }
         public DashResponsable()
         {
             InitializeComponent();
+            ChargeData();
         }
 
         private void RechercheTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -39,6 +43,20 @@ namespace Sae.View
                                       materiel.Text.ToLower().Contains(recherche)
                                       ? Visibility.Visible : Visibility.Collapsed;
                 }
+            }
+        }
+        private void ChargeData()
+        {
+            try
+            {
+                LesMaterieles = new ObservableCollection<Materiel>(new Materiel().FindAll());
+                this.DataContext = this;
+            }
+            catch (Exception ex)
+            {
+                LogError.Log(ex, "Erreur SQL lors du chargement des materiels");
+                MessageBox.Show("Problème lors de récupération des données", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
             }
         }
     }
