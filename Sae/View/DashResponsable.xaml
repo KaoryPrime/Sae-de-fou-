@@ -33,7 +33,7 @@
                 <TextBlock Text="Matériels à réviser/réparer" FontSize="20" FontWeight="Bold" Foreground="#D50000" />
 
                 <!-- Champ de recherche -->
-                <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged"/>
+                <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged" HorizontalAlignment="Left" />
 
 
                 <DataGrid IsReadOnly="True" x:Name="dgmateriel" ItemsSource="{Binding LesMaterieles}" AutoGenerateColumns="False" Height="400">

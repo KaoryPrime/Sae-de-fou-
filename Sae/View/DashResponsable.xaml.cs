@@ -56,11 +56,11 @@ namespace Sae.View
                 Application.Current.Shutdown();
             }
         }
-        private void TraiterMateriel_Click(object sender, RoutedEventArgs e)
+        private void TraiterMateriel_Click(object obj, RoutedEventArgs e)
         {
             try
             {
-                Button btn = sender as Button;
+                Button btn = obj as Button;
                 Materiel materielSelectionne = btn.Tag as Materiel;
 
                 if (materielSelectionne != null)
@@ -87,8 +87,8 @@ namespace Sae.View
                         // materielSelectionne.Numetat = 1; // État "Disponible" par exemple
                         // materielSelectionne.UpdateEtat(); // Méthode à créer dans la classe Materiel
 
-                        MessageBox.Show($"Le matériel '{materielSelectionne.Nommateriel}' a été traité avec succès!",
-                            "Traitement effectué", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                        mainWindow.MainContentContainer.Content = new TraiterResponsable();
 
                         // Recharger les données pour refléter les changements
                         ChargeData();
