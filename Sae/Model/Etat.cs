@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +62,22 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Etat> FindAll()
+        {
+            List<Etat> lesEtats = new List<Etat>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from etat ;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    lesEtats.Add(new Etat(
+                        (int)dr["NUMETAT"],
+                        (string)dr["LIBELLEETAT"]
+                    ));
+                }
+                return lesEtats;
+            }
         }
     }
 }

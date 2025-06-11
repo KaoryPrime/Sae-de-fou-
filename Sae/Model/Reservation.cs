@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,6 +184,30 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Reservation> FindAll()
+        {
+            List<Reservation> lesReservations = new List<Reservation>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from reservation ;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // Créer un nouvel objet Reservation pour chaque ligne du DataTable et l'ajouter à la liste
+                    lesReservations.Add(new Reservation(
+                        (int)dr["NUMRESERVATION"],
+                        (int)dr["NUMMATERIEL"],
+                        (int)dr["NUMEMPLOYE"],
+                        (int)dr["NUMCLIENT"],
+                        dr["DATERESERVATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERESERVATION"],
+                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATEDEBUTLOCATION"],
+                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOUREFFECTIVELOCATION"],
+                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOURREELLELOCATION"],
+                        (decimal)dr["PRIXTOTAL"]
+                    ));
+                }
+                return lesReservations;
+            }
         }
     }
 }

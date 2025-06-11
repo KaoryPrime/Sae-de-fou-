@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +62,23 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Categorie> FindAll()
+        {
+            List<Categorie> lesCategories = new List<Categorie>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from categorie ;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // Créer un nouvel objet Categorie pour chaque ligne du DataTable et l'ajouter à la liste
+                    lesCategories.Add(new Categorie(
+                        (int)dr["NUMCATEGORIE"],
+                        (string)dr["LIBELLECATEGORIE"]
+                    ));
+                }
+                return lesCategories;
+            }
         }
     }
 }
