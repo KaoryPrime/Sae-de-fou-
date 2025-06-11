@@ -15,7 +15,6 @@ namespace Sae
         {
             InitializeComponent();
             ChargeData();
-
             this.KeyDown += LoginWindow_KeyDown;
             this.Loaded += (s, e) => UsernameTextBox.Focus();
         }

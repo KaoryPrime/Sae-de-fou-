@@ -1,0 +1,152 @@
+﻿<UserControl x:Class="Sae.View.ReserverMateriel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sae.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Height="720" Width="1280" Background="#F5F5F5">
+
+    <DockPanel>
+        <!-- Bandeau rouge en haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOXAM - Recherche Matériel" 
+                           Foreground="White" FontSize="20" FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Contenu principal -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40">
+
+                <!-- Titre -->
+                <TextBlock Text="🔍 Filtres de recherche" FontSize="20" FontWeight="Bold" 
+                          Foreground="#D50000" Margin="0,0,0,20"/>
+
+                <!-- Formulaire de recherche -->
+                <Border Background="White" CornerRadius="10" Padding="30" 
+                       BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,30">
+                    <StackPanel>
+
+                        <!-- Première ligne de filtres -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Mot-clé -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" 
+                                        Text="Nom du matériel..." Foreground="Gray"/>
+                            </StackPanel>
+
+                            <!-- Catégorie -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Catégorie" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10">
+                                    <ComboBoxItem Content="Toutes les catégories" IsSelected="True"/>
+                                    <ComboBoxItem Content="Élévation"/>
+                                    <ComboBoxItem Content="Espace vert"/>
+                                    <ComboBoxItem Content="Outillage"/>
+                                    <ComboBoxItem Content="Compactage"/>
+                                    <ComboBoxItem Content="Manutention"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Type -->
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Text="Type" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10">
+                                    <ComboBoxItem Content="Tous les types" IsSelected="True"/>
+                                    <ComboBoxItem Content="Location"/>
+                                    <ComboBoxItem Content="Vente"/>
+                                    <ComboBoxItem Content="Service"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Deuxième ligne de filtres -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Date début -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Date début de location" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <DatePicker x:Name="DateDebutPicker" Height="35" Padding="10"/>
+                            </StackPanel>
+
+                            <!-- Date fin -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Date fin de location" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <DatePicker x:Name="DateFinPicker" Height="35" Padding="10"/>
+                            </StackPanel>
+
+                            <!-- Bouton rechercher -->
+                            <StackPanel Grid.Column="4" VerticalAlignment="Bottom">
+                                <Button x:Name="ButRechercher" Content="🔍 Rechercher" 
+                                       Background="#D50000" Foreground="White" 
+                                       Padding="20,8" FontWeight="Bold" 
+                                       BorderThickness="0" Height="35"/>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel>
+                            <!-- Zone d'affichage des résultats -->
+                            <TextBlock Margin="0,0,0,10" FontSize="16" FontWeight="Bold" 
+                   Text="{Binding VinsView.Count, StringFormat='Résultats ({0})'}" />
+                            <ListBox x:Name="listBoxVins" ItemsSource="{Binding VinsView}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="355" Width="826">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="3" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10" Background="White" CornerRadius="5" Margin="5" 
+                            BorderBrush="#E0E0E0" BorderThickness="1" Height="250" Width="240">
+                                            <StackPanel>
+                                                <Rectangle Height="100" Fill="#DDD" Margin="0,0,0,10"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding NomMateriel}" 
+                                       TextWrapping="Wrap" FontSize="14"/>
+                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Descriptif}" 
+                                       TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" 
+                                       Text="{Binding PrixJournee, StringFormat='{}{0:C}'}" 
+                                       HorizontalAlignment="Center"/>
+                                                <Button Width="25" Height="25" Content="&#xE710;" 
+                                    FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" 
+                                    HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>
