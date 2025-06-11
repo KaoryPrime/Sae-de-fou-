@@ -22,7 +22,7 @@ namespace Sae.View
             InitializeComponent();
             LesMaterieles = new ObservableCollection<Materiel>();
             MaterielView = CollectionViewSource.GetDefaultView(LesMaterieles);
-            MaterielView.Filter = RechercheMotClefVin;
+            MaterielView.Filter = RechercheMotClefMateriel;
             ChargeData();
         }
 
@@ -47,7 +47,7 @@ namespace Sae.View
 
 
         }
-        private bool RechercheMotClefVin(object obj)
+        private bool RechercheMotClefMateriel(object obj)
         {
             Materiel unMateriel = obj as Materiel;
             if (unMateriel == null)
@@ -153,27 +153,5 @@ namespace Sae.View
         {
             MaterielView?.Refresh();
         }
-
-        /*private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-            // Vérifiez si le bouton et le vin sont valides
-            if (btn != null && btn.Tag is Materiel materielSelectionne)
-            {
-                // Vérifiez si NumFournisseur et NumType2 sont non nuls avant d'y accéder
-                if (materielSelectionne.NumFournisseur == null || materielSelectionne.NumType2 == null)
-                {
-                    MessageBox.Show("Le vin sélectionné est incomplet.");
-                    return;
-                }
-                // Ajoutez à la collection VinsDemande
-                VinsDemande.Add(new VinDemande(materielSelectionne.NomVin, DateTime.Now, 1));
-                MessageBox.Show($"Vin '{materielSelectionne.NomVin}' ajouté ! Total: {VinsDemande.Count} vins");
-            }
-            else
-            {
-                MessageBox.Show("Erreur : Aucun vin sélectionné.");
-            }
-        }*/
     }
 }

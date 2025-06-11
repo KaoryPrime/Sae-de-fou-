@@ -51,14 +51,13 @@
                             <!-- Mot-clé -->
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" 
-                                        Text="" Foreground="Gray"/>
+                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" TextChanged="RefreshRecherche" Text="" Foreground="Gray"/>
                             </StackPanel>
 
                             <!-- Catégorie -->
                             <StackPanel Grid.Column="2">
                                 <TextBlock Text="Catégorie" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10">
+                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10" SelectionChanged="CategorieComboBox_SelectionChanged">
                                     <ComboBoxItem Content="Toutes les catégories" IsSelected="True"/>
                                     <ComboBoxItem Content="Élévation"/>
                                     <ComboBoxItem Content="Espace vert"/>
@@ -71,7 +70,7 @@
                             <!-- Type -->
                             <StackPanel Grid.Column="4">
                                 <TextBlock Text="Type" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10">
+                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10" SelectionChanged="TypeComboBox_SelectionChanged">
                                     <ComboBoxItem Content="Tous les types" IsSelected="True"/>
                                     <ComboBoxItem Content="Bétonnière"/>
                                     <ComboBoxItem Content="Marteau piqueur"/>
@@ -131,7 +130,6 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
             </StackPanel>
         </ScrollViewer>
     </DockPanel>
