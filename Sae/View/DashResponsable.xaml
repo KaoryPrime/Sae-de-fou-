@@ -36,12 +36,46 @@
                 <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged"/>
 
 
-                <DataGrid IsReadOnly="True" x:Name="dgsejour" ItemsSource = "{Binding LesMaterieles}" AutoGenerateColumns="False" Height="236">
-                <DataGrid.Columns>
-                        <DataGridTextColumn Header="Référence" Binding="{Binding Reference, ValidatesOnExceptions=true}" Width="*"/>
-                        <DataGridTextColumn Header="NUM MATERIEL " Binding="{Binding Nummateriel , ValidatesOnExceptions=true}" Width="*"/>
-                        <DataGridTextColumn Header="Matériel" Binding="{Binding Nommateriel, ValidatesOnExceptions=true}" Width="*"/>
-                </DataGrid.Columns>
+                <DataGrid IsReadOnly="True" x:Name="dgmateriel" ItemsSource="{Binding LesMaterieles}" AutoGenerateColumns="False" Height="400">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Matériel" Binding="{Binding Nommateriel}" Width="2*"/>
+                        <DataGridTextColumn Header="Catégorie" Binding="{Binding Categorie.Libellecategorie}" Width="*"/>
+                        <DataGridTextColumn Header="État" Binding="{Binding Etat.Libelleetat}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="À réviser">
+                                            <Setter Property="Background" Value="Orange"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="5,2"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="À réparer">
+                                            <Setter Property="Background" Value="Red"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Padding" Value="5,2"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Référence" Binding="{Binding Reference}" Width="*"/>
+                        <DataGridTemplateColumn Header="Actions" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Traiter" 
+                            Background="#007ACC" 
+                            Foreground="White" 
+                            BorderThickness="0" 
+                            Padding="10,5" 
+                            Cursor="Hand"
+                            Click="TraiterMateriel_Click"
+                            Tag="{Binding}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
                 </DataGrid>
                 <!-- Tableau -->
             </StackPanel>

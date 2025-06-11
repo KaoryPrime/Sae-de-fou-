@@ -18,6 +18,8 @@ namespace Sae.Model
         private string descriptif;
         private decimal prixjournee;
 
+        private Etat etat;
+        private Categorie categorie;
         public Materiel() { }
 
         public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
@@ -30,6 +32,20 @@ namespace Sae.Model
             this.descriptif = descriptif;
             this.prixjournee = prixjournee;
         }
+
+        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, Etat etat, Categorie categorie)
+        {
+            this.nummateriel = nummateriel;
+            this.numetat = numetat;
+            this.numtype = numtype;
+            this.reference = reference;
+            this.nommateriel = nommateriel;
+            this.descriptif = descriptif;
+            this.prixjournee = prixjournee;
+            this.etat = etat;
+            this.categorie = categorie;
+        }
+
 
         public int Nummateriel
         {
@@ -122,6 +138,30 @@ namespace Sae.Model
             }
         }
 
+        public Etat Etat
+        {
+            get 
+            {
+                return etat; 
+            }
+            set 
+            { 
+                etat = value;
+            }
+        }
+
+        public Categorie Categorie
+        {
+            get 
+            {
+                return categorie;
+            }
+            set 
+            {
+                categorie = value;
+            }
+        }
+
         public override bool Equals(object? obj)
         {
             return obj is Materiel materiel &&
@@ -146,12 +186,21 @@ namespace Sae.Model
         public List<Materiel> FindAll()
         {
             List<Materiel> lesMateriels = new List<Materiel>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from materiel ;"))
+
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
+            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE 
+            FROM materiel m 
+            LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
+            LEFT JOIN categorie c ON m.NUMTYPE = c.NUMCATEGORIE"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    // Créer un nouvel objet Materiel pour chaque ligne du DataTable et l'ajouter à la liste
+                    // Créer les objets Etat et Categorie
+                    Etat etat = new Etat((int)dr["NUMETAT"], (string)dr["LIBELLEETAT"]);
+                    Categorie categorie = new Categorie((int)dr["NUMTYPE"], (string)dr["LIBELLECATEGORIE"]);
+
+                    // Créer l'objet Materiel avec les propriétés de navigation
                     lesMateriels.Add(new Materiel(
                         (int)dr["NUMMATERIEL"],
                         (int)dr["NUMETAT"],
@@ -159,7 +208,9 @@ namespace Sae.Model
                         (string)dr["REFERENCE"],
                         (string)dr["NOMMATERIEL"],
                         (string)dr["DESCRIPTIF"],
-                        (decimal)dr["PRIXJOURNEE"]
+                        (decimal)dr["PRIXJOURNEE"],
+                        etat,
+                        categorie
                     ));
                 }
                 return lesMateriels;
