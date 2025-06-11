@@ -20,7 +20,10 @@ namespace Sae.Model
 
         private Etat etat;
         private Categorie categorie;
-        public Materiel() { }
+        public Materiel() 
+        { 
+        
+        }
 
         public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
         {
@@ -183,7 +186,9 @@ namespace Sae.Model
         {
             return base.ToString();
         }
-        public List<Materiel> FindAll()
+        // Dans votre classe Materiel, remplacez la méthode FindAll() par :
+
+        public static List<Materiel> FindAll()
         {
             List<Materiel> lesMateriels = new List<Materiel>();
 

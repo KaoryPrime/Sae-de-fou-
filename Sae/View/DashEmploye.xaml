@@ -1,25 +1,47 @@
-﻿<UserControl x:Class="Sae.View.DashEmploye"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Sae.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Height="720" Width="1280" Background="#F5F5F5">
+﻿<UserControl
+    x:Class="Sae.View.DashEmploye"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Sae.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="1280"
+    Height="720"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="#F5F5F5"
+    mc:Ignorable="d">
     <DockPanel>
-        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+        <Border
+            Height="60"
+            Background="#D50000"
+            DockPanel.Dock="Top">
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="LOXAM - Gestion Réservations" 
-                           Foreground="White" FontSize="20" FontWeight="Bold"
-                           VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock Text="Employé: Jean Dupont" Foreground="White" VerticalAlignment="Center"/>
-                    <Button x:Name="ButDeconnexion" Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" Click="ButDeconnexion_Click" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="LOXAM - Gestion Réservations" />
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Employé: Jean Dupont" />
+                    <Button
+                        x:Name="ButDeconnexion"
+                        Padding="10,5"
+                        Background="#FF5252"
+                        Click="ButDeconnexion_Click"
+                        Content="Déconnexion"
+                        Foreground="White" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -27,78 +49,217 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20">
 
-                <!-- Statistiques -->
-                <UniformGrid Columns="4" Margin="0,10" HorizontalAlignment="Stretch">
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                <!--  Statistiques  -->
+                <UniformGrid
+                    Margin="0,10"
+                    HorizontalAlignment="Stretch"
+                    Columns="4">
+                    <Border
+                        Margin="5"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        CornerRadius="10">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="12" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Réservations aujourd'hui" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="#D50000"
+                                Text="12" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Text="Réservations aujourd'hui" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Border
+                        Margin="5"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        CornerRadius="10">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="8" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Matériels disponibles" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="#D50000"
+                                Text="8" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Text="Matériels disponibles" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Border
+                        Margin="5"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        CornerRadius="10">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="3" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Retours attendus" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="#D50000"
+                                Text="3" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Text="Retours attendus" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" Padding="20" CornerRadius="10" Margin="5" BorderBrush="#DDDDDD" BorderThickness="1">
+                    <Border
+                        Margin="5"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        CornerRadius="10">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="€2,450" FontSize="24" FontWeight="Bold" Foreground="#D50000" HorizontalAlignment="Center"/>
-                            <TextBlock Text="CA du jour" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Foreground="#D50000"
+                                Text="€2,450" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Text="CA du jour" />
                         </StackPanel>
                     </Border>
                 </UniformGrid>
 
-                <!-- Actions principales avec boutons -->
-                <TextBlock Text="Actions principales" FontSize="18" FontWeight="Bold" Margin="0,20,0,10" />
-                <UniformGrid Columns="2" Rows="2" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                <!--  Actions principales avec boutons  -->
+                <TextBlock
+                    Margin="0,20,0,10"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Actions principales" />
+                <UniformGrid
+                    Margin="0,0,0,20"
+                    HorizontalAlignment="Stretch"
+                    Columns="2"
+                    Rows="2">
 
-                    <!-- Réserver un matériel -->
-                    <Button x:Name="ReserverButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
-                            Click="ReserverButton_Click">
+                    <!--  Réserver un matériel  -->
+                    <Button
+                        x:Name="ReserverButton"
+                        Margin="10"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        Click="ReserverButton_Click"
+                        Cursor="Hand">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="📋" FontSize="32" TextAlignment="Center"/>
-                            <TextBlock Text="Réserver un matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
-                            <TextBlock Text="Rechercher et réserver du matériel pour un client" FontSize="12" TextAlignment="Center"/>
+                            <TextBlock
+                                FontSize="32"
+                                Text="📋"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,10"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="Réserver un matériel"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="Rechercher et réserver du matériel pour un client"
+                                TextAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Rechercher une réservation -->
-                    <Button x:Name="RechercherButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
-                            Click="RechercherButton_Click">
+                    <!--  Rechercher une réservation  -->
+                    <Button
+                        x:Name="RechercherButton"
+                        Margin="10"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        Click="RechercherButton_Click"
+                        Cursor="Hand">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="🔍" FontSize="32" TextAlignment="Center"/>
-                            <TextBlock Text="Rechercher une réservation" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
-                            <TextBlock Text="Valider ou supprimer une réservation existante" FontSize="12" TextAlignment="Center"/>
+                            <TextBlock
+                                FontSize="32"
+                                Text="🔍"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,10"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="Rechercher une réservation"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="Valider ou supprimer une réservation existante"
+                                TextAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Retour de matériel -->
-                    <Button x:Name="RetourButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
-                            Click="RetourButton_Click">
+                    <!--  Retour de matériel  -->
+                    <Button
+                        x:Name="RetourButton"
+                        Margin="10"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        Click="RetourButton_Click"
+                        Cursor="Hand">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="🔄" FontSize="32" TextAlignment="Center"/>
-                            <TextBlock Text="Retour de matériel" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
-                            <TextBlock Text="Gérer le retour et contrôler l'état du matériel" FontSize="12" TextAlignment="Center"/>
+                            <TextBlock
+                                FontSize="32"
+                                Text="🔄"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,10"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="Retour de matériel"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="Gérer le retour et contrôler l'état du matériel"
+                                TextAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Créer un client -->
-                    <Button x:Name="CreerClientButton" Padding="20" Margin="10" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" Cursor="Hand"
-                            Click="CreerClientButton_Click">
+                    <!--  Créer un client  -->
+                    <Button
+                        x:Name="CreerClientButton"
+                        Margin="10"
+                        Padding="20"
+                        Background="White"
+                        BorderBrush="#DDDDDD"
+                        BorderThickness="1"
+                        Click="CreerClientButton_Click"
+                        Cursor="Hand">
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="👤" FontSize="32" TextAlignment="Center"/>
-                            <TextBlock Text="Créer un client" FontWeight="Bold" FontSize="16" TextAlignment="Center" Margin="0,10"/>
-                            <TextBlock Text="Ajouter un nouveau client au système" FontSize="12" TextAlignment="Center"/>
+                            <TextBlock
+                                FontSize="32"
+                                Text="👤"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,10"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="Créer un client"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="Ajouter un nouveau client au système"
+                                TextAlignment="Center" />
                         </StackPanel>
                     </Button>
                 </UniformGrid>

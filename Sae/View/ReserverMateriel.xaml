@@ -52,7 +52,7 @@
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
                                 <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" 
-                                        Text="Nom du matériel..." Foreground="Gray"/>
+                                        Text="" Foreground="Gray"/>
                             </StackPanel>
 
                             <!-- Catégorie -->
@@ -93,13 +93,13 @@
                             <!-- Date début -->
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Date début de location" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <DatePicker x:Name="DateDebutPicker" Height="35" Padding="10"/>
+                                <DatePicker x:Name="DateDebutPicker" Height="40" Padding="10"/>
                             </StackPanel>
 
                             <!-- Date fin -->
                             <StackPanel Grid.Column="2">
                                 <TextBlock Text="Date fin de location" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <DatePicker x:Name="DateFinPicker" Height="35" Padding="10"/>
+                                <DatePicker x:Name="DateFinPicker" Height="40" Padding="10"/>
                             </StackPanel>
 
                             <!-- Bouton rechercher -->
@@ -111,11 +111,7 @@
                             </StackPanel>
                         </Grid>
                         <StackPanel>
-                            <!-- Zone d'affichage des résultats -->
-                            <TextBlock Margin="0,0,0,10" FontSize="16" FontWeight="Bold" 
-                   Text="{Binding VinsView.Count, StringFormat='Résultats ({0})'}" />
-                            <ListBox x:Name="listBoxVins" ItemsSource="{Binding VinsView}" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="355" Width="826">
+                            <ListBox x:Name="MaterielListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3" />
@@ -123,20 +119,13 @@
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Padding="10" Background="White" CornerRadius="5" Margin="5" 
-                            BorderBrush="#E0E0E0" BorderThickness="1" Height="250" Width="240">
+                                        <Border Padding="10" Background="White" CornerRadius="5" Margin="5" BorderBrush="#E0E0E0" BorderThickness="1" Height="250" Width="240">
                                             <StackPanel>
                                                 <Rectangle Height="100" Fill="#DDD" Margin="0,0,0,10"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding NomMateriel}" 
-                                       TextWrapping="Wrap" FontSize="14"/>
-                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Descriptif}" 
-                                       TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" 
-                                       Text="{Binding PrixJournee, StringFormat='{}{0:C}'}" 
-                                       HorizontalAlignment="Center"/>
-                                                <Button Width="25" Height="25" Content="&#xE710;" 
-                                    FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" 
-                                    HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding NomVin}" TextWrapping="Wrap" FontSize="14"/>
+                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" Text="{Binding PrixVin, StringFormat='{}{0:C}'}" HorizontalAlignment="Center"/>
+                                                <Button Width="25" Height="25" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>

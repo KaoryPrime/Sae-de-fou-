@@ -58,7 +58,7 @@
                             FontSize="14"
                             BorderBrush="#DDD"
                             BorderThickness="1"
-                            Height="40"
+                            Height="45"
                             Tag="Votre identifiant" />
                     </StackPanel>
 
@@ -75,7 +75,7 @@
                             FontSize="14"
                             BorderBrush="#DDD"
                             BorderThickness="1"
-                            Height="40" />
+                            Height="45" />
                     </StackPanel>
 
                     <!-- Login Button -->
