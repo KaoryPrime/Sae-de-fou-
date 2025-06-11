@@ -46,7 +46,7 @@ namespace Sae.View
         {
             try
             {
-                LesMaterieles = new ObservableCollection<Materiel>(new Materiel().FindAll());
+                LesMaterieles = new ObservableCollection<Materiel>(new Materiel().FindMaterielResp());
                 this.DataContext = this;
             }
             catch (Exception ex)

@@ -183,22 +183,24 @@ namespace Sae.Model
         {
             return base.ToString();
         }
-        public List<Materiel> FindAll()
+        public List<Materiel> FindMaterielResp()
         {
             List<Materiel> lesMateriels = new List<Materiel>();
 
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
-            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE 
+            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE 
             FROM materiel m 
             LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
-            LEFT JOIN categorie c ON m.NUMTYPE = c.NUMCATEGORIE"))
+            LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
+            LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE
+            Where e.NUMETAT=8 or e.NUMETAT=7;"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                 {
                     // Créer les objets Etat et Categorie
                     Etat etat = new Etat((int)dr["NUMETAT"], (string)dr["LIBELLEETAT"]);
-                    Categorie categorie = new Categorie((int)dr["NUMTYPE"], (string)dr["LIBELLECATEGORIE"]);
+                    Categorie categorie = new Categorie((int)dr["NUMCATEGORIE"], (string)dr["LIBELLECATEGORIE"]);
 
                     // Créer l'objet Materiel avec les propriétés de navigation
                     lesMateriels.Add(new Materiel(
