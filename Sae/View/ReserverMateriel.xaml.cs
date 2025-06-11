@@ -1,44 +1,29 @@
 ﻿using Npgsql;
+using Sae.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace Sae.View
 {
-    public class Materiel
-    {
-        public int Nummateriel { get; set; }
-        public int Numetat { get; set; }
-        public int Numtype { get; set; }
-        public string Reference { get; set; }
-        public string Nommateriel { get; set; }
-        public string Descriptif { get; set; }
-        public decimal Prixjournee { get; set; }
-
-        // Constructeur adapté
-        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
-        {
-            this.Nummateriel = nummateriel;
-            this.Numetat = numetat;
-            this.Numtype = numtype;
-            this.Reference = reference;
-            this.Nommateriel = nommateriel;
-            this.Descriptif = descriptif;
-            this.Prixjournee = prixjournee;
-        }
-    }
-
     /// <summary>
     /// Logique d'interaction pour ReserverMateriel.xaml
     /// </summary>
     public partial class ReserverMateriel : UserControl
     {
+        public ObservableCollection<Materiel> LesMaterieles { get; set; }
+        public ICollectionView MaterielView { get; set; }
         public ReserverMateriel()
         {
             InitializeComponent();
-            LoadMaterielData();
+            LesMaterieles = new ObservableCollection<Materiel>();
+            MaterielView = CollectionViewSource.GetDefaultView(LesMaterieles);
+            MaterielView.Filter = RechercheMotClefMateriel;
+            ChargeData();
         }
 
         private void ButtonRetour_Click(object sender, RoutedEventArgs e)
@@ -46,38 +31,127 @@ namespace Sae.View
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.MainContentContainer.Content = new DashEmploye();
         }
-
-        private void LoadMaterielData()
+        private void ChargeData()
         {
-            string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
-            string query = "SELECT NUMMATERIEL, NUMETAT, NUMTYPE, REFERENCE, NOMMATERIEL, DESCRIPTIF, PRIXJOURNEE FROM MATERIEL";
-
-            List<Materiel> materielList = new List<Materiel>();
-
-            using (var conn = new NpgsqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                using (var cmd = new NpgsqlCommand(query, conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Materiel materiel = new Materiel(
-                            reader.GetInt32(0), // Nummateriel
-                            reader.GetInt32(1), // Numetat
-                            reader.GetInt32(2), // Numtype
-                            reader.GetString(3), // Reference
-                            reader.GetString(4), // Nommateriel
-                            reader.GetString(5), // Descriptif
-                            reader.GetDecimal(6) // Prixjournee
-                        );
-                        materielList.Add(materiel);
-                    }
-                }
+                LesMaterieles = new ObservableCollection<Materiel>(new Materiel().LoadMaterielData());
+                this.DataContext = this;
+            }
+            catch (Exception ex)
+            {
+                LogError.Log(ex, "Erreur SQL lors du chargement des materiels");
+                MessageBox.Show("Problème lors de récupération des données", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
             }
 
-            // Lier la liste des matériels à la ListBox
-            MaterielListBox.ItemsSource = materielList;
+
+        }
+        private bool RechercheMotClefMateriel(object obj)
+        {
+            Materiel unMateriel = obj as Materiel;
+            if (unMateriel == null)
+                return false;
+            // Filtre par nom de vin
+            if (MotCleTextBox != null && !String.IsNullOrEmpty(MotCleTextBox.Text))
+            {
+                if (String.IsNullOrEmpty(unMateriel.Nommateriel) ||
+                    !unMateriel.Nommateriel.ToLower().Contains(MotCleTextBox.Text.ToLower()))
+                {
+                    return false;
+                }
+            }
+            // Filtre par type de vin - CORRIGÉ
+            if (CategorieComboBox != null && CategorieComboBox.SelectedItem is ComboBoxItem categorieItem &&
+                categorieItem.Content.ToString() != "Toutes les catégories")
+            {
+                string categorieSelectionne = categorieItem.Content.ToString();
+                // Mapping des types selon votre logique métier
+                // Adaptez cette partie selon la structure de votre classe Vin
+                string categorieMateriel = "";
+                switch (unMateriel.Numtype)
+                {
+                    case 1:
+                        categorieMateriel = "Élévation";
+                        break;
+                    case 2:
+                        categorieMateriel = "Espace vert";
+                        break;
+                    case 3:
+                        categorieMateriel = "Outillage électroportatif";
+                        break;
+                    case 4:
+                        categorieMateriel = "Matériel de chantier";
+                        break;
+                    case 5:
+                        categorieMateriel = "Transport";
+                        break;
+                    default:
+                        categorieMateriel = "";
+                        break;
+                }
+                if (!categorieMateriel.Equals(categorieSelectionne, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+            // Filtre par appellation - CORRIGÉ
+            if (TypeComboBox != null && TypeComboBox.SelectedItem is ComboBoxItem typeItem &&
+                typeItem.Content.ToString() != "Tous les types")
+            {
+                string typeSelectionnee = typeItem.Content.ToString();
+                string typeMateriel = "";
+                if (unMateriel.Numtype != null)
+                {
+                    switch (unMateriel.Numtype)
+                    {
+                        case 1:
+                            typeMateriel = "Bétonnière";
+                            break;
+                        case 2:
+                            typeMateriel = "Marteau piqueur";
+                            break;
+                        case 3:
+                            typeMateriel = "Meuleuse";
+                            break;
+                        case 4:
+                            typeMateriel = "Nacelle";
+                            break;
+                        case 5:
+                            typeMateriel = "Perceuse";
+                            break;
+                        case 6:
+                            typeMateriel = "Taille entretien";
+                            break;
+                        case 7:
+                            typeMateriel = "Transports végétaux";
+                            break;
+                        default:
+                            typeMateriel = "";
+                            break;
+                    }
+                }
+                if (!typeMateriel.Equals(typeSelectionnee, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void RefreshRecherche(object sender, TextChangedEventArgs e)
+        {
+            MaterielView?.Refresh();
+        }
+
+        private void CategorieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MaterielView?.Refresh();
+        }
+
+        private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MaterielView?.Refresh();
         }
     }
 }

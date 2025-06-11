@@ -22,6 +22,7 @@ namespace Sae.View
     /// </summary>
     public partial class DashResponsable : UserControl
     {
+        public Materiel MaterielSelectionne { get; private set; }
         public ObservableCollection<Materiel> LesMaterieles { get; set; }
         public DashResponsable()
         {
@@ -65,41 +66,16 @@ namespace Sae.View
 
                 if (materielSelectionne != null)
                 {
-                    string message = $"Voulez-vous vraiment traiter le matériel :\n\n" +
-                                   $"Nom: {materielSelectionne.Nommateriel}\n" +
-                                   $"Référence: {materielSelectionne.Reference}\n" +
-                                   $"État actuel: {materielSelectionne.Etat?.Libelleetat}\n" +
-                                   $"Catégorie: {materielSelectionne.Categorie?.Libellecategorie}";
-
-                    MessageBoxResult result = MessageBox.Show(message, "Confirmation",
-                        MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        // Ici vous pouvez ajouter la logique pour traiter le matériel
-                        // Par exemple, changer son état, ouvrir une fenêtre de traitement, etc.
-
-                        // Exemple : Ouvrir une fenêtre de traitement
-                        // FenetreTraitement fenetreTraitement = new FenetreTraitement(materielSelectionne);
-                        // fenetreTraitement.ShowDialog();
-
-                        // Exemple : Changer l'état du matériel
-                        // materielSelectionne.Numetat = 1; // État "Disponible" par exemple
-                        // materielSelectionne.UpdateEtat(); // Méthode à créer dans la classe Materiel
-
+                        MaterielSelectionne = materielSelectionne;
                         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                        mainWindow.MainContentContainer.Content = new TraiterResponsable();
-
-                        // Recharger les données pour refléter les changements
+                        mainWindow.MainContentContainer.Content = new TraiterResponsable(materielSelectionne);
                         ChargeData();
-                    }
                 }
             }
             catch (Exception ex)
             {
                 LogError.Log(ex, "Erreur lors du traitement du matériel");
-                MessageBox.Show("Une erreur est survenue lors du traitement du matériel.",
-                    "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Une erreur est survenue lors du traitement du matériel.","Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

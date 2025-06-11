@@ -51,14 +51,13 @@
                             <!-- Mot-clé -->
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" 
-                                        Text="" Foreground="Gray"/>
+                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" TextChanged="RefreshRecherche" Text="" Foreground="Gray"/>
                             </StackPanel>
 
                             <!-- Catégorie -->
                             <StackPanel Grid.Column="2">
                                 <TextBlock Text="Catégorie" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10">
+                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10" SelectionChanged="CategorieComboBox_SelectionChanged">
                                     <ComboBoxItem Content="Toutes les catégories" IsSelected="True"/>
                                     <ComboBoxItem Content="Élévation"/>
                                     <ComboBoxItem Content="Espace vert"/>
@@ -71,11 +70,15 @@
                             <!-- Type -->
                             <StackPanel Grid.Column="4">
                                 <TextBlock Text="Type" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10">
+                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10" SelectionChanged="TypeComboBox_SelectionChanged">
                                     <ComboBoxItem Content="Tous les types" IsSelected="True"/>
-                                    <ComboBoxItem Content="Location"/>
-                                    <ComboBoxItem Content="Vente"/>
-                                    <ComboBoxItem Content="Service"/>
+                                    <ComboBoxItem Content="Bétonnière"/>
+                                    <ComboBoxItem Content="Marteau piqueur"/>
+                                    <ComboBoxItem Content="Meuleuse"/>
+                                    <ComboBoxItem Content="Nacelle"/>
+                                    <ComboBoxItem Content="Perceuse"/>
+                                    <ComboBoxItem Content="Taille entretien"/>
+                                    <ComboBoxItem Content="Transports végétaux"/>
                                 </ComboBox>
                             </StackPanel>
                         </Grid>
@@ -102,16 +105,9 @@
                                 <DatePicker x:Name="DateFinPicker" Height="40" Padding="10"/>
                             </StackPanel>
 
-                            <!-- Bouton rechercher -->
-                            <StackPanel Grid.Column="4" VerticalAlignment="Bottom">
-                                <Button x:Name="ButRechercher" Content="🔍 Rechercher" 
-                                       Background="#D50000" Foreground="White" 
-                                       Padding="20,8" FontWeight="Bold" 
-                                       BorderThickness="0" Height="35"/>
-                            </StackPanel>
                         </Grid>
                         <StackPanel>
-                            <ListBox x:Name="MaterielListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox x:Name="MaterielListBox" ItemsSource="{Binding LesMaterieles}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3" />
@@ -122,9 +118,9 @@
                                         <Border Padding="10" Background="White" CornerRadius="5" Margin="5" BorderBrush="#E0E0E0" BorderThickness="1" Height="250" Width="240">
                                             <StackPanel>
                                                 <Rectangle Height="100" Fill="#DDD" Margin="0,0,0,10"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding NomVin}" TextWrapping="Wrap" FontSize="14"/>
-                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" Text="{Binding PrixVin, StringFormat='{}{0:C}'}" HorizontalAlignment="Center"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding Nommateriel}" TextWrapping="Wrap" FontSize="14"/>
+                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Descriptif}" TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
+                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" Text="{Binding Prixjournee, StringFormat='{}{0:C}'}" HorizontalAlignment="Center"/>
                                                 <Button Width="25" Height="25" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}"/>
                                             </StackPanel>
                                         </Border>
@@ -134,7 +130,6 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

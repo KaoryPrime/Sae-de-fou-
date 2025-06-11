@@ -20,10 +20,7 @@ namespace Sae.Model
 
         private Etat etat;
         private Categorie categorie;
-        public Materiel() 
-        { 
-        
-        }
+        public Materiel() { }
 
         public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
         {
@@ -143,23 +140,23 @@ namespace Sae.Model
 
         public Etat Etat
         {
-            get 
+            get
             {
-                return etat; 
+                return etat;
             }
-            set 
-            { 
+            set
+            {
                 etat = value;
             }
         }
 
         public Categorie Categorie
         {
-            get 
+            get
             {
                 return categorie;
             }
-            set 
+            set
             {
                 categorie = value;
             }
@@ -220,6 +217,39 @@ namespace Sae.Model
                 }
                 return lesMateriels;
             }
+        }
+
+        public List<Materiel> LoadMaterielData()
+        {
+            string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
+            string query = "SELECT NUMMATERIEL, NUMETAT, NUMTYPE, REFERENCE, NOMMATERIEL, DESCRIPTIF, PRIXJOURNEE FROM MATERIEL";
+
+            List<Materiel> materielList = new List<Materiel>();
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Materiel materiel = new Materiel(
+                            reader.GetInt32(0), // Nummateriel
+                            reader.GetInt32(1), // Numetat
+                            reader.GetInt32(2), // Numtype
+                            reader.GetString(3), // Reference
+                            reader.GetString(4), // Nommateriel
+                            reader.GetString(5), // Descriptif
+                            reader.GetDecimal(6) // Prixjournee
+                        );
+                        materielList.Add(materiel);
+                    }
+                }
+            }
+
+            // Lier la liste des matériels à la ListBox
+            return materielList;
         }
     }
 }
