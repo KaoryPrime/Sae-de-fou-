@@ -36,7 +36,7 @@
                 <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,0,0,10" TextChanged="RechercheTextBox_TextChanged" HorizontalAlignment="Left" />
 
 
-                <DataGrid IsReadOnly="True" x:Name="dgmateriel" ItemsSource="{Binding LesMaterieles}" AutoGenerateColumns="False" Height="400">
+                <DataGrid IsReadOnly="True" x:Name="dgmateriel" ItemsSource="{Binding LesMaterieles}" AutoGenerateColumns="False" Height="400" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Matériel" Binding="{Binding Nommateriel}" Width="2*"/>
                         <DataGridTextColumn Header="Catégorie" Binding="{Binding Categorie.Libellecategorie}" Width="*"/>
