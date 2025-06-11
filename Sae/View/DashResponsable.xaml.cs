@@ -68,8 +68,8 @@ namespace Sae.View
                     string message = $"Voulez-vous vraiment traiter le matériel :\n\n" +
                                    $"Nom: {materielSelectionne.Nommateriel}\n" +
                                    $"Référence: {materielSelectionne.Reference}\n" +
-                                   $"État actuel: {materielSelectionne.Etat?.Libelleetat}\n" +
-                                   $"Catégorie: {materielSelectionne.Categorie?.Libellecategorie}";
+                                   $"État actuel: {materielSelectionne.Etat.Libelleetat}\n" +
+                                   $"Catégorie: {materielSelectionne.Categorie.Libellecategorie}";
 
                     MessageBoxResult result = MessageBox.Show(message, "Confirmation",
                         MessageBoxButton.YesNo, MessageBoxImage.Question);
