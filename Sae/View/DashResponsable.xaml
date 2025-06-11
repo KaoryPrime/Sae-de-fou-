@@ -1,83 +1,149 @@
-﻿<UserControl x:Class="Sae.View.DashResponsable"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Sae.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Height="720" Width="1280" Background="#F5F5F5">
+﻿<UserControl
+    x:Class="Sae.View.DashResponsable"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Sae.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="1280"
+    Height="720"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="#F5F5F5"
+    mc:Ignorable="d">
     <DockPanel>
-        <!-- Bandeau rouge en haut -->
-        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+        <!--  Bandeau rouge en haut  -->
+        <Border
+            Height="60"
+            Background="#D50000"
+            DockPanel.Dock="Top">
             <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="LOXAM - Gestion Réservations" 
-                           Foreground="White" FontSize="20" FontWeight="Bold"
-                           VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock Text="👤 Responsable: Marie Martin" Foreground="White" VerticalAlignment="Center"/>
-                    <Button x:Name="ButDeconnexion" Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="LOXAM - Gestion Réservations" />
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="👤 Responsable: Marie Martin" />
+                    <Button
+                        x:Name="ButDeconnexion"
+                        Padding="10,5"
+                        Background="#FF5252"
+                        Content="Déconnexion"
+                        Foreground="White" />
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Contenu principal -->
+        <!--  Contenu principal  -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="40">
 
-                <!-- Titre -->
-                <TextBlock Text="Matériels à réviser/réparer" FontSize="20" FontWeight="Bold" Foreground="#D50000" />
+                <!--  Titre  -->
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="#D50000"
+                    Text="Matériels à réviser/réparer" />
 
-                <!-- Champ de recherche -->
-                <TextBox x:Name="RechercheTextBox" Width="300" Height="30" Margin="0,10,0,10" TextChanged="RechercheTextBox_TextChanged"/>
+                <!--  Champ de recherche  -->
+                <TextBox
+                    x:Name="RechercheTextBox"
+                    Width="300"
+                    Height="30"
+                    Margin="0,10,0,10"
+                    TextChanged="RechercheTextBox_TextChanged" />
 
 
-                <DataGrid IsReadOnly="True" x:Name="dgmateriel" ItemsSource="{Binding LesMaterieles}" AutoGenerateColumns="False" Height="400" >
+                <DataGrid
+                    x:Name="dgmateriel"
+                    Height="400"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding LesMaterieles}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Matériel" Binding="{Binding Nommateriel}" Width="2*"/>
-                        <DataGridTextColumn Header="Catégorie" Binding="{Binding Categorie.Libellecategorie}" Width="*"/>
-                        <DataGridTextColumn Header="État" Binding="{Binding Etat.Libelleetat}" Width="*">
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding Nommateriel}"
+                            Header="Matériel" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Categorie.Libellecategorie}"
+                            Header="Catégorie" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Etat.Libelleetat}"
+                            Header="État">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="À réviser">
-                                            <Setter Property="Background" Value="Orange"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                            <Setter Property="Padding" Value="5,2"/>
+                                            <Setter Property="Background" Value="Orange" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Padding" Value="5,2" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="En maintenance">
+                                            <Setter Property="Background" Value="#FF5D5D5D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Padding" Value="5,2" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="En location">
+                                            <Setter Property="Background" Value="#FF003167" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Padding" Value="5,2" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="Disponible">
+                                            <Setter Property="Background" Value="Green" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Padding" Value="5,2" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="À réparer">
-                                            <Setter Property="Background" Value="Red"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                            <Setter Property="Padding" Value="5,2"/>
+                                            <Setter Property="Background" Value="Red" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Padding" Value="5,2" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Référence" Binding="{Binding Reference}" Width="*"/>
-                        <DataGridTemplateColumn Header="Actions" Width="*">
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Reference}"
+                            Header="Référence" />
+                        <DataGridTemplateColumn Width="*" Header="Actions">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Traiter" 
-                            Background="#007ACC" 
-                            Foreground="White" 
-                            BorderThickness="0" 
-                            Padding="10,5" 
-                            Cursor="Hand"
-                            Click="TraiterMateriel_Click"
-                            Tag="{Binding}"/>
+                                    <Button
+                                        Padding="10,5"
+                                        Background="#007ACC"
+                                        BorderThickness="0"
+                                        Click="TraiterMateriel_Click"
+                                        Content="Traiter"
+                                        Cursor="Hand"
+                                        Foreground="White"
+                                        Tag="{Binding}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <!-- Tableau -->
+                <!--  Tableau  -->
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

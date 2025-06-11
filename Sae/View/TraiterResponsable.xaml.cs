@@ -147,14 +147,13 @@ namespace Sae.View
                 }
 
                 // Mettre à jour l'état du matériel
-                //materielSelectionne.Idetat = nouvelIdEtat;
+                materielSelectionne.Numetat = nouvelIdEtat;
 
                 // Récupérer les commentaires
                 string commentaires = TxtCommentaires.Text.Trim();
 
                 // Appeler la méthode de mise à jour (à adapter selon votre modèle)
-                bool succes = true;
-                //bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, commentaires);
+                bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, commentaires);
 
                 if (succes)
                 {

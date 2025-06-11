@@ -183,6 +183,36 @@ namespace Sae.Model
         {
             return base.ToString();
         }
+
+
+        public bool UpdateEtat(int nouvelIdEtat, string commentaires)
+        {
+            try
+            {
+                string query = "UPDATE materiel SET numetat = @numetat WHERE nummateriel = @nummateriel";
+                using (var cmd = new NpgsqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@numetat", nouvelIdEtat);
+                    cmd.Parameters.AddWithValue("@nummateriel", this.Nummateriel);
+
+                    int rowsAffected = DataAccess.Instance.ExecuteSet(cmd);
+
+                    if (rowsAffected > 0)
+                    {
+                        this.Numetat = nouvelIdEtat;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                LogError.Log(ex, "Erreur mise à jour état matériel");
+                return false;
+            }
+        }
+
+
         public List<Materiel> FindMaterielResp()
         {
             List<Materiel> lesMateriels = new List<Materiel>();
@@ -192,8 +222,7 @@ namespace Sae.Model
             FROM materiel m 
             LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
             LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
-            LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE
-            Where e.NUMETAT=8 or e.NUMETAT=7;"))
+            LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE;"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
