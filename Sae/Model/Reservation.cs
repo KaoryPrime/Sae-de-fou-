@@ -20,6 +20,12 @@ namespace Sae.Model
         private DateTime? dateRetourReelleLocation;
         private decimal prixTotal;
 
+        // --- Champs privés pour les nouvelles propriétés ---
+        private string clientNom;
+        private string clientPrenom;
+        private string materielNom;
+
+
         public Reservation() { }
 
         public Reservation(int numReservation, int numMateriel, int numEmploye, int numClient, DateTime? dateReservation, DateTime? dateDebutLocation, DateTime? dateRetourEffectiveLocation, DateTime? dateRetourReelleLocation, decimal prixTotal)
@@ -35,53 +41,50 @@ namespace Sae.Model
             this.prixTotal = prixTotal;
         }
 
+        // --- Getters et Setters dans votre style ---
         public int NumReservation
         {
             get
-            {
+            { 
                 return numReservation;
             }
-
-            set
+            set 
             {
-                numReservation = value;
+                numReservation = value; 
             }
         }
 
         public int NumMateriel
         {
-            get
+            get 
             {
-                return numMateriel;
+                return numMateriel; 
             }
-
-            set
+            set 
             {
-                numMateriel = value;
+                numMateriel = value; 
             }
         }
 
         public int NumEmploye
         {
-            get
+            get 
             {
-                return numEmploye;
+                return numEmploye; 
             }
-
-            set
+            set 
             {
-                numEmploye = value;
+                numEmploye = value; 
             }
         }
 
         public int NumClient
         {
-            get
+            get 
             {
-                return numClient;
+                return numClient; 
             }
-
-            set
+            set 
             {
                 numClient = value;
             }
@@ -89,102 +92,65 @@ namespace Sae.Model
 
         public DateTime? DateReservation
         {
-            get
+            get 
             {
                 return dateReservation;
             }
-
             set
-            {
+            { 
                 dateReservation = value;
             }
         }
 
         public DateTime? DateDebutLocation
         {
-            get
-            {
-                return dateDebutLocation;
+            get 
+            { 
+                return dateDebutLocation; 
             }
-
-            set
-            {
+            set 
+            { 
                 dateDebutLocation = value;
             }
         }
 
         public DateTime? DateRetourEffectiveLocation
         {
-            get
-            {
-                return dateRetourEffectiveLocation;
-            }
-
-            set
-            {
-                dateRetourEffectiveLocation = value;
-            }
+            get { return dateRetourEffectiveLocation; }
+            set { dateRetourEffectiveLocation = value; }
         }
 
         public DateTime? DateRetourReelleLocation
         {
-            get
-            {
-                return dateRetourReelleLocation;
-            }
-
-            set
-            {
-                dateRetourReelleLocation = value;
-            }
+            get { return dateRetourReelleLocation; }
+            set { dateRetourReelleLocation = value; }
         }
 
         public decimal PrixTotal
         {
-            get
-            {
-                return this.prixTotal;
-            }
-
-            set
-            {
-                this.prixTotal = value;
-            }
+            get { return this.prixTotal; }
+            set { this.prixTotal = value; }
         }
 
-        public override bool Equals(object? obj)
+        // --- Getters et Setters pour les nouvelles propriétés ---
+        public string ClientNom
         {
-            return obj is Reservation reservation &&
-                   this.numReservation == reservation.numReservation &&
-                   this.numMateriel == reservation.numMateriel &&
-                   this.numEmploye == reservation.numEmploye &&
-                   this.numClient == reservation.numClient &&
-                   this.dateReservation == reservation.dateReservation &&
-                   this.dateDebutLocation == reservation.dateDebutLocation &&
-                   this.dateRetourEffectiveLocation == reservation.dateRetourEffectiveLocation &&
-                   this.dateRetourReelleLocation == reservation.dateRetourReelleLocation &&
-                   this.prixTotal == reservation.prixTotal;
+            get { return clientNom; }
+            set { clientNom = value; }
+        }
+        public string ClientPrenom
+        {
+            get { return clientPrenom; }
+            set { clientPrenom = value; }
+        }
+        public string MaterielNom
+        {
+            get { return materielNom; }
+            set { materielNom = value; }
         }
 
-        public override int GetHashCode()
-        {
-            HashCode hash = new HashCode();
-            hash.Add(this.numReservation);
-            hash.Add(this.numMateriel);
-            hash.Add(this.numEmploye);
-            hash.Add(this.numClient);
-            hash.Add(this.dateReservation);
-            hash.Add(this.dateDebutLocation);
-            hash.Add(this.dateRetourEffectiveLocation);
-            hash.Add(this.dateRetourReelleLocation);
-            hash.Add(this.prixTotal);
-            return hash.ToHashCode();
-        }
+        // ... (Gardez vos méthodes Equals, GetHashCode, et ToString existantes ici)
 
-        public override string? ToString()
-        {
-            return base.ToString();
-        }
         public List<Reservation> FindAll()
         {
             List<Reservation> lesReservations = new List<Reservation>();
@@ -193,7 +159,6 @@ namespace Sae.Model
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    // Créer un nouvel objet Reservation pour chaque ligne du DataTable et l'ajouter à la liste
                     lesReservations.Add(new Reservation(
                         (int)dr["NUMRESERVATION"],
                         (int)dr["NUMMATERIEL"],
@@ -208,6 +173,43 @@ namespace Sae.Model
                 }
                 return lesReservations;
             }
+        }
+
+        // --- NOUVELLE MÉTHODE ---
+        public List<Reservation> FindAllWithDetails()
+        {
+            List<Reservation> lesReservations = new List<Reservation>();
+            string query = @"
+                SELECT r.*, c.NOMCLIENT, c.PRENOMCLIENT, m.NOMMATERIEL
+                FROM reservation r
+                LEFT JOIN client c ON r.NUMCLIENT = c.NUMCLIENT
+                LEFT JOIN materiel m ON r.NUMMATERIEL = m.NUMMATERIEL
+                ORDER BY r.DATERESERVATION DESC";
+
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand(query))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Reservation reservation = new Reservation(
+                        (int)dr["NUMRESERVATION"],
+                        (int)dr["NUMMATERIEL"],
+                        (int)dr["NUMEMPLOYE"],
+                        (int)dr["NUMCLIENT"],
+                        dr["DATERESERVATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERESERVATION"],
+                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATEDEBUTLOCATION"],
+                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOUREFFECTIVELOCATION"],
+                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOURREELLELOCATION"],
+                        (decimal)dr["PRIXTOTAL"]
+                    );
+                    reservation.ClientNom = dr["NOMCLIENT"] as string;
+                    reservation.ClientPrenom = dr["PRENOMCLIENT"] as string;
+                    reservation.MaterielNom = dr["NOMMATERIEL"] as string;
+
+                    lesReservations.Add(reservation);
+                }
+            }
+            return lesReservations;
         }
     }
 }

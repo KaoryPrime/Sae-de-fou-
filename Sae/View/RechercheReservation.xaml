@@ -5,45 +5,106 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Height="720" Width="1280" Background="#F5F5F5">
-
+             d:DesignHeight="720" d:DesignWidth="1280"
+             Background="#F5F5F5">
     <DockPanel>
-        <!-- Bandeau rouge en haut -->
-        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+        <Border Height="60" Background="#D50000" DockPanel.Dock="Top">
             <Grid Margin="10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="LOXAM - Recherche Matériel" 
-                       Foreground="White" FontSize="20" FontWeight="Bold"
-                       VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
-                </StackPanel>
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Text="LOXAM - Recherche de Réservations" />
             </Grid>
         </Border>
-        <Border Padding="40" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" CornerRadius="12" Height="346" Width="780" Margin="0,50,0,0">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="15" Opacity="0.3" ShadowDepth="10" Color="Black" />
-            </Border.Effect>
-            <StackPanel>
-                <!-- Logo Section -->
-                <StackPanel  HorizontalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" Foreground="#E60000" Text="Réservation trouvés" />
-                </StackPanel>
-                <!-- Form Section -->
-                <StackPanel>
-                    <!-- Username -->
-                    <DataGrid x:Name="GdRechercheReserv" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged_1"  Background="White" Height="211" Width="720" >
-                    </DataGrid>
-                    <!-- Login Button -->
-                </StackPanel>
-                <!-- Footer -->
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40">
+
+                <TextBlock FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#D50000"
+                           Text="Rechercher une réservation" />
+
+                <TextBox x:Name="RechercheTextBox"
+                         Width="300"
+                         Height="30"
+                         Margin="0,10,0,10"
+                         TextChanged="RechercheTextBox_TextChanged" 
+                         HorizontalAlignment="Left" />
+
+
+                <DataGrid x:Name="dgReservations"
+                          Height="Auto"
+                          MinHeight="400"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding LesReservations}"
+                          GridLinesVisibility="None"
+                          HeadersVisibility="Column"
+                          RowHeaderWidth="0"
+                          AlternatingRowBackground="#F8F9FA"
+                          Background="White"
+                          BorderBrush="#E1E5E9"
+                          BorderThickness="1"
+                          CanUserResizeRows="False"
+                          CanUserReorderColumns="False"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          FontFamily="Segoe UI"
+                          FontSize="13">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F8F9FA"/>
+                            <Setter Property="Foreground" Value="#495057"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="Padding" Value="12,8"/>
+                            <Setter Property="BorderBrush" Value="#DEE2E6"/>
+                            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="BorderBrush" Value="#E9ECEF"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F1F3F4"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="BorderBrush" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="N° Réservation" Binding="{Binding NumReservation}" Width="Auto"/>
+                        <DataGridTextColumn Header="Client" Binding="{Binding ClientNom}" Width="*"/>
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding ClientPrenom}" Width="*"/>
+                        <DataGridTextColumn Header="Matériel" Binding="{Binding MaterielNom}" Width="2*"/>
+                        <DataGridTextColumn Header="Date de réservation" Binding="{Binding DateReservation, StringFormat='dd/MM/yyyy'}" Width="*"/>
+                        <DataGridTextColumn Header="Début location" Binding="{Binding DateDebutLocation, StringFormat='dd/MM/yyyy'}" Width="*"/>
+                        <DataGridTextColumn Header="Retour prévu" Binding="{Binding DateRetourEffectiveLocation, StringFormat='dd/MM/yyyy'}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button x:Name="ButtonRetour" 
+                        Content="Retour" 
+                        Click="ButtonRetour_Click" 
+                        HorizontalAlignment="Left" 
+                        Margin="0,20,0,0" 
+                        Padding="20,8" 
+                        FontSize="14"
+                        Background="#6c757d" 
+                        Foreground="White" 
+                        BorderThickness="0"/>
             </StackPanel>
-        </Border>
+        </ScrollViewer>
     </DockPanel>
-
-
-
 </UserControl>
