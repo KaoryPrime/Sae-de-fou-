@@ -37,7 +37,7 @@
                         Padding="10,5"
                         Background="#FF5252"
                         Content="Déconnexion"
-                        Foreground="White" />
+                        Foreground="White" Click="ButDeconnexion_Click" />
                 </StackPanel>
             </Grid>
         </Border>

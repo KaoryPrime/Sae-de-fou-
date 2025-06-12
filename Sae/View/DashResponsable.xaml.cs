@@ -81,5 +81,13 @@ namespace Sae.View
                 MessageBox.Show("Une erreur est survenue lors du traitement du matériel.","Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            Window currentWindow = Window.GetWindow(this);
+            loginWindow.Show();
+            currentWindow?.Close();
+        }
     }
 }
