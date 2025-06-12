@@ -127,73 +127,20 @@
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Width="*" Binding="{Binding Reference}" Header="Référence" />
+                                <DataGridTemplateColumn Width="*" Header="Actions">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Padding="10,5" Background="#007ACC" BorderThickness="0" Click="TraiterMateriel_Click" Content="Traiter" Cursor="Hand" Foreground="White" Tag="{Binding}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
                 </Border>
 
                 <!-- Contract Details Section -->
-                <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1" 
-                       Padding="20" Margin="0,0,0,20">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Text="Contrat de location" 
-                                      Style="{StaticResource SectionHeaderStyle}" Margin="0"/>
-                        </StackPanel>
-
-                        <!-- Contract Info Grid -->
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Contract info goes here, same structure as in original -->
-                        </Grid>
-
-                        <!-- Return Details -->
-                        <Grid Margin="0,20,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Return details go here -->
-                        </Grid>
-
-                        <!-- Material State -->
-                        <StackPanel Margin="0,0,0,0">
-                            <TextBlock Text="État général du matériel" FontSize="12" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="ComboBoxEtat" Height="30" BorderBrush="#CCC" BorderThickness="1">
-                                <ComboBoxItem Content="-- Sélectionner --" IsSelected="True"/>
-                                <ComboBoxItem Content="Disponible"/>
-                                <ComboBoxItem Content="À réviser"/>
-                                <ComboBoxItem Content="À réparer"/>
-                            </ComboBox>
-                        </StackPanel>
-
-                        <!-- Comments -->
-                        <StackPanel Margin="0,20,0,0">
-                            <TextBlock Text="Commentaires et observations" FontSize="12" Margin="0,0,0,5"/>
-                            <TextBox x:Name="CommentairesTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
-                                    VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
-                                    Foreground="Gray" Padding="5"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- Action Buttons -->
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
-                    <Button x:Name="ButtonValider" Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0" Click="ButtonValider_Click"/>
-                    <Button x:Name="ButtonReporter" Content="⏰ Reporter le retour" Style="{StaticResource PostponeButtonStyle}" Margin="0,0,10,0" Click="ButtonReporter_Click"/>
-                    <Button x:Name="ButtonAnnuler" Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}" Click="ButtonAnnuler_Click"/>
-                </StackPanel>
+                
             </Grid>
         </ScrollViewer>
     </Grid>
