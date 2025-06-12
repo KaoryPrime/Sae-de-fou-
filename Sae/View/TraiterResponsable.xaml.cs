@@ -22,6 +22,22 @@ namespace Sae.View
     public partial class TraiterResponsable : UserControl
     {
         private Materiel materielSelectionne;
+
+        private static readonly Dictionary<string, string> MaterialImageMap = new Dictionary<string, string>
+        {
+            { "Nacelle articulée", "Nacelle" },
+            { "Nacelle 17 mètre", "Nacelle" },
+            { "Dresse bordure gazon", "dresse" },
+            { "Remorque basculante", "remorque" },
+            { "Broyeur de ronces", "remorque" },
+            { "Bétonnière 160L", "betoniere" },
+            { "Perceuse sans fil", "perceuse" },
+            { "Perceuse professionnelle", "perceuse" },
+            { "Marteau piqueur 30kg", "piqueur" },
+            { "Meuleuse 125mm", "meuleuse" },
+            { "Meuleuse d'angle 230mm", "meuleuse" }
+        };
+
         public TraiterResponsable(Materiel materiel)
         {
             InitializeComponent();
@@ -75,81 +91,29 @@ namespace Sae.View
         {
             try
             {
-                // Vérifier que le matériel existe
-                if (materielSelectionne == null || string.IsNullOrEmpty(materielSelectionne.Nommateriel))
-                {
-                    return;
-                }
-
                 PictureTraiter.Content = null;
 
-                // Créer et configurer l'image selon le matériel
-                Image machineImage = new Image();
-                machineImage.Width = 300;
-                machineImage.Height = 300;
-                machineImage.Stretch = Stretch.Uniform;
+                if (materielSelectionne == null || string.IsNullOrEmpty(materielSelectionne.Nommateriel))
+                    return;
 
-                switch (materielSelectionne.Nommateriel)
+                string imageName = "";
+                if (MaterialImageMap.TryGetValue(materielSelectionne.Nommateriel, out imageName))
                 {
-                    case "Nacelle articulée":
-                        // Charger l'image de la nacelle articulée
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/Nacelle.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
+                    string imagePath = $"pack://application:,,,/img/{imageName}.jpg";
 
-                    case "Nacelle 17 mètre":
-                        // Charger l'image de la nacelle 17m
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/Nacelle.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
+                    Image machineImage = new Image
+                    {
+                        Width = 300,
+                        Height = 300,
+                        Stretch = Stretch.Uniform,
+                        Source = new BitmapImage(new Uri(imagePath))
+                    };
 
-                    case "Dresse bordure gazon":
-                        // Charger l'image du dresse bordure
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/dresse.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Remorque basculante":
-                        // Charger l'image de la remorque
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/remorque.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Bétonnière 160L":
-                        // Charger l'image de la bétonnière
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/betoniere.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Perceuse sans fil":
-                    case "Perceuse professionnelle":
-                        // Charger l'image de la perceuse
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/perceuse.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Marteau piqueur 30kg":
-                        // Charger l'image du marteau piqueur
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/piqueur.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Broyeur de ronces":
-                        // Charger l'image du broyeur
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/remorque.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    case "Meuleuse 125mm":
-                    case "Meuleuse d'angle 230mm":
-                        // Charger l'image de la meuleuse
-                        machineImage.Source = new BitmapImage(new Uri("pack://application:,,,/img/meuleuse.jpg"));
-                        PictureTraiter.Content = machineImage;
-                        break;
-
-                    default:
-                        System.Diagnostics.Debug.WriteLine($"Matériel '{materielSelectionne.Nommateriel}' non reconnu");
-                        break;
+                    PictureTraiter.Content = machineImage;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Matériel '{materielSelectionne.Nommateriel}' non reconnu");
                 }
             }
             catch (Exception ex)
@@ -158,6 +122,8 @@ namespace Sae.View
                 LogError.Log(ex, "Erreur lors du chargement de l'image du matériel");
             }
         }
+
+
 
         private void DefinieCouleurEtat()
         {
@@ -268,7 +234,6 @@ namespace Sae.View
         {
             MessageBoxResult result = MessageBox.Show("Êtes-vous sûr de vouloir annuler ? Les modifications non sauvegardées seront perdues.",
                 "Confirmation", MessageBoxButton.YesNo,MessageBoxImage.Question);
-
             if (result == MessageBoxResult.Yes)
             {
                 RetournerAuDashboard();
