@@ -89,7 +89,7 @@ namespace Sae.View
                 {
                     MaterielSelectionne = materielSelectionne;
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                    mainWindow.MainContentContainer.Content = new TraiterResponsable(materielSelectionne);
+                    mainWindow.MainContentContainer.Content = new TraiterEmploye(materielSelectionne);   
                     ChargeData();
                 }
             }
