@@ -31,10 +31,6 @@
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        Foreground="White"
-                        Text="Employé: Jean Dupont" />
                     <Button
                         x:Name="ButDeconnexion"
                         Padding="10,5"

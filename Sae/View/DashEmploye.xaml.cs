@@ -40,12 +40,14 @@ namespace Sae.View
 
         private void RechercherButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new RechercheReservation();
         }
 
         private void RetourButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new RetourMateriel();
         }
 
         private void CreerClientButton_Click(object sender, RoutedEventArgs e)
