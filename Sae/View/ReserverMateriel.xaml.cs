@@ -16,14 +16,13 @@ namespace Sae.View
     public partial class ReserverMateriel : UserControl
     {
         public ObservableCollection<Materiel> LesMaterieles { get; set; }
-        public ICollectionView MaterielView { get; set; }
+        
         public ReserverMateriel()
         {
             InitializeComponent();
-            LesMaterieles = new ObservableCollection<Materiel>();
-            MaterielView = CollectionViewSource.GetDefaultView(LesMaterieles);
-            MaterielView.Filter = RechercheMotClefMateriel;
             ChargeData();
+            MaterielListBox.Items.Filter = RechercheMotClefMateriel;
+            MotCleTextBox.TextChanged += MotCleTextBox_TextChanged;
         }
 
         private void ButtonRetour_Click(object sender, RoutedEventArgs e)
@@ -49,109 +48,25 @@ namespace Sae.View
         }
         private bool RechercheMotClefMateriel(object obj)
         {
+            if (String.IsNullOrEmpty(MotCleTextBox.Text))
+                return true;
             Materiel unMateriel = obj as Materiel;
-            if (unMateriel == null)
-                return false;
-            // Filtre par nom de vin
-            if (MotCleTextBox != null && !String.IsNullOrEmpty(MotCleTextBox.Text))
-            {
-                if (String.IsNullOrEmpty(unMateriel.Nommateriel) ||
-                    !unMateriel.Nommateriel.ToLower().Contains(MotCleTextBox.Text.ToLower()))
-                {
-                    return false;
-                }
-            }
-            // Filtre par type de vin - CORRIGÉ
-            if (CategorieComboBox != null && CategorieComboBox.SelectedItem is ComboBoxItem categorieItem &&
-                categorieItem.Content.ToString() != "Toutes les catégories")
-            {
-                string categorieSelectionne = categorieItem.Content.ToString();
-                // Mapping des types selon votre logique métier
-                // Adaptez cette partie selon la structure de votre classe Vin
-                string categorieMateriel = "";
-                switch (unMateriel.Numtype)
-                {
-                    case 1:
-                        categorieMateriel = "Élévation";
-                        break;
-                    case 2:
-                        categorieMateriel = "Espace vert";
-                        break;
-                    case 3:
-                        categorieMateriel = "Outillage électroportatif";
-                        break;
-                    case 4:
-                        categorieMateriel = "Matériel de chantier";
-                        break;
-                    case 5:
-                        categorieMateriel = "Transport";
-                        break;
-                    default:
-                        categorieMateriel = "";
-                        break;
-                }
-                if (!categorieMateriel.Equals(categorieSelectionne, StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-            }
-            // Filtre par appellation - CORRIGÉ
-            if (TypeComboBox != null && TypeComboBox.SelectedItem is ComboBoxItem typeItem &&
-                typeItem.Content.ToString() != "Tous les types")
-            {
-                string typeSelectionnee = typeItem.Content.ToString();
-                string typeMateriel = "";
-                if (unMateriel.Numtype != null)
-                {
-                    switch (unMateriel.Numtype)
-                    {
-                        case 1:
-                            typeMateriel = "Bétonnière";
-                            break;
-                        case 2:
-                            typeMateriel = "Marteau piqueur";
-                            break;
-                        case 3:
-                            typeMateriel = "Meuleuse";
-                            break;
-                        case 4:
-                            typeMateriel = "Nacelle";
-                            break;
-                        case 5:
-                            typeMateriel = "Perceuse";
-                            break;
-                        case 6:
-                            typeMateriel = "Taille entretien";
-                            break;
-                        case 7:
-                            typeMateriel = "Transports végétaux";
-                            break;
-                        default:
-                            typeMateriel = "";
-                            break;
-                    }
-                }
-                if (!typeMateriel.Equals(typeSelectionnee, StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return (unMateriel.Nommateriel.StartsWith(MotCleTextBox.Text, StringComparison.OrdinalIgnoreCase));
         }
 
-        private void RefreshRecherche(object sender, TextChangedEventArgs e)
+        private void MotCleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MaterielView?.Refresh();
+            CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Refresh();
         }
 
         private void CategorieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MaterielView?.Refresh();
+            CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Refresh();
         }
 
         private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MaterielView?.Refresh();
+            CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Refresh();
         }
     }
 }
