@@ -5,51 +5,44 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-              Height="720" Width="1280"
-             Background="#F5F5F5">
+             d:DesignHeight="450" d:DesignWidth="800" Height="720" Width="1280" Background="#F5F5F5">
 
-    <Grid Background="#FFF3F3F3">
-
-        <Border
-    Padding="40"
-    HorizontalAlignment="Center"
-    VerticalAlignment="Top"
-    Background="White"
-    CornerRadius="12" Height="346" Width="980" Margin="0,334,0,0">
+    <DockPanel>
+        <!-- Bandeau rouge en haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="LOXAM - Recherche Matériel" 
+                       Foreground="White" FontSize="20" FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border Padding="40" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" CornerRadius="12" Height="346" Width="780" Margin="0,50,0,0">
             <Border.Effect>
-                <DropShadowEffect
-            BlurRadius="15"
-            Opacity="0.3"
-            ShadowDepth="10"
-            Color="Black" />
+                <DropShadowEffect BlurRadius="15" Opacity="0.3" ShadowDepth="10" Color="Black" />
             </Border.Effect>
-
             <StackPanel>
                 <!-- Logo Section -->
                 <StackPanel  HorizontalAlignment="Center">
-                    <TextBlock
-                HorizontalAlignment="Center"
-                FontSize="32"
-                FontWeight="Bold"
-                Foreground="#E60000"
-                Text="Réservation trouvés" />
+                    <TextBlock HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" Foreground="#E60000" Text="Réservation trouvés" />
                 </StackPanel>
-
                 <!-- Form Section -->
                 <StackPanel>
                     <!-- Username -->
-                    <DataGrid x:Name="GdRechercheReserv" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged_1"  Background="White" Height="211" Width="918" >
+                    <DataGrid x:Name="GdRechercheReserv" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged_1"  Background="White" Height="211" Width="720" >
                     </DataGrid>
-
                     <!-- Login Button -->
                 </StackPanel>
-
                 <!-- Footer -->
-
             </StackPanel>
         </Border>
-
-    </Grid>
+    </DockPanel>
 
 
 

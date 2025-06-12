@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Height="720" Width="1280" Background="#F5F5F5">
     <UserControl.Resources>
         <Style x:Key="RedHeaderStyle" TargetType="Border">
             <Setter Property="Background" Value="#E60000"/>
@@ -76,21 +76,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Border Grid.Row="0" Style="{StaticResource RedHeaderStyle}">
-            <Grid>
+        <!-- Bandeau rouge en haut -->
+        <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
+            <Grid Margin="10,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Text="LOXAM - Retour Matériel" 
-                          Style="{StaticResource WhiteTextStyle}" 
-                          FontSize="18" Margin="20,0"/>
-
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0">
-                    <Button Content="← Retour" Background="#0066CC" Foreground="White" 
-                           BorderBrush="#0066CC" Padding="10,5" FontWeight="Bold"/>
+                <TextBlock Text="LOXAM - Retour Matériel" 
+                   Foreground="White" FontSize="20" FontWeight="Bold"
+                   VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -123,16 +120,13 @@
                 <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1" 
                        Padding="20" Margin="0,0,0,20">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Contrat de location - REF-2024-001" 
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="Contrat de location" 
                                       Style="{StaticResource SectionHeaderStyle}" Margin="0"/>
-                            <Border Background="#FFC107" Padding="5,2" Margin="10,0" CornerRadius="3">
-                                <TextBlock Text="RETOUR EN RETARD" FontSize="10" FontWeight="Bold"/>
-                            </Border>
                         </StackPanel>
 
                         <!-- Contract Info Grid -->
-                        <Grid Margin="0,10">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -158,7 +152,7 @@
                         </Grid>
 
                         <!-- Material State -->
-                        <StackPanel Margin="0,20,0,0">
+                        <StackPanel Margin="0,0,0,0">
                             <TextBlock Text="État général du matériel" FontSize="12" Margin="0,0,0,5"/>
                             <ComboBox Height="30" BorderBrush="#CCC" BorderThickness="1">
                                 <ComboBoxItem Content="-- Sélectionner --" IsSelected="True"/>
@@ -177,19 +171,6 @@
                                     VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
                                     Text="Détaillez l'état du matériel, les dommages éventuels, les réparations nécessaires..."
                                     Foreground="Gray" Padding="5"/>
-                        </StackPanel>
-
-                        <!-- Photos Section -->
-                        <StackPanel Margin="0,20,0,0">
-                            <TextBlock Text="Photos du matériel (optionnel)" FontSize="12" Margin="0,0,0,10"/>
-                            <Border BorderBrush="#DDD" BorderThickness="2" Height="100" Background="#F8F9FA">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="📷 Cliquez pour ajouter des photos" 
-                                              FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-                                    <TextBlock Text="Format accepté: JPG, PNG (max 5MB par photo)" 
-                                              FontSize="10" Foreground="Gray" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
                         </StackPanel>
                     </StackPanel>
                 </Border>

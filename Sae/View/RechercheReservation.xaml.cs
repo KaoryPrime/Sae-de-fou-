@@ -34,5 +34,11 @@ namespace Sae.View
         {
 
         }
+
+        private void ButtonRetour_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new DashEmploye();
+        }
     }
 }
