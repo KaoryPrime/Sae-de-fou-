@@ -41,8 +41,8 @@ namespace Sae.View
         {
             if (String.IsNullOrEmpty(RechercheTextBox.Text))
                 return true;
-            Materiel unChien = obj as Materiel;
-            return (unChien.Nommateriel.StartsWith(RechercheTextBox.Text, StringComparison.OrdinalIgnoreCase));
+            Materiel unMateriel = obj as Materiel;
+            return (unMateriel.Nommateriel.StartsWith(RechercheTextBox.Text, StringComparison.OrdinalIgnoreCase));
         }
         private void ChargeData()
         {

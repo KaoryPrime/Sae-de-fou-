@@ -27,15 +27,11 @@
                     FontSize="20"
                     FontWeight="Bold"
                     Foreground="White"
-                    Text="LOXAM - Gestion Réservations" />
+                    Text="LOXAM - Dashboard Responsable" />
                 <StackPanel
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        Foreground="White"
-                        Text="👤 Responsable: Marie Martin" />
                     <Button
                         x:Name="ButDeconnexion"
                         Padding="10,5"

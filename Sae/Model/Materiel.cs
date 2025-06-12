@@ -44,6 +44,7 @@ namespace Sae.Model
             this.nommateriel = nommateriel;
             this.descriptif = descriptif;
             this.prixjournee = prixjournee;
+            this.commentaires = commentaires;
             this.etat = etat;
             this.categorie = categorie;
             this.commentaires = commentaires;
@@ -185,12 +186,13 @@ namespace Sae.Model
                    this.reference == materiel.reference &&
                    this.nommateriel == materiel.nommateriel &&
                    this.descriptif == materiel.descriptif &&
-                   this.prixjournee == materiel.prixjournee;
+                   this.prixjournee == materiel.prixjournee &&
+                   this.commentaires == materiel.commentaires;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.nummateriel, this.numetat, this.numtype, this.reference, this.nommateriel, this.descriptif, this.prixjournee);
+            return HashCode.Combine(this.nummateriel, this.numetat, this.numtype, this.reference, this.nommateriel, this.descriptif, this.prixjournee, this.commentaires);
         }
 
         public override string? ToString()
@@ -256,6 +258,7 @@ namespace Sae.Model
                         (string)dr["NOMMATERIEL"],
                         (string)dr["DESCRIPTIF"],
                         (decimal)dr["PRIXJOURNEE"],
+                        (string)dr["COMMENTAIRES"],
                         etat,
                         categorie,
                         commentaires

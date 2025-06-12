@@ -291,5 +291,11 @@ namespace Sae.View
                 MessageBox.Show("Erreur lors du retour au tableau de bord.","Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void ButtonRetour_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.MainContentContainer.Content = new DashResponsable();
+        }
     }
 }

@@ -19,8 +19,7 @@
                            Foreground="White" FontSize="20" FontWeight="Bold"
                            VerticalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock Text="👤 Responsable: Marie Martin" Foreground="White" VerticalAlignment="Center"/>
-                    <Button x:Name="ButDeconnexion" Content="Déconnexion" Background="#FF5252" Foreground="White" Padding="10,5" Margin="10,0,0,0"/>
+                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
                 </StackPanel>
             </Grid>
         </Border>

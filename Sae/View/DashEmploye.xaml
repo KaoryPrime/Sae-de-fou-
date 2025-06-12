@@ -26,15 +26,11 @@
                     FontSize="20"
                     FontWeight="Bold"
                     Foreground="White"
-                    Text="LOXAM - Gestion Réservations" />
+                    Text="LOXAM - Dashboard Employé" />
                 <StackPanel
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        Foreground="White"
-                        Text="Employé: Jean Dupont" />
                     <Button
                         x:Name="ButDeconnexion"
                         Padding="10,5"

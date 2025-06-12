@@ -86,7 +86,7 @@
                         Background="#E60000"
                         Foreground="White"
                         BorderThickness="0"
-                        Padding="12"
+                        Padding="12,10,12,12"
                         FontSize="16"
                         FontWeight="Medium"
                         Height="40"
