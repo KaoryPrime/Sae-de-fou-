@@ -159,7 +159,7 @@
                         <!-- Comments -->
                         <StackPanel Margin="0,20,0,0">
                             <TextBlock Text="Commentaires et observations" FontSize="12" Margin="0,0,0,5"/>
-                            <TextBox x:Name="CommentairesTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
+                            <TextBox x:Name="TxtCommentaires" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
                                     VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
                                     Foreground="Gray" Padding="5"/>
                         </StackPanel>
@@ -168,8 +168,7 @@
 
                 <!-- Action Buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
-                    <Button x:Name="ButtonValider" Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0"/>
-                    <Button x:Name="ButtonReporter" Content="⏰ Reporter le retour" Style="{StaticResource PostponeButtonStyle}" Margin="0,0,10,0"/>
+                    <Button x:Name="ButtonValider" Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0" Click="ButtonValider_Click"/>
                     <Button x:Name="ButtonAnnuler" Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}" Click="ButtonRetour_Click"/>
                 </StackPanel>
             </Grid>

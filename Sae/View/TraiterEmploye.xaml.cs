@@ -43,16 +43,11 @@ namespace Sae.View
         {
             if (materielSelectionne != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Commentaires récupérés: '{materielSelectionne.Commentaires}'");
-                System.Diagnostics.Debug.WriteLine($"Commentaires est null: {materielSelectionne.Commentaires == null}");
-                System.Diagnostics.Debug.WriteLine($"Commentaires est vide: {string.IsNullOrEmpty(materielSelectionne.Commentaires)}");
-
                 // Remplir les informations du matériel
                 TxtNomMateriel.Text = materielSelectionne.Nommateriel;
                 TxtCategorie.Text = $"Catégorie: {materielSelectionne.Categorie?.Libellecategorie ?? "Non définie"}";
                 TxtReference.Text = $"Référence: {materielSelectionne.Reference ?? "Non définie"}";
                 TxtEtatActuel.Text = materielSelectionne.Etat?.Libelleetat ?? "État inconnu";
-                DefinieCouleurEtat();
 
             }
             else
@@ -64,31 +59,66 @@ namespace Sae.View
                 TxtEtatActuel.Text = "N/A";
             }
         }
-
-        private void DefinieCouleurEtat()
+        private void ButtonValider_Click(object sender, RoutedEventArgs e)
         {
-            if (materielSelectionne?.Etat?.Libelleetat != null)
+            try
             {
-                switch (materielSelectionne.Etat.Libelleetat.ToLower())
+                if (materielSelectionne == null)
                 {
-                    case "à réviser":
-                        TxtEtatActuel.Background = new SolidColorBrush(Colors.Orange);
-                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.White);
-                        break;
-                    case "à réparer":
-                        TxtEtatActuel.Background = new SolidColorBrush(Colors.Red);
-                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.White);
-                        break;
-                    case "disponible":
-                        TxtEtatActuel.Background = new SolidColorBrush(Colors.Green);
-                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.White);
-                        break;
-                    default:
-                        TxtEtatActuel.Background = new SolidColorBrush(Colors.Gray);
-                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.White);
-                        break;
+                    MessageBox.Show("Aucun matériel sélectionné.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Déterminer le nouvel état sélectionné
+                int nouvelIdEtat = 0;
+                string nouvelEtat = "";
+
+                if (ComboBoxEtat.SelectedItem.ToString() == "À réviser")
+                {
+                    nouvelIdEtat = 7;
+                    nouvelEtat = "À réviser";
+                }
+                else if (ComboBoxEtat.SelectedItem.ToString() == "À réparer")
+                {
+                    nouvelIdEtat = 8;
+                    nouvelEtat = "À réparer";
+                }
+                else if (ComboBoxEtat.SelectedItem.ToString() == "Disponible")
+                {
+                    nouvelIdEtat = 1;
+                    nouvelEtat = "Disponible";
+                }
+                else
+                {
+                    MessageBox.Show("Veuillez sélectionner un nouvel état.", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+
+                materielSelectionne.Numetat = nouvelIdEtat;
+
+
+                string commentaires = TxtCommentaires.Text.Trim();
+
+                bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, commentaires);
+
+                if (succes)
+                {
+                    MessageBox.Show($"Le matériel a été mis à jour avec l'état: {nouvelEtat}", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                    mainWindow.MainContentContainer.Content = new RetourMateriel();
+                }
+                else
+                {
+                    MessageBox.Show("Erreur lors de la mise à jour du matériel.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (Exception ex)
+            {
+                LogError.Log(ex, "Erreur lors de la validation du traitement du matériel");
+                MessageBox.Show("Une erreur est survenue lors de la validation.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
     }
 }
