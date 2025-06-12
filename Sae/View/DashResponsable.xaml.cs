@@ -50,6 +50,7 @@ namespace Sae.View
             {
                 LesMaterieles = new ObservableCollection<Materiel>(new Materiel().FindMaterielResp());
                 this.DataContext = this;
+
             }
             catch (Exception ex)
             {
@@ -70,7 +71,7 @@ namespace Sae.View
                 {
                         MaterielSelectionne = materielSelectionne;
                         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                        mainWindow.MainContentContainer.Content = new TraiterResponsable(materielSelectionne);
+                    mainWindow.MainContentContainer.Content = new TraiterResponsable(materielSelectionne);
                         ChargeData();
                 }
             }

@@ -209,7 +209,7 @@ namespace Sae.Model
                 using (var cmd = new NpgsqlCommand(query))
                 {
                     cmd.Parameters.AddWithValue("@numetat", nouvelIdEtat);
-                    cmd.Parameters.AddWithValue("@commentaires", commentaires ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@commentaires", commentaires);
                     cmd.Parameters.AddWithValue("@nummateriel", this.Nummateriel);
 
                     int rowsAffected = DataAccess.Instance.ExecuteSet(cmd);
@@ -236,11 +236,13 @@ namespace Sae.Model
             List<Materiel> lesMateriels = new List<Materiel>();
 
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
-            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE,m.COMMENTAIRES 
-            FROM materiel m 
-            LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
-            LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
-            LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE;"))
+               SELECT m.NUMMATERIEL, m.NUMETAT, m.NUMTYPE, m.REFERENCE, m.NOMMATERIEL, 
+               m.DESCRIPTIF, m.PRIXJOURNEE, m.COMMENTAIRES,
+               e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE
+               FROM materiel m 
+               LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
+               LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
+               LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
@@ -249,6 +251,7 @@ namespace Sae.Model
                     Etat etat = new Etat((int)dr["NUMETAT"], (string)dr["LIBELLEETAT"]);
                     Categorie categorie = new Categorie((int)dr["NUMCATEGORIE"], (string)dr["LIBELLECATEGORIE"]);
 
+                    string commentaires = dr["COMMENTAIRES"] == DBNull.Value ? string.Empty : (string)dr["COMMENTAIRES"];
                     // Créer l'objet Materiel avec les propriétés de navigation
                     lesMateriels.Add(new Materiel(
                         (int)dr["NUMMATERIEL"],

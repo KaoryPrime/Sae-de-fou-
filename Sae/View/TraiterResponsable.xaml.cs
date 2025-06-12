@@ -38,11 +38,7 @@ namespace Sae.View
         {
             if (materielSelectionne != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Commentaires récupérés: '{materielSelectionne.Commentaires}'");
-                System.Diagnostics.Debug.WriteLine($"Commentaires est null: {materielSelectionne.Commentaires == null}");
-                System.Diagnostics.Debug.WriteLine($"Commentaires est vide: {string.IsNullOrEmpty(materielSelectionne.Commentaires)}");
 
-                // Remplir les informations du matériel
                 TxtNomMateriel.Text = materielSelectionne.Nommateriel;
                 TxtCategorie.Text = $"Catégorie: {materielSelectionne.Categorie?.Libellecategorie ?? "Non définie"}";
                 TxtReference.Text = $"Référence: {materielSelectionne.Reference ?? "Non définie"}";
@@ -243,10 +239,10 @@ namespace Sae.View
                     return;
                 }
 
-                // Mettre à jour l'état du matériel
+
                 materielSelectionne.Numetat = nouvelIdEtat;
 
-                // Récupérer les commentaires
+
                 string commentaires = TxtCommentaires.Text.Trim();
 
                 bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, commentaires);
@@ -272,6 +268,7 @@ namespace Sae.View
         {
             MessageBoxResult result = MessageBox.Show("Êtes-vous sûr de vouloir annuler ? Les modifications non sauvegardées seront perdues.",
                 "Confirmation", MessageBoxButton.YesNo,MessageBoxImage.Question);
+
             if (result == MessageBoxResult.Yes)
             {
                 RetournerAuDashboard();
