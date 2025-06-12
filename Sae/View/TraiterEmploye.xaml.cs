@@ -1,18 +1,8 @@
 ﻿using Sae.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Sae.View
 {
@@ -22,11 +12,6 @@ namespace Sae.View
     public partial class TraiterEmploye : UserControl
     {
         private Materiel materielSelectionne;
-        public TraiterEmploye()
-        {
-            InitializeComponent();
-            InitialiserInterface();
-        }
 
         public TraiterEmploye(Materiel materiel)
         {
@@ -34,11 +19,7 @@ namespace Sae.View
             materielSelectionne = materiel;
             InitialiserInterface();
         }
-        private void ButtonRetour_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.MainContentContainer.Content = new RetourMateriel();
-        }
+
         private void InitialiserInterface()
         {
             if (materielSelectionne != null)
@@ -49,16 +30,41 @@ namespace Sae.View
                 TxtReference.Text = $"Référence: {materielSelectionne.Reference ?? "Non définie"}";
                 TxtEtatActuel.Text = materielSelectionne.Etat?.Libelleetat ?? "État inconnu";
 
+                // Afficher les anciens commentaires s'ils existent
+                TxtCommentaires.Text = materielSelectionne.Commentaires;
+
+                // Appliquer la couleur sur le statut
+                DefinieCouleurEtat();
             }
             else
             {
                 // Cas où aucun matériel n'est sélectionné
                 TxtNomMateriel.Text = "Aucun matériel sélectionné";
-                TxtCategorie.Text = "";
-                TxtReference.Text = "";
-                TxtEtatActuel.Text = "N/A";
+                // Désactiver les contrôles si aucun matériel n'est chargé
+                ComboBoxEtat.IsEnabled = false;
+                TxtCommentaires.IsEnabled = false;
+                ButtonValider.IsEnabled = false;
             }
         }
+
+        private void DefinieCouleurEtat()
+        {
+            if (materielSelectionne?.Etat?.Libelleetat != null)
+            {
+                switch (materielSelectionne.Etat.Libelleetat.ToLower())
+                {
+                    case "en location":
+                        TxtEtatActuel.Background = new SolidColorBrush(Colors.DodgerBlue);
+                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.White);
+                        break;
+                    default:
+                        TxtEtatActuel.Background = new SolidColorBrush(Colors.LightGray);
+                        TxtEtatActuel.Foreground = new SolidColorBrush(Colors.Black);
+                        break;
+                }
+            }
+        }
+
         private void ButtonValider_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -69,42 +75,43 @@ namespace Sae.View
                     return;
                 }
 
-                // Déterminer le nouvel état sélectionné
-                int nouvelIdEtat = 0;
-                string nouvelEtat = "";
-
-                if (ComboBoxEtat.SelectedItem.ToString() == "À réviser")
-                {
-                    nouvelIdEtat = 7;
-                    nouvelEtat = "À réviser";
-                }
-                else if (ComboBoxEtat.SelectedItem.ToString() == "À réparer")
-                {
-                    nouvelIdEtat = 8;
-                    nouvelEtat = "À réparer";
-                }
-                else if (ComboBoxEtat.SelectedItem.ToString() == "Disponible")
-                {
-                    nouvelIdEtat = 1;
-                    nouvelEtat = "Disponible";
-                }
-                else
+                // Valider la sélection du ComboBox
+                if (ComboBoxEtat.SelectedIndex <= 0) // Le premier item est "-- Sélectionner --"
                 {
                     MessageBox.Show("Veuillez sélectionner un nouvel état.", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
+                string selection = ((ComboBoxItem)ComboBoxEtat.SelectedItem).Content.ToString();
+                int nouvelIdEtat = 0;
+                string nouvelEtatLibelle = "";
 
-                materielSelectionne.Numetat = nouvelIdEtat;
-
+                switch (selection)
+                {
+                    case "Disponible":
+                        nouvelIdEtat = 1;
+                        nouvelEtatLibelle = "Disponible";
+                        break;
+                    case "À réviser":
+                        nouvelIdEtat = 7;
+                        nouvelEtatLibelle = "À réviser";
+                        break;
+                    case "À réparer":
+                        nouvelIdEtat = 8;
+                        nouvelEtatLibelle = "À réparer";
+                        break;
+                }
 
                 string commentaires = TxtCommentaires.Text.Trim();
 
+                // Appeler la méthode de mise à jour du modèle
                 bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, commentaires);
 
                 if (succes)
                 {
-                    MessageBox.Show($"Le matériel a été mis à jour avec l'état: {nouvelEtat}", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Le matériel '{materielSelectionne.Nommateriel}' a été mis à jour avec l'état : {nouvelEtatLibelle}", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Retourner à la liste des retours
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     mainWindow.MainContentContainer.Content = new RetourMateriel();
                 }
@@ -115,10 +122,22 @@ namespace Sae.View
             }
             catch (Exception ex)
             {
-                LogError.Log(ex, "Erreur lors de la validation du traitement du matériel");
+                LogError.Log(ex, "Erreur lors de la validation du traitement du matériel par l'employé");
                 MessageBox.Show("Une erreur est survenue lors de la validation.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        private void ButtonRetour_Click(object sender, RoutedEventArgs e)
+        {
+            // Demander confirmation avant d'annuler
+            MessageBoxResult result = MessageBox.Show("Êtes-vous sûr de vouloir annuler ? Les modifications non sauvegardées seront perdues.",
+                "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow.MainContentContainer.Content = new RetourMateriel();
+            }
+        }
     }
 }

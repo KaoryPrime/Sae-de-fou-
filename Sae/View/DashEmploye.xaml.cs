@@ -26,10 +26,11 @@ namespace Sae.View
         }
         private void ButDeconnexion_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow();
-            Window currentWindow = Window.GetWindow(this);
-            loginWindow.Show();
-            currentWindow?.Close();
+            // Appeler la méthode de déconnexion de la fenêtre principale
+            if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.SeDeconnecter();
+            }
         }
 
         private void ReserverButton_Click(object sender, RoutedEventArgs e)

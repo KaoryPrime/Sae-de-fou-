@@ -5,173 +5,75 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Height="720" Width="1280" Background="#F5F5F5">
+             d:DesignHeight="720" d:DesignWidth="1280" Background="#F5F5F5">
     <UserControl.Resources>
-        <Style x:Key="RedHeaderStyle" TargetType="Border">
-            <Setter Property="Background" Value="#E60000"/>
-            <Setter Property="Height" Value="50"/>
-        </Style>
-
-        <Style x:Key="WhiteTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-
         <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="#E60000"/>
-            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="Foreground" Value="#D50000"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
         </Style>
-
-        <Style x:Key="InfoLabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Margin" Value="0,0,0,2"/>
-        </Style>
-
-        <Style x:Key="InfoValueStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
-        </Style>
-
-        <Style x:Key="InputStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="BorderBrush" Value="#CCC"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <Style x:Key="ButtonStyle" TargetType="Button">
+        <Style x:Key="ValidateButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="35"/>
             <Setter Property="Padding" Value="15,5"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <Style x:Key="ValidateButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="Background" Value="#28A745"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#28A745"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
-
-        <Style x:Key="PostponeButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
-            <Setter Property="Background" Value="#FFC107"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderBrush" Value="#FFC107"/>
-        </Style>
-
-        <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Style x:Key="CancelButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="15,5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="#DC3545"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DC3545"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- Bandeau rouge en haut -->
+    <DockPanel>
         <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
-            <Grid Margin="10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="LOXAM - Retour Matériel" 
-                   Foreground="White" FontSize="20" FontWeight="Bold"
-                   VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
-                </StackPanel>
+            <Grid Margin="20,0">
+                <TextBlock Text="LOXAM - Traitement du retour matériel" 
+                           Foreground="White" FontSize="20" FontWeight="Bold"
+                           VerticalAlignment="Center"/>
             </Grid>
         </Border>
 
-        <!-- Main Content -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <Grid Margin="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                
-                <!-- Contract Details Section -->
-                <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1" 
-                       Padding="20" Margin="0,0,0,20">
+            <StackPanel Margin="40">
+                <Border Background="White" BorderBrush="#DDD" BorderThickness="1" Padding="30">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Text="Contrat de location" 
-                                      Style="{StaticResource SectionHeaderStyle}" Margin="0"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock x:Name="TxtNomMateriel" Text="Nom du matériel" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,5"/>
-                            <TextBlock x:Name="TxtCategorie" Text="Catégorie" FontSize="14" Foreground="#666666" Margin="0,0,0,3"/>
-                            <TextBlock x:Name="TxtReference" Text="Référence" FontSize="12" Foreground="#666666" Margin="0,0,0,10"/>
+                        <TextBlock Text="Détails du matériel retourné" Style="{StaticResource SectionHeaderStyle}"/>
 
-                            <!-- État actuel -->
-                            <TextBlock x:Name="TxtEtatActuel" Text="État actuel" FontSize="14" FontWeight="Bold" Padding="8,4" Background="#E0E0E0" Foreground="#333333" HorizontalAlignment="Left"/>
-                        </StackPanel>
+                        <TextBlock x:Name="TxtNomMateriel" Text="Nom du matériel" FontSize="22" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                        <TextBlock x:Name="TxtCategorie" Text="Catégorie" FontSize="16" Foreground="#666" Margin="0,0,0,3"/>
+                        <TextBlock x:Name="TxtReference" Text="Référence" FontSize="14" Foreground="#666" Margin="0,0,0,15"/>
+                        <TextBlock Text="État avant retour :" FontSize="12" Foreground="Gray" />
+                        <TextBlock x:Name="TxtEtatActuel" Text="État actuel" FontSize="14" FontWeight="Bold" Padding="8,4" Background="#E0E0E0" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,20"/>
 
-                        <!-- Contract Info Grid -->
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Contract info goes here, same structure as in original -->
-                        </Grid>
+                        <TextBlock Text="Définir le nouvel état du matériel" FontSize="14" Margin="0,10,0,5"/>
+                        <ComboBox x:Name="ComboBoxEtat" Height="35" BorderBrush="#CCC" BorderThickness="1" Padding="5">
+                            <ComboBoxItem Content="-- Sélectionner un état --" IsSelected="True"/>
+                            <ComboBoxItem Content="Disponible"/>
+                            <ComboBoxItem Content="À réviser"/>
+                            <ComboBoxItem Content="À réparer"/>
+                        </ComboBox>
 
-                        <!-- Return Details -->
-                        <Grid Margin="0,20,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Return details go here -->
-                        </Grid>
-
-                        <!-- Material State -->
-                        <StackPanel Margin="0,0,0,0">
-                            <TextBlock Text="État général du matériel" FontSize="12" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="ComboBoxEtat" Height="30" BorderBrush="#CCC" BorderThickness="1">
-                                <ComboBoxItem Content="-- Sélectionner --" IsSelected="True"/>
-                                <ComboBoxItem Content="Disponible"/>
-                                <ComboBoxItem Content="À réviser"/>
-                                <ComboBoxItem Content="À réparer"/>
-                            </ComboBox>
-                        </StackPanel>
-
-                        <!-- Comments -->
-                        <StackPanel Margin="0,20,0,0">
-                            <TextBlock Text="Commentaires et observations" FontSize="12" Margin="0,0,0,5"/>
-                            <TextBox x:Name="TxtCommentaires" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
-                                    VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
-                                    Foreground="Gray" Padding="5"/>
-                        </StackPanel>
+                        <TextBlock Text="Commentaires et observations (optionnel)" FontSize="14" Margin="0,20,0,5"/>
+                        <TextBox x:Name="TxtCommentaires" Height="100" TextWrapping="Wrap" AcceptsReturn="True" 
+                                 VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
+                                 Padding="5"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Action Buttons -->
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
                     <Button x:Name="ButtonValider" Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0" Click="ButtonValider_Click"/>
-                    <Button x:Name="ButtonAnnuler" Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}" Click="ButtonRetour_Click"/>
+                    <Button x:Name="ButtonRetour" Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}" Click="ButtonRetour_Click"/>
                 </StackPanel>
-            </Grid>
+            </StackPanel>
         </ScrollViewer>
-    </Grid>
+    </DockPanel>
 </UserControl>

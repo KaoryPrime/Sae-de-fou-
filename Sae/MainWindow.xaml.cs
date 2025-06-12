@@ -21,6 +21,18 @@ namespace Sae
             LoginPage();
             LoadUserControlByRole();
         }
+        public void SeDeconnecter()
+        {
+            // Cacher la fenêtre le temps de la nouvelle connexion
+            this.Visibility = Visibility.Hidden;
+
+            // Réutiliser vos méthodes pour relancer le processus de connexion
+            LoginPage();
+            LoadUserControlByRole();
+
+            // Réafficher la fenêtre une fois la connexion réussie
+            this.Visibility = Visibility.Visible;
+        }
         private void DashBoardEpl() 
         {
             MainContentContainer.Content = new DashEmploye();
@@ -47,6 +59,11 @@ namespace Sae
 
         private void LoadUserControlByRole()
         {
+            if (employeConnecte == null)
+            {
+                return;
+            }
+
             // Vider le conteneur principal
             MainContentContainer.Content = null;
 
