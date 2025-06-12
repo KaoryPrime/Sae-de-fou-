@@ -15,69 +15,54 @@ namespace Sae
     {
         private Employe employeConnecte;
 
+        public Employe EmployeConnecte
+        {
+            get 
+            {
+                return employeConnecte;
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             LoginPage();
-            LoadUserControlByRole();
+            LoadUserControlByRole(this.EmployeConnecte);
         }
         public void SeDeconnecter()
         {
-            // Cacher la fenêtre le temps de la nouvelle connexion
             this.Visibility = Visibility.Hidden;
-
-            // Réutiliser vos méthodes pour relancer le processus de connexion
             LoginPage();
-            LoadUserControlByRole();
-
-            // Réafficher la fenêtre une fois la connexion réussie
+            LoadUserControlByRole(this.EmployeConnecte);
             this.Visibility = Visibility.Visible;
         }
-        private void DashBoardEpl() 
-        {
-            MainContentContainer.Content = new DashEmploye();
-        }
-        private void DashBoardResp() 
-        {
-            MainContentContainer.Content = new DashResponsable();
-        }
-        private void LoginPage() 
+
+        private void LoginPage()
         {
             LoginWindow loginWindow = new LoginWindow();
             if (loginWindow.ShowDialog() == true)
             {
-                // Récupérer l'employé connecté depuis LoginWindow
-                employeConnecte = loginWindow.EmployeConnecte;
-                // Initialiser MainWindow avec cet employé
+                // On assigne la valeur au champ privé
+                this.employeConnecte = loginWindow.EmployeConnecte;
             }
             else
             {
-                // Login annulé, fermer l'application
                 Application.Current.Shutdown();
             }
         }
 
-        private void LoadUserControlByRole()
+        private void LoadUserControlByRole(Employe employe)
         {
-            if (employeConnecte == null)
-            {
-                return;
-            }
-
-            // Vider le conteneur principal
+            if (employe == null) return;
             MainContentContainer.Content = null;
-
-            switch (employeConnecte.Numrole)
+            switch (employe.Numrole)
             {
-                case 1: // Employé
-                    DashBoardEpl();
+                case 1:
+                    MainContentContainer.Content = new DashEmploye();
                     break;
-
-                case 2: // Responsable atelier
-                    DashBoardResp();
+                case 2:
+                    MainContentContainer.Content = new DashResponsable();
                     break;
-
-
                 default:
                     MessageBox.Show("Rôle non reconnu", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;

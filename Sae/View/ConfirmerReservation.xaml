@@ -5,8 +5,68 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="720" d:DesignWidth="1280" Background="#F5F5F5">
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#D50000">
+            <TextBlock Text="LOXAM - Confirmer la Réservation" 
+                       Foreground="White" FontSize="20" FontWeight="Bold"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="450"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Matériel à réserver" FontSize="22" FontWeight="Bold" Foreground="#D50000" Margin="0,0,0,20"/>
+                    <Border Background="White" CornerRadius="5" Padding="20" BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image x:Name="ImageMateriel" Height="200" Stretch="Uniform" Margin="0,0,0,15"/>
+                            <TextBlock x:Name="TxtNomMateriel" FontSize="18" FontWeight="Bold" Text="Nom du matériel"/>
+                            <TextBlock x:Name="TxtCategorie" FontSize="14" Foreground="Gray" Text="Catégorie"/>
+                            <TextBlock x:Name="TxtPrix" FontSize="16" FontWeight="Bold" Margin="0,10,0,0" Text="Prix / jour"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Détails de la réservation" FontSize="22" FontWeight="Bold" Foreground="#D50000" Margin="0,0,0,20"/>
+                    <Border Background="White" CornerRadius="5" Padding="25" BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Client" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="ClientComboBox" Height="35" Padding="5"/>
+
+                            <TextBlock Text="Date de début" FontWeight="Bold" Margin="0,20,0,5"/>
+                            <DatePicker x:Name="DateDebutPicker" Height="35" Padding="5" SelectedDateChanged="Dates_Changed"/>
+
+                            <TextBlock Text="Date de fin" FontWeight="Bold" Margin="0,20,0,5"/>
+                            <DatePicker x:Name="DateFinPicker" Height="35" Padding="5" SelectedDateChanged="Dates_Changed"/>
+
+                            <Border Background="#F1F3F5" CornerRadius="3" Padding="15" Margin="0,25,0,25">
+                                <StackPanel>
+                                    <TextBlock Text="Total estimé" HorizontalAlignment="Center" Foreground="Gray"/>
+                                    <TextBlock x:Name="TxtTotal" Text="0,00 €" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Foreground="#D50000"/>
+                                </StackPanel>
+                            </Border>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button x:Name="ButtonAnnuler" Content="Annuler" Background="#6C757D" Foreground="White" BorderThickness="0" Padding="20,10" Margin="0,0,10,0" Click="ButtonAnnuler_Click"/>
+                                <Button x:Name="ButtonConfirmer" Content="Confirmer la réservation" Background="#28A745" Foreground="White" BorderThickness="0" Padding="20,10" Click="ButtonConfirmer_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

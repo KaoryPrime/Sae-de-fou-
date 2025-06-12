@@ -211,5 +211,34 @@ namespace Sae.Model
             }
             return lesReservations;
         }
+        public bool Create()
+        {
+            try
+            {
+                string query = @"INSERT INTO reservation (NUMMATERIEL, NUMEMPLOYE, NUMCLIENT, DATERESERVATION, DATEDEBUTLOCATION, DATERETOUREFFECTIVELOCATION, PRIXTOTAL)
+                             VALUES (@numMateriel, @numEmploye, @numClient, @dateReservation, @dateDebut, @dateRetour, @prixTotal)";
+
+                using (var cmd = new NpgsqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@numMateriel", this.NumMateriel);
+                    cmd.Parameters.AddWithValue("@numEmploye", this.NumEmploye);
+                    cmd.Parameters.AddWithValue("@numClient", this.NumClient);
+                    cmd.Parameters.AddWithValue("@dateReservation", this.DateReservation ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@dateDebut", this.DateDebutLocation ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@dateRetour", this.DateRetourEffectiveLocation ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@prixTotal", this.PrixTotal);
+
+                    // ExecuteSet est pour UPDATE/DELETE, il vous faut une méthode pour INSERT.
+                    // En supposant que ExecuteSet fonctionne pour INSERT et retourne le nombre de lignes affectées :
+                    int rowsAffected = DataAccess.Instance.ExecuteSet(cmd);
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Log(ex, "Erreur lors de la création de la réservation");
+                return false;
+            }
+        }
     }
 }

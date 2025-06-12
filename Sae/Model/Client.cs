@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,9 +75,27 @@ namespace Sae.Model
             return HashCode.Combine(this.numclient, this.nomclient, this.prenomclient);
         }
 
-        public override string? ToString()
+        public override string ToString()
         {
-            return base.ToString();
+            return $"{Nomclient.ToUpper()} {Prenomclient}";
+        }
+        public List<Client> FindAll()
+        {
+            List<Client> lesClients = new List<Client>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT * FROM client ORDER BY nomclient, prenomclient"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    lesClients.Add(new Client(
+                        (int)dr["NUMCLIENT"],
+                        (string)dr["NOMCLIENT"],
+                        (string)dr["PRENOMCLIENT"]
+                    // Assurez-vous que votre constructeur correspond à ces paramètres
+                    ));
+                }
+            }
+            return lesClients;
         }
     }
 }

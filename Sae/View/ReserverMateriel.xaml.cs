@@ -98,5 +98,16 @@ namespace Sae.View
                 mainWindow.MainContentContainer.Content = new DashEmploye();
             }
         }
+        private void BtnReserver_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Materiel materielSelectionne = btn.Tag as Materiel;
+
+            if (materielSelectionne != null && Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                // Naviguer vers la nouvelle vue de confirmation
+                mainWindow.MainContentContainer.Content = new ConfirmerReservation(materielSelectionne);
+            }
+        }
     }
 }
