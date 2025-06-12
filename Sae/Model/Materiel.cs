@@ -17,12 +17,13 @@ namespace Sae.Model
         private string nommateriel;
         private string descriptif;
         private decimal prixjournee;
+        private string commentaires;
 
         private Etat etat;
         private Categorie categorie;
         public Materiel() { }
 
-        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
+        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee,string commentaires)
         {
             this.nummateriel = nummateriel;
             this.numetat = numetat;
@@ -31,9 +32,10 @@ namespace Sae.Model
             this.nommateriel = nommateriel;
             this.descriptif = descriptif;
             this.prixjournee = prixjournee;
+            this.commentaires = commentaires;
         }
 
-        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, Etat etat, Categorie categorie)
+        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, Etat etat, Categorie categorie , string commentaires)
         {
             this.nummateriel = nummateriel;
             this.numetat = numetat;
@@ -44,6 +46,7 @@ namespace Sae.Model
             this.prixjournee = prixjournee;
             this.etat = etat;
             this.categorie = categorie;
+            this.commentaires = commentaires;
         }
 
 
@@ -161,6 +164,17 @@ namespace Sae.Model
                 categorie = value;
             }
         }
+        public string Commentaires
+        {
+            get
+            {
+                return commentaires;
+            }
+            set
+            {
+                commentaires = value;
+            }
+        }
 
         public override bool Equals(object? obj)
         {
@@ -189,10 +203,11 @@ namespace Sae.Model
         {
             try
             {
-                string query = "UPDATE materiel SET numetat = @numetat WHERE nummateriel = @nummateriel";
+                string query = "UPDATE materiel SET numetat = @numetat , commentaires = @commentaires WHERE nummateriel = @nummateriel";
                 using (var cmd = new NpgsqlCommand(query))
                 {
                     cmd.Parameters.AddWithValue("@numetat", nouvelIdEtat);
+                    cmd.Parameters.AddWithValue("@commentaires", commentaires ?? string.Empty);
                     cmd.Parameters.AddWithValue("@nummateriel", this.Nummateriel);
 
                     int rowsAffected = DataAccess.Instance.ExecuteSet(cmd);
@@ -200,6 +215,7 @@ namespace Sae.Model
                     if (rowsAffected > 0)
                     {
                         this.Numetat = nouvelIdEtat;
+                        this.Commentaires = commentaires;
                         return true;
                     }
                 }
@@ -218,7 +234,7 @@ namespace Sae.Model
             List<Materiel> lesMateriels = new List<Materiel>();
 
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
-            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE 
+            SELECT m.*, e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE,m.COMMENTAIRES 
             FROM materiel m 
             LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
             LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
@@ -241,7 +257,8 @@ namespace Sae.Model
                         (string)dr["DESCRIPTIF"],
                         (decimal)dr["PRIXJOURNEE"],
                         etat,
-                        categorie
+                        categorie,
+                        commentaires
                     ));
                 }
                 return lesMateriels;
@@ -250,35 +267,43 @@ namespace Sae.Model
 
         public List<Materiel> LoadMaterielData()
         {
-            string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
-            string query = "SELECT NUMMATERIEL, NUMETAT, NUMTYPE, REFERENCE, NOMMATERIEL, DESCRIPTIF, PRIXJOURNEE FROM MATERIEL";
-
             List<Materiel> materielList = new List<Materiel>();
 
-            using (var conn = new NpgsqlConnection(connectionString))
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
+            SELECT m.NUMMATERIEL, m.NUMETAT, m.NUMTYPE, m.REFERENCE, m.NOMMATERIEL, 
+                   m.DESCRIPTIF, m.PRIXJOURNEE, m.COMMENTAIRES,
+                   e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE
+                   FROM materiel m 
+                   LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
+                   LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
+                   LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE"))
             {
-                conn.Open();
-                using (var cmd = new NpgsqlCommand(query, conn))
-                using (var reader = cmd.ExecuteReader())
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
                 {
-                    while (reader.Read())
-                    {
-                        Materiel materiel = new Materiel(
-                            reader.GetInt32(0), // Nummateriel
-                            reader.GetInt32(1), // Numetat
-                            reader.GetInt32(2), // Numtype
-                            reader.GetString(3), // Reference
-                            reader.GetString(4), // Nommateriel
-                            reader.GetString(5), // Descriptif
-                            reader.GetDecimal(6) // Prixjournee
-                        );
-                        materielList.Add(materiel);
-                    }
-                }
-            }
+                    // Créer les objets Etat et Categorie
+                    Etat etat = new Etat((int)dr["NUMETAT"], (string)dr["LIBELLEETAT"]);
+                    Categorie categorie = new Categorie((int)dr["NUMCATEGORIE"], (string)dr["LIBELLECATEGORIE"]);
 
-            // Lier la liste des matériels à la ListBox
-            return materielList;
+                    // Gestion des valeurs NULL pour les commentaires
+                    string commentaires = dr["COMMENTAIRES"] == DBNull.Value ? string.Empty : (string)dr["COMMENTAIRES"];
+
+                    // Créer l'objet Materiel avec les propriétés de navigation
+                    materielList.Add(new Materiel(
+                        (int)dr["NUMMATERIEL"],
+                        (int)dr["NUMETAT"],
+                        (int)dr["NUMTYPE"],
+                        (string)dr["REFERENCE"],
+                        (string)dr["NOMMATERIEL"],
+                        (string)dr["DESCRIPTIF"],
+                        (decimal)dr["PRIXJOURNEE"],
+                        etat,
+                        categorie,
+                        commentaires
+                    ));
+                }
+                return materielList;
+            }
         }
     }
 }

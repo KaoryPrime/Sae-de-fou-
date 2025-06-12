@@ -56,7 +56,11 @@
                     </Border>
 
                     <!-- Image de la nacelle -->
-                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Padding="20" Height="99"/>
+                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Padding="20" Height="300">
+                        <Grid>
+                            <ContentControl x:Name="PictureTraiter" />
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
                 <!-- Section droite - Formulaire -->
