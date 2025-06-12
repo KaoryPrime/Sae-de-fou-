@@ -10,6 +10,39 @@ namespace Sae.Model
 {
     public class Materiel
     {
+        private static readonly Dictionary<string, string> MaterialImageMap = new Dictionary<string, string>
+        {
+            { "Nacelle articulée", "Nacelle" },
+            { "Nacelle 17 mètre", "Nacelle" },
+            { "Dresse bordure gazon", "dresse" },
+            { "Remorque basculante", "remorque" },
+            { "Broyeur de ronces", "remorque" },
+            { "Bétonnière 160L", "betoniere" },
+            { "Perceuse sans fil", "perceuse" },
+            { "Perceuse professionnelle", "perceuse" },
+            { "Marteau piqueur 30kg", "piqueur" },
+            { "Meuleuse 125mm", "meuleuse" },
+            { "Meuleuse d'angle 230mm", "meuleuse" }
+        };
+
+        // Nouvelle propriété pour obtenir le chemin de l'image
+        public string ImagePath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Nommateriel))
+                    return null;
+
+                if (MaterialImageMap.TryGetValue(Nommateriel, out string imageName))
+                {
+                    // Construit le chemin d'accès que WPF peut comprendre
+                    return $"pack://application:,,,/img/{imageName}.jpg";
+                }
+                // Retourne une image par défaut si aucune n'est trouvée
+                return "pack://application:,,,/img/default.jpg"; // Assurez-vous d'avoir une image default.jpg dans votre dossier /img/
+            }
+        }
+
         private int nummateriel;
         private int numetat;
         private int numtype;
@@ -21,6 +54,8 @@ namespace Sae.Model
 
         private Etat etat;
         private Categorie categorie;
+        public Model.Type Type { get; set; }
+
         public Materiel() { }
 
         public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee,string commentaires)
@@ -274,27 +309,33 @@ namespace Sae.Model
         {
             List<Materiel> materielList = new List<Materiel>();
 
+            // La requête SQL est modifiée pour joindre la table TYPE et récupérer ses informations
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand(@"
-            SELECT m.NUMMATERIEL, m.NUMETAT, m.NUMTYPE, m.REFERENCE, m.NOMMATERIEL, 
-                   m.DESCRIPTIF, m.PRIXJOURNEE, m.COMMENTAIRES,
-                   e.LIBELLEETAT, c.LIBELLECATEGORIE, c.NUMCATEGORIE
-                   FROM materiel m 
-                   LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
-                   LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
-                   LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE"))
+                SELECT m.*, 
+                       e.LIBELLEETAT, 
+                       c.NUMCATEGORIE, c.LIBELLECATEGORIE,
+                       t.LIBELLETYPE 
+                FROM materiel m 
+                LEFT JOIN etat e ON m.NUMETAT = e.NUMETAT 
+                LEFT JOIN type t ON m.NUMTYPE = t.NUMTYPE
+                LEFT JOIN categorie c ON t.NUMCATEGORIE = c.NUMCATEGORIE"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    // Créer les objets Etat et Categorie
                     Etat etat = new Etat((int)dr["NUMETAT"], (string)dr["LIBELLEETAT"]);
                     Categorie categorie = new Categorie((int)dr["NUMCATEGORIE"], (string)dr["LIBELLECATEGORIE"]);
 
-                    // Gestion des valeurs NULL pour les commentaires
+                    // Créer l'objet Type et le lier au matériel
+                    Model.Type type = new Model.Type(
+                        (int)dr["NUMTYPE"],
+                        (int)dr["NUMCATEGORIE"],
+                        dr["LIBELLETYPE"] == DBNull.Value ? "" : (string)dr["LIBELLETYPE"]
+                    );
+
                     string commentaires = dr["COMMENTAIRES"] == DBNull.Value ? string.Empty : (string)dr["COMMENTAIRES"];
 
-                    // Créer l'objet Materiel avec les propriétés de navigation
-                    materielList.Add(new Materiel(
+                    Materiel materiel = new Materiel(
                         (int)dr["NUMMATERIEL"],
                         (int)dr["NUMETAT"],
                         (int)dr["NUMTYPE"],
@@ -305,7 +346,11 @@ namespace Sae.Model
                         etat,
                         categorie,
                         commentaires
-                    ));
+                    );
+
+                    // Assigner l'objet Type au matériel
+                    materiel.Type = type;
+                    materielList.Add(materiel);
                 }
                 return materielList;
             }

@@ -5,131 +5,74 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Height="720" Width="1280" Background="#F5F5F5">
+             d:DesignHeight="720" d:DesignWidth="1280" Background="#F5F5F5">
 
     <DockPanel>
-        <!-- Bandeau rouge en haut -->
         <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
-            <Grid Margin="10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <Grid Margin="20,0">
                 <TextBlock Text="LOXAM - Recherche Matériel" 
                            Foreground="White" FontSize="20" FontWeight="Bold"
                            VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
-                </StackPanel>
+                <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Click="ButtonRetour_Click" HorizontalAlignment="Right"/>
             </Grid>
         </Border>
 
-        <!-- Contenu principal -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="40">
 
-                <!-- Titre -->
                 <TextBlock Text="🔍 Filtres de recherche" FontSize="20" FontWeight="Bold" 
-                          Foreground="#D50000" Margin="0,0,0,20"/>
+                           Foreground="#D50000" Margin="0,0,0,20"/>
 
-                <!-- Formulaire de recherche -->
-                <Border Background="White" CornerRadius="10" Padding="30" 
-                       BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,30">
-                    <StackPanel>
+                <Border Background="White" CornerRadius="5" Padding="30" 
+                        BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,30">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                        <!-- Première ligne de filtres -->
-                        <Grid Margin="0,0,0,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Mot-clé -->
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" TextChanged="MotCleTextBox_TextChanged" Text="" Foreground="Gray"/>
-                            </StackPanel>
-
-                            <!-- Catégorie -->
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Catégorie" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="CategorieComboBox" Height="35" Padding="10" SelectionChanged="CategorieComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Toutes les catégories" IsSelected="True"/>
-                                    <ComboBoxItem Content="Élévation"/>
-                                    <ComboBoxItem Content="Espace vert"/>
-                                    <ComboBoxItem Content="Outillage"/>
-                                    <ComboBoxItem Content="Compactage"/>
-                                    <ComboBoxItem Content="Manutention"/>
-                                </ComboBox>
-                            </StackPanel>
-
-                            <!-- Type -->
-                            <StackPanel Grid.Column="4">
-                                <TextBlock Text="Type" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <ComboBox x:Name="TypeComboBox" Height="35" Padding="10" SelectionChanged="TypeComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Tous les types" IsSelected="True"/>
-                                    <ComboBoxItem Content="Bétonnière"/>
-                                    <ComboBoxItem Content="Marteau piqueur"/>
-                                    <ComboBoxItem Content="Meuleuse"/>
-                                    <ComboBoxItem Content="Nacelle"/>
-                                    <ComboBoxItem Content="Perceuse"/>
-                                    <ComboBoxItem Content="Taille entretien"/>
-                                    <ComboBoxItem Content="Transports végétaux"/>
-                                </ComboBox>
-                            </StackPanel>
-                        </Grid>
-
-                        <!-- Deuxième ligne de filtres -->
-                        <Grid Margin="0,0,0,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Date début -->
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Date début de location" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <DatePicker x:Name="DateDebutPicker" Height="40" Padding="10"/>
-                            </StackPanel>
-
-                            <!-- Date fin -->
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Date fin de location" FontWeight="Bold" Margin="0,0,0,5"/>
-                                <DatePicker x:Name="DateFinPicker" Height="40" Padding="10"/>
-                            </StackPanel>
-
-                        </Grid>
-                        <StackPanel>
-                            <ListBox x:Name="MaterielListBox" ItemsSource="{Binding LesMaterieles}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="3" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Padding="10" Background="White" CornerRadius="5" Margin="5" BorderBrush="#E0E0E0" BorderThickness="1" Height="250" Width="240">
-                                            <StackPanel>
-                                                <Rectangle Height="100" Fill="#DDD" Margin="0,0,0,10"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding Nommateriel}" TextWrapping="Wrap" FontSize="14"/>
-                                                <TextBlock Margin="0,5,0,0" Foreground="Gray" Text="{Binding Descriptif}" TextWrapping="Wrap" FontSize="11" MaxHeight="30"/>
-                                                <TextBlock Margin="0,5,0,0" FontWeight="Bold" Foreground="#5C6AC4" Text="{Binding Prixjournee, StringFormat='{}{0:C}'}" HorizontalAlignment="Center"/>
-                                                <Button Width="25" Height="25" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Mot-clé" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBox x:Name="MotCleTextBox" Height="35" Padding="10" TextChanged="MotCleTextBox_TextChanged"/>
                         </StackPanel>
-                    </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Catégorie" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="CategorieComboBox" Height="35" Padding="5" SelectionChanged="CategorieComboBox_SelectionChanged"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4">
+                            <TextBlock Text="Type" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="TypeComboBox" Height="35" Padding="5" SelectionChanged="TypeComboBox_SelectionChanged"/>
+                        </StackPanel>
+                    </Grid>
                 </Border>
+
+                <ListBox x:Name="MaterielListBox" ItemsSource="{Binding LesMaterieles}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" BorderThickness="0">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="15" Background="White" CornerRadius="5" Margin="10" BorderBrush="#E0E0E0" BorderThickness="1" Width="260">
+                                <StackPanel>
+                                    <Image Source="{Binding ImagePath}" Height="140" Stretch="Uniform" Margin="0,0,0,10"/>
+                                    <TextBlock Margin="0,5,0,0" FontWeight="Bold" Text="{Binding Nommateriel}" TextWrapping="Wrap" FontSize="16" Height="40"/>
+                                    <TextBlock Margin="0,5,0,10" Foreground="Gray" Text="{Binding Categorie.Libellecategorie}" TextWrapping="Wrap" FontSize="12"/>
+                                    <Grid>
+                                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="#D50000" Text="{Binding Prixjournee, StringFormat='{}{0:C}/jour'}" FontSize="16"/>
+                                        <Button Width="40" Height="40" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" ToolTip="Ajouter au panier" HorizontalAlignment="Right" Margin="0,5,0,0" Tag="{Binding}" FontSize="18" Background="#1976D2" Foreground="White" BorderThickness="0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

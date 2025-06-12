@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +78,23 @@ namespace Sae.Model
         public override string? ToString()
         {
             return base.ToString();
+        }
+        public List<Type> FindAll()
+        {
+            List<Type> lesTypes = new List<Type>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT * FROM type ORDER BY libelletype;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    lesTypes.Add(new Type(
+                        (int)dr["NUMTYPE"],
+                        (int)dr["NUMCATEGORIE"],
+                        (string)dr["LIBELLETYPE"]
+                    ));
+                }
+            }
+            return lesTypes;
         }
     }
 }

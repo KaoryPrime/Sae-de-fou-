@@ -5,26 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sae.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Height="720" Width="1280" Background="#F5F5F5">
+             d:DesignHeight="720" d:DesignWidth="1280" Background="#F5F5F5">
     <DockPanel>
-        <!-- Bandeau rouge en haut -->
         <Border Background="#D50000" DockPanel.Dock="Top" Height="60">
-            <Grid Margin="10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="LOXAM - Gestion Réservations" 
+            <Grid Margin="20,0">
+                <TextBlock Text="LOXAM - Gestion du Matériel" 
                            Foreground="White" FontSize="20" FontWeight="Bold"
                            VerticalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                    <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Margin="20,15,20,15" Click="ButtonRetour_Click" />
-                </StackPanel>
+                <Button x:Name="ButtonRetour" Content="← Retour" Grid.Column="1" Background="#616161" Foreground="White" Padding="10,5" Click="ButtonRetour_Click" HorizontalAlignment="Right" />
             </Grid>
         </Border>
 
-        <!-- Contenu principal -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="40">
                 <Grid.ColumnDefinitions>
@@ -32,90 +23,43 @@
                     <ColumnDefinition Width="400"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Section gauche - Informations matériel -->
                 <StackPanel Grid.Column="0" Margin="0,0,20,0">
-                    <TextBlock Text="Traitement du matériel" FontSize="24" FontWeight="Bold" Foreground="#D50000" Margin="0,0,0,10"/>
+                    <TextBlock Text="Traitement du matériel" FontSize="24" FontWeight="Bold" Foreground="#D50000" Margin="0,0,0,20"/>
 
-                    <!-- Informations du matériel sélectionné -->
-                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="20" Margin="0,0,0,20">
                         <StackPanel>
-                            <TextBlock x:Name="TxtNomMateriel" Text="Nom du matériel" 
-                                       FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,5"/>
-                            <TextBlock x:Name="TxtCategorie" Text="Catégorie" 
-                                       FontSize="14" Foreground="#666666" Margin="0,0,0,3"/>
-                            <TextBlock x:Name="TxtReference" Text="Référence" 
-                                       FontSize="12" Foreground="#666666" Margin="0,0,0,10"/>
-
-                            <!-- État actuel -->
-                            <TextBlock x:Name="TxtEtatActuel" Text="État actuel" 
-                                       FontSize="14" FontWeight="Bold" Padding="8,4" 
-                                       Background="#E0E0E0" Foreground="#333333"
-                                       HorizontalAlignment="Left"/>
+                            <TextBlock x:Name="TxtNomMateriel" Text="Nom du matériel" FontSize="18" FontWeight="Bold" Foreground="#333" Margin="0,0,0,5"/>
+                            <TextBlock x:Name="TxtCategorie" Text="Catégorie" FontSize="14" Foreground="#666" Margin="0,0,0,3"/>
+                            <TextBlock x:Name="TxtReference" Text="Référence" FontSize="12" Foreground="#666" Margin="0,0,0,10"/>
+                            <TextBlock x:Name="TxtEtatActuel" Text="État actuel" FontSize="14" FontWeight="Bold" Padding="8,4" Background="#E0E0E0" Foreground="#333" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Border>
 
-                    <!-- Image de la nacelle -->
-                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Padding="20" Height="300">
-                        <Grid>
-                            <ContentControl x:Name="PictureTraiter" />
-                        </Grid>
+                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="10" Height="320">
+                        <ContentControl x:Name="PictureTraiter" />
                     </Border>
                 </StackPanel>
 
-                <!-- Section droite - Formulaire -->
                 <StackPanel Grid.Column="1">
+                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="30">
+                        <StackPanel>
+                            <TextBlock Text="Nouveau statut" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Vertical" Margin="0,5,0,20">
+                                <RadioButton x:Name="RbAReviser" Content="À réviser" GroupName="EtatMateriel" Margin="0,0,0,10" FontSize="14"/>
+                                <RadioButton x:Name="RbAReparer" Content="À réparer" GroupName="EtatMateriel" Margin="0,0,0,10" FontSize="14"/>
+                                <RadioButton x:Name="RbDisponible" Content="Disponible" GroupName="EtatMateriel" FontSize="14"/>
+                            </StackPanel>
 
-                    <!-- Nouveau statut -->
-                    <TextBlock Text="Nouveau statut" FontSize="14" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                            <TextBlock Text="Commentaires" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,20,0,10"/>
+                            <TextBox x:Name="TxtCommentaires" Height="150" TextWrapping="Wrap" AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1" Padding="8" FontSize="12"/>
 
-                    <StackPanel Orientation="Vertical" Margin="0,0,0,20">
-                        <RadioButton x:Name="RbAReviser" Content="À réviser" GroupName="EtatMateriel" Foreground="#333333" Margin="0,0,0,8"/>
-                        <RadioButton x:Name="RbAReparer" Content="À réparer" GroupName="EtatMateriel" Foreground="#333333" Margin="0,0,0,8"/>
-                        <RadioButton x:Name="RbDisponible" Content="Disponible" GroupName="EtatMateriel" Foreground="#333333"/>
-                    </StackPanel>
-
-                    <!-- Nom du matériel -->
-                    <TextBlock x:Name="TxtTitreMateriel" Text="Matériel sélectionné" 
-                               FontSize="18" FontWeight="Bold" Foreground="#D50000" Margin="0,0,0,15"/>
-
-                    <!-- Section Commentaires -->
-                    <TextBlock Text="Commentaires" FontSize="14" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-
-                    <TextBox x:Name="TxtCommentaires" 
-                             Height="120" 
-                             TextWrapping="Wrap" 
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             Background="White"
-                             BorderBrush="#CCCCCC"
-                             BorderThickness="1"
-                             Padding="8"
-                             FontSize="12"
-                             Margin="0,0,0,30"/>
-
-                    <!-- Boutons d'action -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="BtnAnnuler" 
-                                Content="Annuler" 
-                                Background="#6C757D" 
-                                Foreground="White" 
-                                BorderThickness="0" 
-                                Padding="20,8" 
-                                Margin="0,0,10,0"
-                                FontSize="12"
-                                Cursor="Hand"
-                                Click="BtnAnnuler_Click"/>
-
-                        <Button x:Name="BtnValider" 
-                                Content="valider" 
-                                Background="#28A745" 
-                                Foreground="White" 
-                                BorderThickness="0" 
-                                Padding="20,8"
-                                FontSize="12"
-                                Cursor="Hand"
-                                Click="BtnValider_Click"/>
-                    </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,0,0">
+                                <Button x:Name="BtnAnnuler" Content="Annuler" Background="#6C757D" Foreground="White" BorderThickness="0" Padding="20,8" Margin="0,0,10,0" Click="BtnAnnuler_Click"/>
+                                <Button x:Name="BtnValider" Content="Valider" Background="#28A745" Foreground="White" BorderThickness="0" Padding="20,8" Click="BtnValider_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
