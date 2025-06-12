@@ -16,7 +16,7 @@ namespace Sae.View
     public partial class ReserverMateriel : UserControl
     {
         public ObservableCollection<Materiel> LesMaterieles { get; set; }
-        
+
         public ReserverMateriel()
         {
             InitializeComponent();
@@ -61,12 +61,10 @@ namespace Sae.View
 
         private void CategorieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Refresh();
         }
 
         private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Refresh();
         }
     }
 }
