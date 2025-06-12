@@ -102,17 +102,33 @@
                 </Grid.RowDefinitions>
 
                 <!-- Search Section -->
-                <Border Grid.Row="0" Background="White" BorderBrush="#DDD" BorderThickness="1" 
-                       Padding="20" Margin="0,0,0,20">
+                <Border Grid.Row="0" Background="White" BorderBrush="#DDD" BorderThickness="1" Padding="20" Margin="0,0,0,20">
                     <StackPanel>
                         <TextBlock Text="Recherche de contrat" Style="{StaticResource SectionHeaderStyle}"/>
-                        <TextBlock Text="Saisissez le nom du client, la référence du contrat ou le type de matériel" 
-                                  FontSize="12" Foreground="Gray" Margin="0,0,0,10"/>
-
+                        <TextBlock Text="Saisissez le nom du client, la référence du contrat ou le type de matériel" FontSize="12" Foreground="Gray" Margin="0,0,0,10"/>
                         <TextBlock Text="Rechercher le contrat de location" FontSize="12" Margin="0,0,0,5"/>
-                        <TextBox Style="{StaticResource InputStyle}" 
-                                Text="Ex. Martin Pierre, REF-2024-001, Nacelle..." 
-                                Foreground="Gray" Width="400" HorizontalAlignment="Left"/>
+                        <TextBox x:Name="RechercherTextBox" Style="{StaticResource InputStyle}" Foreground="Gray" Width="400" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                        <DataGrid x:Name="dgmateriel" Height="Auto" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding LesMaterieles}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="2*" Binding="{Binding Nommateriel}" Header="Matériel" />
+                                <DataGridTextColumn Width="*" Binding="{Binding Categorie.Libellecategorie}" Header="Catégorie" />
+                                <DataGridTextColumn Width="*" Binding="{Binding Etat.Libelleetat}" Header="État">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="En location">
+                                                    <Setter Property="Background" Value="#FF003167" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                    <Setter Property="Padding" Value="5,2" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Width="*" Binding="{Binding Reference}" Header="Référence" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                 </Border>
 
@@ -154,22 +170,19 @@
                         <!-- Material State -->
                         <StackPanel Margin="0,0,0,0">
                             <TextBlock Text="État général du matériel" FontSize="12" Margin="0,0,0,5"/>
-                            <ComboBox Height="30" BorderBrush="#CCC" BorderThickness="1">
+                            <ComboBox x:Name="ComboBoxEtat" Height="30" BorderBrush="#CCC" BorderThickness="1">
                                 <ComboBoxItem Content="-- Sélectionner --" IsSelected="True"/>
-                                <ComboBoxItem Content="Excellent état"/>
-                                <ComboBoxItem Content="Bon état"/>
-                                <ComboBoxItem Content="État moyen"/>
-                                <ComboBoxItem Content="Mauvais état"/>
-                                <ComboBoxItem Content="Endommagé"/>
+                                <ComboBoxItem Content="Disponible"/>
+                                <ComboBoxItem Content="À réviser"/>
+                                <ComboBoxItem Content="À réparer"/>
                             </ComboBox>
                         </StackPanel>
 
                         <!-- Comments -->
                         <StackPanel Margin="0,20,0,0">
                             <TextBlock Text="Commentaires et observations" FontSize="12" Margin="0,0,0,5"/>
-                            <TextBox Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
+                            <TextBox x:Name="CommentairesTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True" 
                                     VerticalScrollBarVisibility="Auto" BorderBrush="#CCC" BorderThickness="1"
-                                    Text="Détaillez l'état du matériel, les dommages éventuels, les réparations nécessaires..."
                                     Foreground="Gray" Padding="5"/>
                         </StackPanel>
                     </StackPanel>
@@ -177,9 +190,9 @@
 
                 <!-- Action Buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
-                    <Button Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0"/>
-                    <Button Content="⏰ Reporter le retour" Style="{StaticResource PostponeButtonStyle}" Margin="0,0,10,0"/>
-                    <Button Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}"/>
+                    <Button x:Name="ButtonValider" Content="✓ Valider le retour" Style="{StaticResource ValidateButtonStyle}" Margin="0,0,10,0" Click="ButtonValider_Click"/>
+                    <Button x:Name="ButtonReporter" Content="⏰ Reporter le retour" Style="{StaticResource PostponeButtonStyle}" Margin="0,0,10,0" Click="ButtonReporter_Click"/>
+                    <Button x:Name="ButtonAnnuler" Content="✕ Annuler" Style="{StaticResource CancelButtonStyle}" Click="ButtonAnnuler_Click"/>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

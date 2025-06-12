@@ -17,12 +17,13 @@ namespace Sae.Model
         private string nommateriel;
         private string descriptif;
         private decimal prixjournee;
+        private string commentaires;
 
         private Etat etat;
         private Categorie categorie;
         public Materiel() { }
 
-        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee)
+        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, string commentaires)
         {
             this.nummateriel = nummateriel;
             this.numetat = numetat;
@@ -31,9 +32,10 @@ namespace Sae.Model
             this.nommateriel = nommateriel;
             this.descriptif = descriptif;
             this.prixjournee = prixjournee;
+            this.commentaires = commentaires;
         }
 
-        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, Etat etat, Categorie categorie)
+        public Materiel(int nummateriel, int numetat, int numtype, string reference, string nommateriel, string descriptif, decimal prixjournee, string commentaires, Etat etat, Categorie categorie)
         {
             this.nummateriel = nummateriel;
             this.numetat = numetat;
@@ -42,6 +44,7 @@ namespace Sae.Model
             this.nommateriel = nommateriel;
             this.descriptif = descriptif;
             this.prixjournee = prixjournee;
+            this.commentaires = commentaires;
             this.etat = etat;
             this.categorie = categorie;
         }
@@ -162,6 +165,19 @@ namespace Sae.Model
             }
         }
 
+        public string Commentaires
+        {
+            get
+            {
+                return this.commentaires;
+            }
+
+            set
+            {
+                this.commentaires = value;
+            }
+        }
+
         public override bool Equals(object? obj)
         {
             return obj is Materiel materiel &&
@@ -171,12 +187,13 @@ namespace Sae.Model
                    this.reference == materiel.reference &&
                    this.nommateriel == materiel.nommateriel &&
                    this.descriptif == materiel.descriptif &&
-                   this.prixjournee == materiel.prixjournee;
+                   this.prixjournee == materiel.prixjournee &&
+                   this.commentaires == materiel.commentaires;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.nummateriel, this.numetat, this.numtype, this.reference, this.nommateriel, this.descriptif, this.prixjournee);
+            return HashCode.Combine(this.nummateriel, this.numetat, this.numtype, this.reference, this.nommateriel, this.descriptif, this.prixjournee, this.commentaires);
         }
 
         public override string? ToString()
@@ -240,6 +257,7 @@ namespace Sae.Model
                         (string)dr["NOMMATERIEL"],
                         (string)dr["DESCRIPTIF"],
                         (decimal)dr["PRIXJOURNEE"],
+                        (string)dr["COMMENTAIRES"],
                         etat,
                         categorie
                     ));
@@ -251,7 +269,7 @@ namespace Sae.Model
         public List<Materiel> LoadMaterielData()
         {
             string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
-            string query = "SELECT NUMMATERIEL, NUMETAT, NUMTYPE, REFERENCE, NOMMATERIEL, DESCRIPTIF, PRIXJOURNEE FROM MATERIEL";
+            string query = "SELECT NUMMATERIEL, NUMETAT, NUMTYPE, REFERENCE, NOMMATERIEL, DESCRIPTIF, PRIXJOURNEE, COMMENTAIRES FROM MATERIEL";
 
             List<Materiel> materielList = new List<Materiel>();
 
@@ -271,6 +289,8 @@ namespace Sae.Model
                             reader.GetString(4), // Nommateriel
                             reader.GetString(5), // Descriptif
                             reader.GetDecimal(6) // Prixjournee
+                            reader.GetString(7), // Commentaires
+
                         );
                         materielList.Add(materiel);
                     }
