@@ -59,7 +59,7 @@
                     Width="300"
                     Height="30"
                     Margin="0,10,0,10"
-                    TextChanged="RechercheTextBox_TextChanged" />
+                    TextChanged="RechercheTextBox_TextChanged" HorizontalAlignment="Left" />
 
 
                 <DataGrid
@@ -67,7 +67,50 @@
                     Height="400"
                     AutoGenerateColumns="False"
                     IsReadOnly="True"
-                    ItemsSource="{Binding LesMaterieles}">
+                    ItemsSource="{Binding LesMaterieles}"
+                    GridLinesVisibility="None"
+                    HeadersVisibility="Column"
+                    RowHeaderWidth="0"
+                    AlternatingRowBackground="#F8F9FA"
+                    Background="White"
+                    BorderBrush="#E1E5E9"
+                    BorderThickness="1"
+                    CanUserResizeRows="False"
+                    CanUserReorderColumns="False"
+                    SelectionMode="Single"
+                    SelectionUnit="FullRow"
+                    FontFamily="Segoe UI"
+                    FontSize="13">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F8F9FA"/>
+                            <Setter Property="Foreground" Value="#495057"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="Padding" Value="12,8"/>
+                            <Setter Property="BorderBrush" Value="#DEE2E6"/>
+                            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="BorderBrush" Value="#E9ECEF"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F1F3F4"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="BorderBrush" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="2*"
@@ -83,6 +126,10 @@
                             Header="État">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="8,4"/>
+                                    <Setter Property="FontWeight" Value="Medium"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="À réviser">
                                             <Setter Property="Background" Value="Orange" />
@@ -126,20 +173,37 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button
-                                        Padding="10,5"
-                                        Background="#007ACC"
-                                        BorderThickness="0"
-                                        Click="TraiterMateriel_Click"
-                                        Content="Traiter"
-                                        Cursor="Hand"
-                                        Foreground="White"
-                                        Tag="{Binding}" />
+                        Padding="12,6"
+                        Background="#1976D2"
+                        BorderThickness="0"
+                        Click="TraiterMateriel_Click"
+                        Content="Traiter"
+                        Cursor="Hand"
+                        Foreground="White"
+                        FontWeight="Medium"
+                        Tag="{Binding}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="#1976D2"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#1565C0"/>
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="En location">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Etat.Libelleetat}" Value="En maintenance">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <!--  Tableau  -->
             </StackPanel>
         </ScrollViewer>
     </DockPanel>
