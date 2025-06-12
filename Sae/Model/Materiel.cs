@@ -258,7 +258,6 @@ namespace Sae.Model
                         (string)dr["NOMMATERIEL"],
                         (string)dr["DESCRIPTIF"],
                         (decimal)dr["PRIXJOURNEE"],
-                        (string)dr["COMMENTAIRES"],
                         etat,
                         categorie,
                         commentaires
