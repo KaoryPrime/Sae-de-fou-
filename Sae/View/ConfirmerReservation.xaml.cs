@@ -1,5 +1,6 @@
 ﻿using Sae.Model;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -70,17 +71,24 @@ namespace Sae.View
         private void ButtonConfirmer_Click(object sender, RoutedEventArgs e)
         {
             // --- 1. Validation des entrées du formulaire ---
+            DateTime debut = DateDebutPicker.SelectedDate.Value;
+            DateTime fin = DateFinPicker.SelectedDate.Value;
+            if ((fin - debut).TotalDays > 5)
+            {
+                MessageBox.Show("La durée de location ne peut pas excéder 5 jours.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             if (ClientComboBox.SelectedItem == null || !DateDebutPicker.SelectedDate.HasValue || !DateFinPicker.SelectedDate.HasValue)
             {
                 MessageBox.Show("Veuillez sélectionner un client et des dates de début et de fin.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (DateFinPicker.SelectedDate.Value <= DateDebutPicker.SelectedDate.Value)
+            if (fin <= debut)
             {
                 MessageBox.Show("La date de fin doit être strictement après la date de début.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (DateDebutPicker.SelectedDate.Value.Date < DateTime.Today)
+            if (debut < DateTime.Today)
             {
                 MessageBox.Show("La date de début ne peut pas être dans le passé.", "Date invalide", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
