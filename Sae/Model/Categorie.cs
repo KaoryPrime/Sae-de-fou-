@@ -13,7 +13,7 @@ namespace Sae.Model
         private int numcategorie;
         private string libellecategorie;
 
-        public Categorie() {}
+        public Categorie() { }
 
         public Categorie(int numcategorie, string libellecategorie)
         {
@@ -23,12 +23,11 @@ namespace Sae.Model
 
         public int Numcategorie
         {
-            get
+            get 
             {
                 return numcategorie;
             }
-
-            set
+            set 
             {
                 numcategorie = value;
             }
@@ -37,13 +36,12 @@ namespace Sae.Model
         public string Libellecategorie
         {
             get
-            {
-                return this.libellecategorie;
+            { 
+                return this.libellecategorie; 
             }
-
-            set
+            set 
             {
-                this.libellecategorie = value;
+                this.libellecategorie = value; 
             }
         }
 
@@ -61,20 +59,29 @@ namespace Sae.Model
 
         public override string? ToString()
         {
-            return base.ToString();
+            return this.libellecategorie;
         }
+
+
+        //Algorithme de récupération et de mapping des données depuis la base.
+        // <returns>Une liste d'objets Categorie.</returns>
         public List<Categorie> FindAll()
         {
             List<Categorie> lesCategories = new List<Categorie>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from categorie ;"))
+
+            // 1. Préparer la commande SQL. Utiliser "using" garantit que la connexion est bien fermée.
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select numcategorie, libellecategorie from categorie order by libellecategorie;"))
             {
+                // 2. Exécuter la commande et stocker les résultats bruts dans un DataTable.
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+
+                // 3. Parcourir chaque ligne de données (DataRow) retournée.
                 foreach (DataRow dr in dt.Rows)
                 {
-                    // Créer un nouvel objet Categorie pour chaque ligne du DataTable et l'ajouter à la liste
+                    // 4. convertir les données brutes en un objet Categorie typé.
                     lesCategories.Add(new Categorie(
-                        (int)dr["NUMCATEGORIE"],
-                        (string)dr["LIBELLECATEGORIE"]
+                        (int)dr["numcategorie"],
+                        (string)dr["libellecategorie"]
                     ));
                 }
                 return lesCategories;

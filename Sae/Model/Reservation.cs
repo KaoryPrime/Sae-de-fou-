@@ -19,8 +19,6 @@ namespace Sae.Model
         private DateTime? dateRetourEffectiveLocation;
         private DateTime? dateRetourReelleLocation;
         private decimal prixTotal;
-
-        // --- Champs privés pour les nouvelles propriétés ---
         private string clientNom;
         private string clientPrenom;
         private string materielNom;
@@ -41,7 +39,6 @@ namespace Sae.Model
             this.prixTotal = prixTotal;
         }
 
-        // --- Getters et Setters dans votre style ---
         public int NumReservation
         {
             get
@@ -116,47 +113,86 @@ namespace Sae.Model
 
         public DateTime? DateRetourEffectiveLocation
         {
-            get { return dateRetourEffectiveLocation; }
-            set { dateRetourEffectiveLocation = value; }
+            get 
+            {
+                return dateRetourEffectiveLocation; 
+            }
+
+            set 
+            { 
+                dateRetourEffectiveLocation = value;
+            }
         }
 
         public DateTime? DateRetourReelleLocation
         {
-            get { return dateRetourReelleLocation; }
-            set { dateRetourReelleLocation = value; }
+            get 
+            { 
+                return dateRetourReelleLocation; 
+            }
+
+            set 
+            { 
+                dateRetourReelleLocation = value;
+            }
         }
 
         public decimal PrixTotal
         {
-            get { return this.prixTotal; }
-            set { this.prixTotal = value; }
+            get 
+            {
+                return this.prixTotal;
+            }
+
+            set
+            {
+                this.prixTotal = value;
+            }
         }
 
-        // --- Getters et Setters pour les nouvelles propriétés ---
         public string ClientNom
         {
-            get { return clientNom; }
-            set { clientNom = value; }
+            get 
+            {
+                return clientNom; 
+            }
+            set 
+            { 
+                clientNom = value; 
+            }
         }
         public string ClientPrenom
         {
-            get { return clientPrenom; }
-            set { clientPrenom = value; }
+            get 
+            { 
+                return clientPrenom;
+            }
+            set 
+            { 
+                clientPrenom = value;
+            }
         }
         public string MaterielNom
         {
-            get { return materielNom; }
-            set { materielNom = value; }
+            get 
+            { 
+                return materielNom; 
+            }
+            set 
+            {
+                materielNom = value;
+            }
         }
 
-        // ... (Gardez vos méthodes Equals, GetHashCode, et ToString existantes ici)
 
+        //Algorithme simple pour récupérer toutes les réservations brutes.
         public List<Reservation> FindAll()
         {
             List<Reservation> lesReservations = new List<Reservation>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from reservation ;"))
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from reservation;"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                //La partie complexe ici est de gérer les dates qui peuvent être nulles dans la BDD.
                 foreach (DataRow dr in dt.Rows)
                 {
                     lesReservations.Add(new Reservation(
@@ -164,21 +200,24 @@ namespace Sae.Model
                         (int)dr["NUMMATERIEL"],
                         (int)dr["NUMEMPLOYE"],
                         (int)dr["NUMCLIENT"],
-                        dr["DATERESERVATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERESERVATION"],
-                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATEDEBUTLOCATION"],
-                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOUREFFECTIVELOCATION"],
-                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOURREELLELOCATION"],
+                        dr["DATERESERVATION"] == DBNull.Value ? null : (DateTime?)dr["DATERESERVATION"],
+                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATEDEBUTLOCATION"],
+                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATERETOUREFFECTIVELOCATION"],
+                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATERETOURREELLELOCATION"],
                         (decimal)dr["PRIXTOTAL"]
                     ));
                 }
-                return lesReservations;
             }
+            return lesReservations;
         }
 
-        // --- NOUVELLE MÉTHODE ---
+       /// NOTE: Algorithme pour récupérer les réservations avec les détails du client et du matériel.
+        /// </summary>
         public List<Reservation> FindAllWithDetails()
         {
             List<Reservation> lesReservations = new List<Reservation>();
+            
+            // 1. Définir la requête avec des jointures pour obtenir les noms du client et du matériel.
             string query = @"
                 SELECT r.*, c.NOMCLIENT, c.PRENOMCLIENT, m.NOMMATERIEL
                 FROM reservation r
@@ -188,7 +227,10 @@ namespace Sae.Model
 
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand(query))
             {
+                // 2. Exécuter la requête.
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                
+                // 3. Mapper chaque ligne en un objet Reservation complet.
                 foreach (DataRow dr in dt.Rows)
                 {
                     Reservation reservation = new Reservation(
@@ -196,12 +238,14 @@ namespace Sae.Model
                         (int)dr["NUMMATERIEL"],
                         (int)dr["NUMEMPLOYE"],
                         (int)dr["NUMCLIENT"],
-                        dr["DATERESERVATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERESERVATION"],
-                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATEDEBUTLOCATION"],
-                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOUREFFECTIVELOCATION"],
-                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? (DateTime?)null : (DateTime)dr["DATERETOURREELLELOCATION"],
+                        dr["DATERESERVATION"] == DBNull.Value ? null : (DateTime?)dr["DATERESERVATION"],
+                        dr["DATEDEBUTLOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATEDEBUTLOCATION"],
+                        dr["DATERETOUREFFECTIVELOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATERETOUREFFECTIVELOCATION"],
+                        dr["DATERETOURREELLELOCATION"] == DBNull.Value ? null : (DateTime?)dr["DATERETOURREELLELOCATION"],
                         (decimal)dr["PRIXTOTAL"]
                     );
+                    
+                    // 4. Remplir les propriétés supplémentaires avec les données des jointures.
                     reservation.ClientNom = dr["NOMCLIENT"] as string;
                     reservation.ClientPrenom = dr["PRENOMCLIENT"] as string;
                     reservation.MaterielNom = dr["NOMMATERIEL"] as string;
@@ -211,25 +255,28 @@ namespace Sae.Model
             }
             return lesReservations;
         }
+        //Algorithme pour insérer une nouvelle réservation dans la BDD.
         public bool Create()
         {
             try
             {
+                // 1. Définir la requête d'insertion avec des paramètres pour la sécurité.
                 string query = @"INSERT INTO reservation (NUMMATERIEL, NUMEMPLOYE, NUMCLIENT, DATERESERVATION, DATEDEBUTLOCATION, DATERETOUREFFECTIVELOCATION, PRIXTOTAL)
-                             VALUES (@numMateriel, @numEmploye, @numClient, @dateReservation, @dateDebut, @dateRetour, @prixTotal)";
+                                 VALUES (@numMateriel, @numEmploye, @numClient, @dateReservation, @dateDebut, @dateRetour, @prixTotal)";
 
                 using (var cmd = new NpgsqlCommand(query))
                 {
+                    // 2. Associer les valeurs aux paramètres de la requête.
                     cmd.Parameters.AddWithValue("@numMateriel", this.NumMateriel);
                     cmd.Parameters.AddWithValue("@numEmploye", this.NumEmploye);
                     cmd.Parameters.AddWithValue("@numClient", this.NumClient);
+                    // 3. Gérer correctement les dates qui peuvent être nulles.
                     cmd.Parameters.AddWithValue("@dateReservation", this.DateReservation ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@dateDebut", this.DateDebutLocation ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@dateRetour", this.DateRetourEffectiveLocation ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@prixTotal", this.PrixTotal);
 
-                    // ExecuteSet est pour UPDATE/DELETE, il vous faut une méthode pour INSERT.
-                    // En supposant que ExecuteSet fonctionne pour INSERT et retourne le nombre de lignes affectées :
+                    // 4. Exécuter la commande et vérifier si l'insertion a réussi.
                     int rowsAffected = DataAccess.Instance.ExecuteSet(cmd);
                     return rowsAffected > 0;
                 }

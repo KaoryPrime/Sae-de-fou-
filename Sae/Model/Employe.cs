@@ -127,16 +127,30 @@ namespace Sae.Model
         {
             return base.ToString();
         }
+
+        // NOTE: Algorithme pour récupérer tous les employés de la BDD.
         public List<Employe> FindAll()
         {
             List<Employe> lesEmployes = new List<Employe>();
+
+            // 1. Préparer la commande SQL.
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from employe ;"))
             {
+                // 2. Exécuter la requête pour obtenir les données brutes.
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+
+                // 3. Pour chaque ligne de résultat, convertir les données en objet "Employe".
                 foreach (DataRow dr in dt.Rows)
-                    lesEmployes.Add(new Employe ((Int32)dr["numemploye"], (Int32)dr["numrole"],
-                   (String)dr["nom"], (String)dr["prenom"] , (String)dr["login"], (String)dr["mdp"]));
+                    lesEmployes.Add(new Employe 
+                        ((Int32)dr["numemploye"],
+                        (Int32)dr["numrole"],
+                        (String)dr["nom"],
+                        (String)dr["prenom"], 
+                        (String)dr["login"],
+                        (String)dr["mdp"]));
             }
+
+            // 4. Retourner la liste remplie.
             return lesEmployes;
         }
     }

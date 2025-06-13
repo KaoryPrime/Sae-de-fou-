@@ -63,12 +63,19 @@ namespace Sae.Model
         {
             return base.ToString();
         }
+
+        // Algorithme pour récupérer tous les états depuis la BDD.
         public List<Etat> FindAll()
         {
             List<Etat> lesEtats = new List<Etat>();
+
+            // 1. Préparer la commande SQL.
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from etat ;"))
             {
+                // 2. Exécuter la requête pour obtenir les données brutes.
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+
+                // 3. Pour chaque ligne de résultat, convertir les données en objet "Etat".
                 foreach (DataRow dr in dt.Rows)
                 {
                     lesEtats.Add(new Etat(
@@ -76,6 +83,7 @@ namespace Sae.Model
                         (string)dr["LIBELLEETAT"]
                     ));
                 }
+                // 4. Retourner la liste remplie.
                 return lesEtats;
             }
         }

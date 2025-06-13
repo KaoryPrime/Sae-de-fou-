@@ -79,12 +79,19 @@ namespace Sae.Model
         {
             return base.ToString();
         }
+
+        // Algorithme pour récupérer tous les types de matériel depuis la BDD.
         public List<Type> FindAll()
         {
             List<Type> lesTypes = new List<Type>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT * FROM type ORDER BY libelletype;"))
+
+            // 1. Préparer la commande SQL (lister les colonnes est plus robuste que "select *").
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT numtype, numcategorie, libelletype FROM type ORDER BY libelletype;"))
             {
+                // 2. Exécuter la requête pour obtenir les données brutes.
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+
+                // 3. Pour chaque ligne de résultat, convertir les données en objet.
                 foreach (DataRow dr in dt.Rows)
                 {
                     lesTypes.Add(new Type(
@@ -94,6 +101,7 @@ namespace Sae.Model
                     ));
                 }
             }
+            // 4. Retourner la liste complète.
             return lesTypes;
         }
     }
