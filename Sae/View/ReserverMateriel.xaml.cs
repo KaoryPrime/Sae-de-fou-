@@ -18,34 +18,39 @@ namespace Sae.View
             InitializeComponent();
             ChargeData();
             // La liaison du filtre se fait de préférence après que le contrôle soit chargé
-            this.Loaded += (s, e) => {
-                if (MaterielListBox.ItemsSource != null)
-                {
-                    CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Filter = FiltreMateriel;
-                }
-            };
+            this.Loaded += ReserverMateriel_Loaded;
         }
 
+        private void ReserverMateriel_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MaterielListBox.ItemsSource != null)
+            {
+                CollectionViewSource.GetDefaultView(MaterielListBox.ItemsSource).Filter = FiltreMateriel;
+            }
+        }
+
+        //Algorithme pour charger les données initiales de la page.
         private void ChargeData()
         {
             try
             {
+                // 1. Charger la liste principale des matériels.
                 LesMaterieles = new ObservableCollection<Materiel>(new Materiel().LoadMaterielData());
                 this.DataContext = this;
 
-                // Charger et peupler la ComboBox des catégories
-                var lesCategories = new Categorie().FindAll();
+                // 2. Charger et peupler les ComboBox pour les filtres.
+                List<Categorie> lesCategories = new Categorie().FindAll();
                 CategorieComboBox.Items.Add("Toutes les catégories");
-                foreach (var cat in lesCategories)
+                foreach (Categorie cat in lesCategories)
                 {
                     CategorieComboBox.Items.Add(cat.Libellecategorie);
                 }
                 CategorieComboBox.SelectedIndex = 0;
 
                 // Charger et peupler la ComboBox des types
-                var lesTypes = new Model.Type().FindAll();
+                List<Sae.Model.Type> lesTypes = new Model.Type().FindAll();
                 TypeComboBox.Items.Add("Tous les types");
-                foreach (var type in lesTypes)
+                foreach (Sae.Model.Type type in lesTypes)
                 {
                     TypeComboBox.Items.Add(type.Libelletype);
                 }
@@ -58,6 +63,8 @@ namespace Sae.View
             }
         }
 
+
+        //Algorithme de filtrage multi-critères pour la liste de matériels.
         private bool FiltreMateriel(object item)
         {
             Materiel unMateriel = item as Materiel;
@@ -78,6 +85,7 @@ namespace Sae.View
             return true; // Le matériel passe tous les filtres actifs
         }
 
+        //Méthode centrale qui force la vue à ré-appliquer le filtre.
         private void RafraichirFiltre()
         {
             if (MaterielListBox?.ItemsSource != null)
@@ -98,6 +106,8 @@ namespace Sae.View
                 mainWindow.MainContentContainer.Content = new DashEmploye();
             }
         }
+
+        //Logique de navigation pour passer à l'étape de confirmation.
         private void BtnReserver_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;

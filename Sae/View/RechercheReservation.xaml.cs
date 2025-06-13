@@ -28,15 +28,20 @@ namespace Sae.View
         {
             InitializeComponent();
             ChargeData();
+
+            //Initialisation du mécanisme de filtre pour le DataGrid.
             dgReservations.Items.Filter = RechercheMotTextBox;
             RechercheTextBox.TextChanged += RechercheTextBox_TextChanged;
         }
 
+        //Algorithme pour charger les données des réservations depuis la BDD.
         private void ChargeData()
         {
             try
             {
+                // 1. On récupère les réservations avec les détails (noms du client/matériel).
                 LesReservations = new ObservableCollection<Reservation>(new Reservation().FindAllWithDetails());
+                // 2. On lie le contexte de la vue pour le DataBinding.
                 this.DataContext = this;
             }
             catch (Exception ex)
@@ -47,13 +52,17 @@ namespace Sae.View
             }
         }
 
+        //Déclencheur qui force la vue à se rafraîchir à chaque fois que le texte de recherche change.
         private void RechercheTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(dgReservations.ItemsSource).Refresh();
         }
 
+
+        // Algorithme de recherche/filtrage appliqué sur la liste de réservations.
         private bool RechercheMotTextBox(object obj)
         {
+            // 1. Si la barre de recherche est vide, on affiche tous les éléments.
             if (String.IsNullOrEmpty(RechercheTextBox.Text))
                 return true;
 
@@ -70,6 +79,8 @@ namespace Sae.View
                 {
                     return true;
                 }
+                // 2. On retourne 'true' si le nom du client OU le nom du matériel commence par le texte recherché.
+
             }
 
             return false;

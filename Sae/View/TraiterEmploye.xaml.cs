@@ -47,6 +47,7 @@ namespace Sae.View
             }
         }
 
+        // Logique purement visuelle pour donner un retour couleur sur l'état du matériel.
         private void DefinieCouleurEtat()
         {
             if (materielSelectionne?.Etat?.Libelleetat != null)

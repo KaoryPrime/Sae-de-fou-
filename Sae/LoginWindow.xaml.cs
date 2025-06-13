@@ -15,9 +15,13 @@ namespace Sae
         {
             InitializeComponent();
             this.KeyDown += LoginWindow_KeyDown;
-            this.Loaded += (s, e) => UsernameTextBox.Focus();
+            this.Loaded += LoginWindow_Loaded;
         }
 
+        private void LoginWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            UsernameTextBox.Focus();
+        }
         private void LoginWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

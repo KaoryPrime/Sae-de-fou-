@@ -18,18 +18,21 @@ namespace Sae.View
             InitialiserInterface();
         }
 
+        /// NOTE: Algorithme pour initialiser l'interface utilisateur avec les données du matériel.
         private void InitialiserInterface()
         {
             if (materielSelectionne != null)
             {
+                // 1. Remplir les informations textuelles.
                 TxtNomMateriel.Text = materielSelectionne.Nommateriel;
                 TxtCategorie.Text = $"Catégorie: {materielSelectionne.Categorie?.Libellecategorie ?? "Non définie"}";
                 TxtReference.Text = $"Référence: {materielSelectionne.Reference ?? "Non définie"}";
                 TxtEtatActuel.Text = materielSelectionne.Etat?.Libelleetat ?? "État inconnu";
                 TxtCommentaires.Text = materielSelectionne.Commentaires;
 
+                // 2. Charger l'image et appliquer les styles visuels.
                 DefinieCouleurEtat();
-                ChargeImage(); // Utilise la méthode optimisée
+                ChargeImage(); 
                 PreselectEtatRadioButton();
             }
             else
@@ -40,9 +43,7 @@ namespace Sae.View
             }
         }
 
-        /// <summary>
-        /// Charge l'image en utilisant la propriété ImagePath du modèle Matériel.
-        /// </summary>
+        //Logique de chargement de l'image avec gestion des erreurs.
         private void ChargeImage()
         {
             try
@@ -67,6 +68,7 @@ namespace Sae.View
             }
         }
 
+        //Logique visuelle pour donner un retour couleur sur l'état du matériel.
         private void DefinieCouleurEtat()
         {
             if (materielSelectionne?.Etat?.Libelleetat != null)
@@ -93,6 +95,7 @@ namespace Sae.View
             }
         }
 
+        // Logique pour présélectionner le bon bouton radio en fonction de l'état actuel du matériel.
         private void PreselectEtatRadioButton()
         {
             if (materielSelectionne?.Etat?.Libelleetat != null)
@@ -106,10 +109,12 @@ namespace Sae.View
             }
         }
 
+        //Algorithme principal pour valider et enregistrer le nouvel état du matériel.
         private void BtnValider_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // 1. Mapper la sélection du bouton radio à un ID d'état.
                 int nouvelIdEtat = 0;
                 string nouvelEtat = "";
 
@@ -124,6 +129,7 @@ namespace Sae.View
 
                 bool succes = materielSelectionne.UpdateEtat(nouvelIdEtat, TxtCommentaires.Text.Trim());
 
+                // 2. Appeler la méthode du modèle pour mettre à jour la BDD.
                 if (succes)
                 {
                     MessageBox.Show($"Le matériel a été mis à jour avec l'état: {nouvelEtat}", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -151,6 +157,7 @@ namespace Sae.View
             RetournerAuDashboard();
         }
 
+        //Méthode centralisée pour la navigation retour afin d'éviter la répétition du code.
         private void RetournerAuDashboard()
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)

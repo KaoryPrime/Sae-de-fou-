@@ -35,14 +35,14 @@ namespace Sae.View
             string telephone = TextBoxTel.Text;
 
             // --- 2. Validation des entrées de l'utilisateur ---
-            // NOTE: On vérifie que les champs ne sont pas vides.
+            // On vérifie que les champs ne sont pas vides.
             if (string.IsNullOrWhiteSpace(nom) || string.IsNullOrWhiteSpace(prenom) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(telephone))
             {
                 MessageBox.Show("Veuillez remplir tous les champs.", "Champs requis", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // NOTE: On vérifie le format de l'email avec une expression régulière (Regex).
+            // On vérifie le format de l'email avec une expression régulière (Regex).
             // Ceci est une vérification de base, des Regex plus complexes existent.
             if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
@@ -50,7 +50,7 @@ namespace Sae.View
                 return;
             }
 
-            // NOTE: On vérifie le format du numéro de téléphone (accepte les formats français courants).
+            // On vérifie le format du numéro de téléphone (accepte les formats français courants).
             if (!Regex.IsMatch(telephone, @"^(\+33|0)[1-9](\d{2}){4}$"))
             {
                 MessageBox.Show("Le format du numéro de téléphone est invalide. (Ex: 0612345678 ou +33612345678)", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -58,7 +58,7 @@ namespace Sae.View
             }
 
             // --- 3. Création de l'objet Client ---
-            // NOTE: On crée une instance du modèle Client avec les données validées.
+            // On crée une instance du modèle Client avec les données validées.
             Client nouveauClient = new Client
             {
                 Nomclient = nom,
