@@ -9,8 +9,8 @@ namespace Sae.Model
     public class DataAccess
     {
         private static readonly DataAccess instance = new DataAccess();
-        private readonly string connectionString = "Host=srv-peda-new;Port=5433;Username=cinark;Password=wCFRUt;Database=loxam_bd;Options='-c search_path=cinark'";
         private NpgsqlConnection connection;
+        private string _currentConnectionString; // Nouvelle variable pour la chaîne de connexion dynamique
 
         public static DataAccess Instance
         {
@@ -21,17 +21,35 @@ namespace Sae.Model
         }
 
         //  Constructeur privé pour empêcher l'instanciation multiple
+        //  Il ne doit plus initialiser la connexion car elle sera définie dynamiquement.
         private DataAccess()
         {
+            // La connexion est initialisée via SetConnectionDetails
+        }
+
+        /// <summary>
+        /// Définit les détails de connexion pour la base de données.
+        /// Cette méthode doit être appelée après une authentification réussie.
+        /// </summary>
+        public void SetConnectionDetails(string username, string password)
+        {
+            // Remplacez 'srv-peda-new', '5433', 'loxam_bd', 'cinark' par vos informations de base de données
+            // La recherche de chemin 'cinark' est maintenue si votre schéma est nommé 'cinark'
+            _currentConnectionString = $"Host=srv-peda-new;Port=5433;Username={username};Password={password};Database=loxam_bd;Options='-c search_path=cinark'";
 
             try
             {
-                connection = new NpgsqlConnection(connectionString);
+                // Si une connexion existait, la fermer et la recréer avec les nouvelles informations
+                if (connection != null && connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+                connection = new NpgsqlConnection(_currentConnectionString);
             }
             catch (Exception ex)
             {
-                LogError.Log(ex, "Pb de connexion GetConnection \n" + connectionString);
-                throw;
+                LogError.Log(ex, "Pb lors de la définition des détails de connexion : \n" + _currentConnectionString);
+                throw; // Relancer l'exception pour que l'appelant puisse la gérer
             }
         }
 
@@ -39,6 +57,13 @@ namespace Sae.Model
         // pour récupérer la connexion (et l'ouvrir si nécessaire)
         public NpgsqlConnection GetConnection()
         {
+            if (connection == null)
+            {
+                // Ceci ne devrait pas arriver si SetConnectionDetails est appelé après login
+                // C'est une mesure de sécurité pour éviter un NullReferenceException
+                throw new InvalidOperationException("Les détails de connexion à la base de données n'ont pas été définis. Veuillez vous connecter d'abord.");
+            }
+
             if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
             {
                 try
@@ -47,16 +72,15 @@ namespace Sae.Model
                 }
                 catch (Exception ex)
                 {
-                    LogError.Log(ex, "Pb de connexion GetConnection \n" + connectionString);
+                    LogError.Log(ex, "Pb de connexion GetConnection \n" + _currentConnectionString);
                     throw;
                 }
             }
-
-
             return connection;
         }
 
-        //  pour requêtes SELECT et retourne un DataTable ( table de données en mémoire)
+        // ... (Gardez le reste des méthodes ExecuteSelect, ExecuteInsert, ExecuteSet, ExecuteSelectUneValeur, CloseConnection inchangées)
+        // ... (Le code complet de DataAccess.cs est long, assurez-vous de copier/coller ces modifications et de conserver le reste de votre code)
         public DataTable ExecuteSelect(NpgsqlCommand cmd)
         {
             DataTable dataTable = new DataTable();
@@ -70,13 +94,11 @@ namespace Sae.Model
             }
             catch (Exception ex)
             {
-                LogError.Log(ex, "Erreur SQL");
+                LogError.Log(ex, "Erreur SQL dans ExecuteSelect");
                 throw;
             }
             return dataTable;
         }
-
-        //   pour requêtes INSERT et renvoie l'ID généré
 
         public int ExecuteInsert(NpgsqlCommand cmd)
         {
@@ -95,10 +117,6 @@ namespace Sae.Model
             return nb;
         }
 
-
-
-
-        //  pour requêtes UPDATE, DELETE
         public int ExecuteSet(NpgsqlCommand cmd)
         {
             int nb = 0;
@@ -116,7 +134,6 @@ namespace Sae.Model
 
         }
 
-        // pour requêtes avec une seule valeur retour  (ex : COUNT, SUM) 
         public object ExecuteSelectUneValeur(NpgsqlCommand cmd)
         {
             object res = null;
@@ -134,10 +151,9 @@ namespace Sae.Model
 
         }
 
-        //  Fermer la connexion 
         public void CloseConnection()
         {
-            if (connection.State == ConnectionState.Open)
+            if (connection != null && connection.State == ConnectionState.Open)
             {
                 connection.Close();
             }
