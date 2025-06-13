@@ -26,6 +26,9 @@ namespace Sae
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowState = WindowState.Maximized; // Met la fenêtre en mode "agrandi"
+            this.WindowStyle = WindowStyle.None;      // Supprime la barre de titre et les bordures
+
             LoginPage();
             LoadUserControlByRole(this.EmployeConnecte);
         }
